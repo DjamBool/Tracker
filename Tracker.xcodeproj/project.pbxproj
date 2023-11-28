@@ -10,7 +10,6 @@
 		30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC24922B14CD00009791FC /* AppDelegate.swift */; };
 		30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC24942B14CD00009791FC /* SceneDelegate.swift */; };
 		30CC24972B14CD00009791FC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC24962B14CD00009791FC /* ViewController.swift */; };
-		30CC249A2B14CD00009791FC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30CC24982B14CD00009791FC /* Main.storyboard */; };
 		30CC249C2B14CD01009791FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30CC249B2B14CD01009791FC /* Assets.xcassets */; };
 		30CC249F2B14CD01009791FC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 30CC249D2B14CD01009791FC /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -20,7 +19,6 @@
 		30CC24922B14CD00009791FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30CC24942B14CD00009791FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		30CC24962B14CD00009791FC /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		30CC24992B14CD00009791FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		30CC249B2B14CD01009791FC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30CC249E2B14CD01009791FC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		30CC24A02B14CD01009791FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -59,7 +57,6 @@
 				30CC24922B14CD00009791FC /* AppDelegate.swift */,
 				30CC24942B14CD00009791FC /* SceneDelegate.swift */,
 				30CC24962B14CD00009791FC /* ViewController.swift */,
-				30CC24982B14CD00009791FC /* Main.storyboard */,
 				30CC249B2B14CD01009791FC /* Assets.xcassets */,
 				30CC249D2B14CD01009791FC /* LaunchScreen.storyboard */,
 				30CC24A02B14CD01009791FC /* Info.plist */,
@@ -127,7 +124,6 @@
 			files = (
 				30CC249F2B14CD01009791FC /* LaunchScreen.storyboard in Resources */,
 				30CC249C2B14CD01009791FC /* Assets.xcassets in Resources */,
-				30CC249A2B14CD00009791FC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,14 +143,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		30CC24982B14CD00009791FC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				30CC24992B14CD00009791FC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		30CC249D2B14CD01009791FC /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -297,7 +285,6 @@
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -329,7 +316,6 @@
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
