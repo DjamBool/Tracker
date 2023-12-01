@@ -8,14 +8,14 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-
-private let trackersVC = TrackersViewController()
+    
+    private let trackersVC = TrackersViewController()
     private let statsVC = StatisticViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-makeTabBar()
+        makeTabBar()
     }
     
     func makeTabBar() {
