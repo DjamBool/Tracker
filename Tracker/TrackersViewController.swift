@@ -2,7 +2,11 @@
 import UIKit
 
 class TrackersViewController: UIViewController {
-   
+    
+    var categories: [TrackerCategory] = []
+    var completedTrackers: [TrackerRecord] = []
+    private var currentDate: Date = Date()
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -40,7 +44,17 @@ class TrackersViewController: UIViewController {
         return label
     }()
     
-   private var errorImage: UIImageView = {
+    private lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.addTarget(self,
+                             action: #selector(datePickerValueChanged),
+                             for: .valueChanged)
+        return datePicker
+    }()
+    
+    private var errorImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.image = UIImage(named: "errorStar")
@@ -60,7 +74,8 @@ class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeAddTrackerButton()
-        makeDateBarButtonItem()
+        //makeDateBarButtonItem()
+        setupRightBarButtonItem()
         makeSearchField()
         layoutSubviews()
         navigationItem.title = titleLabel.text
@@ -68,7 +83,8 @@ class TrackersViewController: UIViewController {
     }
     
     private func makeAddTrackerButton() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addtapped))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, 
+                                        target: self, action: #selector(addtapped))
         addButton.tintColor = .black
         navigationItem.leftBarButtonItem = addButton
     }
@@ -76,6 +92,10 @@ class TrackersViewController: UIViewController {
     private func makeDateBarButtonItem() {
         let dateButton = UIBarButtonItem(customView: dateLabel)
         navigationItem.rightBarButtonItem = dateButton
+    }
+    
+    private func setupRightBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
     
     func makeSearchField() {
@@ -88,6 +108,18 @@ class TrackersViewController: UIViewController {
     
     @objc private func addtapped() {
         print("addtapped")
+    }
+    
+//    @objc private func datePickerValueChanged() {
+//
+//    }
+    
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+        let selectedDate = sender.date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yy"
+        let formattedDate = dateFormatter.string(from: selectedDate)
+        print("Выбранная дата: \(formattedDate)")
     }
     
     private func layoutSubviews() {
@@ -113,6 +145,6 @@ class TrackersViewController: UIViewController {
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let text = searchController.searchBar.text else { return }
-            print(text)
+        print(text)
     }
 }
