@@ -65,7 +65,8 @@ class TrackersViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
-        label.textColor = UIColor(named: "Black [day]") ?? UIColor.black
+        label.textColor = .blackDay
+        //label.textColor = UIColor(named: "Black [day]") ?? UIColor.black
         label.font = UIFont(name: "SF Pro", size: 12)
         label.textAlignment = .center
         return label
@@ -108,6 +109,8 @@ class TrackersViewController: UIViewController {
     
     @objc private func addtapped() {
         print("addtapped")
+        let pageАorSelectingANewTrackerType = UINavigationController(rootViewController: TrackerTypeSelectionViewController())
+        present(pageАorSelectingANewTrackerType, animated: true)
     }
     
 //    @objc private func datePickerValueChanged() {

@@ -18,6 +18,7 @@
 		30CC25192B19FE6C009791FC /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC25182B19FE6C009791FC /* Tracker.swift */; };
 		30CC251B2B19FEA3009791FC /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC251A2B19FEA3009791FC /* TrackerCategory.swift */; };
 		30CC251D2B19FEB5009791FC /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC251C2B19FEB5009791FC /* TrackerRecord.swift */; };
+		30CC251F2B1FA069009791FC /* TrackerTypeSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC251E2B1FA069009791FC /* TrackerTypeSelectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		30CC25182B19FE6C009791FC /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		30CC251A2B19FEA3009791FC /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		30CC251C2B19FEB5009791FC /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		30CC251E2B1FA069009791FC /* TrackerTypeSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeSelectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				30CC24A62B15E351009791FC /* MainTabBarController.swift */,
 				30CC24A82B15E4F4009791FC /* TrackersViewController.swift */,
 				30CC24AA2B15E511009791FC /* StatisticViewController.swift */,
+				30CC251E2B1FA069009791FC /* TrackerTypeSelectionViewController.swift */,
 				30CC25172B19FE51009791FC /* Models */,
 				30CC24AC2B17B8DF009791FC /* Helpers */,
 				30CC249B2B14CD01009791FC /* Assets.xcassets */,
@@ -174,6 +177,7 @@
 				30CC24A92B15E4F4009791FC /* TrackersViewController.swift in Sources */,
 				30CC251D2B19FEB5009791FC /* TrackerRecord.swift in Sources */,
 				30CC25192B19FE6C009791FC /* Tracker.swift in Sources */,
+				30CC251F2B1FA069009791FC /* TrackerTypeSelectionViewController.swift in Sources */,
 				30CC24AB2B15E511009791FC /* StatisticViewController.swift in Sources */,
 				30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */,
 				30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */,
