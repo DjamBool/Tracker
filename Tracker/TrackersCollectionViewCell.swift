@@ -78,17 +78,32 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     @objc private func taskIsCompleted() {
         print(#function)
+        switch markAsCompletedButton.imageView?.image {
+        case UIImage(systemName: "plus"):
         self.markAsCompletedButton.setImage(UIImage(named: "Done"), for: .normal)
+            count += 1
+        case UIImage(named: "Done"):
+            self.markAsCompletedButton.setImage(UIImage(systemName: "plus"), for: .normal)
+            count -= 1
+        default:
+            break
+        }
         
-        count += 1
+        
+//        let indexPath = IndexPath(row: 0, section: 0)
+//        var trackers = [Tracker]()
+//        var tracker = trackers[indexPath.item]
+//        let currentDate = Date()
+        
         if count == 1 || count == 21 || count == 31 || count == 41 {
-            daysCounterLabel.text = "\(count) день"
+            self.daysCounterLabel.text = "\(count) день"
         } else if
                count == 2 || count == 3 || count == 4 {
-               daysCounterLabel.text = "\(count) дня"
+            self.daysCounterLabel.text = "\(count) дня"
            } else {
-            daysCounterLabel.text = "\(count) дней"
+               self.daysCounterLabel.text = "\(count) дней"
         }
+        
     }
     
     

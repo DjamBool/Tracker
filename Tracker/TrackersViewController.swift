@@ -38,6 +38,7 @@ class TrackersViewController: UIViewController {
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChanged),
                              for: .valueChanged)
+        currentDate = datePicker.date
         return datePicker
     }()
     
