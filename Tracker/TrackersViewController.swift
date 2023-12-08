@@ -64,6 +64,7 @@ class TrackersViewController: UIViewController {
         collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.cellIdentifier)
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.id)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
         return collectionView
     }()
     
@@ -185,7 +186,8 @@ extension TrackersViewController: UICollectionViewDataSource {
             ofKind: kind,
             withReuseIdentifier: HeaderView.id,
             for: indexPath) as! HeaderView
-        view.titleLabel.text = categories[indexPath.row].title
+        //view.titleLabel.text = categories[indexPath.row].title
+        view.titleLabel.text = categories[indexPath.section].title
         return view
     }
    
@@ -204,12 +206,16 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: 167, height: 148)
     }
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+           return 9
+       }
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0,
-                            left: 16,
-                            bottom: 0,
+        return UIEdgeInsets(top: 10,
+                            left: 0,
+                            bottom: 16,
                             right: 0)
     }
 }

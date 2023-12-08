@@ -8,14 +8,15 @@
 import Foundation
 import UIKit
 
-class HeaderView: UICollectionReusableView {
+final class HeaderView: UICollectionReusableView {
     
     static let id = "HeaderView"
     
     let titleLabel : UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 19)
-        label.textAlignment = .left
+        label.textColor = .ypBlack
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

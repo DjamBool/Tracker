@@ -8,6 +8,8 @@
 import UIKit
 
 final class TrackersCollectionViewCell: UICollectionViewCell {
+    
+    var count = 0
     static let cellIdentifier = "TrackerCell"
 
     private var trackerBackgroundView: UIView = {
@@ -39,7 +41,9 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .blackDay
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.text = "_ дней"
+        
+        label.text = "0 days"
+        
         return label
     }()
     
@@ -47,6 +51,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.imageView?.tintColor = .white
         button.layer.cornerRadius = 17
         button.addTarget(self, action: #selector(taskIsCompleted), for: .touchUpInside)
         button.layer.masksToBounds = true
@@ -74,6 +79,16 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     @objc private func taskIsCompleted() {
         print(#function)
         self.markAsCompletedButton.setImage(UIImage(named: "Done"), for: .normal)
+        
+        count += 1
+        if count == 1 || count == 21 || count == 31 || count == 41 {
+            daysCounterLabel.text = "\(count) день"
+        } else if
+               count == 2 || count == 3 || count == 4 {
+               daysCounterLabel.text = "\(count) дня"
+           } else {
+            daysCounterLabel.text = "\(count) дней"
+        }
     }
     
     
