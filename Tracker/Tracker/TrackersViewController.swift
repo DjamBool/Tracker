@@ -10,7 +10,7 @@ class TrackersViewController: UIViewController {
     private var trackers: [Tracker] = [
             Tracker(id: UUID(),
                     title: "Поливать растения",
-                    color: .orange,
+                    color: .colorSelection5,
                     emoji: "❤️",
                     timetable: nil)
                 ]
@@ -38,7 +38,6 @@ class TrackersViewController: UIViewController {
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChanged),
                              for: .valueChanged)
-        currentDate = datePicker.date
         return datePicker
     }()
     
