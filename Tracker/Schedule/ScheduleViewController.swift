@@ -9,7 +9,17 @@ import UIKit
 
 class ScheduleViewController: UIViewController {
     
-    private lazy var scheduleTableView: UITableView = {
+    private lazy var navBarLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.text = "Расписание"
+        label.textColor = UIColor(named: "YP Black")
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        return label
+    }()
+
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.id)
@@ -19,6 +29,7 @@ class ScheduleViewController: UIViewController {
     
     private lazy var doneButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Готово", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
@@ -31,51 +42,73 @@ class ScheduleViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Создание трекера"
-        layoutViews()
-        scheduleTableView.delegate = self
-        scheduleTableView.dataSource = self
+        view.backgroundColor = .white
+        view.addSubview(navBarLabel)
+        view.addSubview(tableView)
+        
+        view.addSubview(doneButton)
+        tableView.delegate = self
+        tableView.dataSource = self
+        layout()
+    }
+    
+    func layout() {
+        NSLayoutConstraint.activate([
+            
+            navBarLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navBarLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            navBarLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+//            navBarLabel.heightAnchor.constraint(equalToConstant: 102),
+            navBarLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableView.topAnchor.constraint(equalTo: navBarLabel.bottomAnchor, constant: 25),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            tableView.heightAnchor.constraint(equalToConstant: 525),
+            
+            doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+           // doneButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 24),
+            doneButton.heightAnchor.constraint(equalToConstant: 60),
+            doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            
+        ])
         
     }
     
-    @objc private func doneButtonTapped() {
+    @objc private func cancelButtonTapped() {
+        dismiss(animated: true)
+    }
+    
+    @objc private func createButtonTapped() {
         print(#function)
     }
     
-    private func layoutViews() {
-        view.addSubview(scheduleTableView)
-        view.addSubview(doneButton)
-        
-        NSLayoutConstraint.activate([
-        
-            scheduleTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            scheduleTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 127),
-            scheduleTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            scheduleTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -108),
-            
-            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4),
-            doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 24),
-            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4),
-            doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -24),
-            
-            
-        ])
+    @objc private func doneButtonTapped() {
+        dismiss(animated: true)
+        print(#function)
     }
-    
 }
+
 
 extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 7
+        7
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.id, for: indexPath) as! ScheduleTableViewCell
-        
         let day = WeekDay.allCases[indexPath.row]
-        
+        cell.label.text = day.rawValue
+        cell.label.textColor = .black
+        cell.selectionStyle = .none
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         return cell
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        75
+    }
     
 }
+

@@ -50,10 +50,14 @@ class TrackerTypeSelectionViewController: UIViewController {
     
     @objc private func createNewHabit() {
         print(#function)
+        let viewController = TrackerCreationScreenViewController()
+        present(viewController, animated: true, completion: nil)
     }
     
     @objc private func createNewEvent() {
         print(#function)
+       
+
     }
     
     private func layoutSubviews() {
