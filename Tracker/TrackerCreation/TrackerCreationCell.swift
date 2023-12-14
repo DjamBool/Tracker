@@ -14,7 +14,7 @@ class TrackerCreationCell: UITableViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.ypBlack
+        label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return label
     }()

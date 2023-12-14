@@ -52,7 +52,7 @@ class TrackersViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
-        label.textColor = .blackDay
+        label.textColor = .ypBlack
         label.font = UIFont(name: "SF Pro", size: 12)
         label.textAlignment = .center
         return label

@@ -39,7 +39,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     private var daysCounterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .blackDay
+        label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         
         label.text = "0 days"
