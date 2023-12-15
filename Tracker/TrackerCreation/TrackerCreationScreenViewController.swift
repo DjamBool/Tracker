@@ -171,6 +171,9 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             print("Категория")
+            let vc = AddCategoryViewController()
+            present(UINavigationController(rootViewController: vc), animated: true)
+        
         } else if indexPath.row == 1 {
             let viewController = ScheduleViewController()
             present(viewController, animated: true, completion: nil)
