@@ -3,17 +3,43 @@ import UIKit
 
 class TrackersViewController: UIViewController {
     
-    var categories: [TrackerCategory] = []
+    //private var categories: [TrackerCategory] = []
+    private var visibleCategories: [TrackerCategory] = []
+
     var completedTrackers: [TrackerRecord] = []
     private var currentDate: Date = Date()
+    private var selectedDate = Date()
+    private var categories: [TrackerCategory] = mockCategories
+   /*
+    private var categories: [TrackerCategory] = [
+        TrackerCategory(title: "Home",
+                        trackers: [Tracker(id: UUID(),
+                                           title: "Поливать растения",
+                                           color: .colorSelection1,
+                                           emoji: "🌺",
+                                           schedule: [.tuesday, .saturday]),
+                                   Tracker(id: UUID(),
+                                           title: "Накормить кошку",
+                                           color: .colorSelection2,
+                                           emoji: "🐈",
+                                           schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
+                        ]),
+        TrackerCategory(title: "Увлечения",
+                        trackers: [Tracker(id: UUID(),
+                                           title: "Практикум",
+                                           color: .colorSelection3,
+                                           emoji: "💼",
+                                           schedule: [.monday, .tuesday, .wednesday, .thursday, .friday])])]
     
-    private var trackers: [Tracker] = [
-            Tracker(id: UUID(),
-                    title: "Поливать растения",
-                    color: .colorSelection5,
-                    emoji: "❤️",
-                    timetable: nil)
-                ]
+    */
+    
+//    private var trackers: [Tracker] = [
+//            Tracker(id: UUID(),
+//                    title: "Поливать растения",
+//                    color: .colorSelection5,
+//                    emoji: "❤️",
+//                    schedule: nil)
+//                ]
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -26,7 +52,7 @@ class TrackersViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Трекеры"
-        label.textColor = UIColor(named: "YPBlack") ?? UIColor.black
+        label.textColor = .ypBlack
         label.font = UIFont.boldSystemFont(ofSize: 34)
         return label
     }()
@@ -41,6 +67,16 @@ class TrackersViewController: UIViewController {
         return datePicker
     }()
     
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.placeholder = "Поиск"
+        searchBar.searchBarStyle = .minimal
+        searchBar.searchTextField.addTarget(self, action: #selector(typing), for: .valueChanged)
+        //searchBar.delegate = self
+        return searchBar
+    }()
+    
     private var starImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +89,7 @@ class TrackersViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Что будем отслеживать?"
         label.textColor = .ypBlack
-        label.font = UIFont(name: "SF Pro", size: 12)
+        label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
         return label
     }()
@@ -61,29 +97,31 @@ class TrackersViewController: UIViewController {
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.cellIdentifier)
-        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.id)
+        collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier)
+        
+        collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
+        
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
         return collectionView
     }()
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        self.categories = [TrackerCategory(title: "Домашний уют",
-                                           trackers: self.trackers)]
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    init() {
+//        super.init(nibName: nil, bundle: nil)
+//        self.categories = [TrackerCategory(title: "Домашний уют",
+//                                           trackers: self.trackers)]
+//    }
+//    
+//    required init?(coder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         makeAddTrackerButton()
         setupRightBarButtonItem()
-        makeSearchField()
+        //makeSearchField()
         layoutSubviews()
         
         navigationItem.title = navBarTitleLabel.text
@@ -91,6 +129,8 @@ class TrackersViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        visibleCategories = categories
     }
     
     private func makeAddTrackerButton() {
@@ -105,13 +145,13 @@ class TrackersViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
     
-    func makeSearchField() {
-        let search = UISearchController(searchResultsController: nil)
-        search.searchResultsUpdater = self
-        search.obscuresBackgroundDuringPresentation = false
-        search.searchBar.placeholder = "Поиск"
-        navigationItem.searchController = search
-    }
+//    func makeSearchField() {
+//        let search = UISearchController(searchResultsController: nil)
+//        search.searchResultsUpdater = self
+//        search.obscuresBackgroundDuringPresentation = false
+//        search.searchBar.placeholder = "Поиск"
+//        navigationItem.searchController = search
+//    }
     
     @objc private func addtapped() {
         print("addtapped")
@@ -127,11 +167,21 @@ class TrackersViewController: UIViewController {
         print("Выбранная дата: \(formattedDate)")
     }
     
+    @objc private func typing() {
+        print(#function)
+    }
+    
     private func layoutSubviews() {
+        view.addSubview(searchBar)
         view.addSubview(starImage)
         view.addSubview(whatWillWeTrackLabel)
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
+            
+            searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            searchBar.heightAnchor.constraint(equalToConstant: 36),
             
             starImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             starImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -146,7 +196,7 @@ class TrackersViewController: UIViewController {
             
            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 24),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -163,18 +213,18 @@ extension TrackersViewController: UISearchResultsUpdating {
 // MARK: - UICollectionViewDataSource
 extension TrackersViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return categories.count
+        return visibleCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return trackers.count
+        return visibleCategories[section].trackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.cellIdentifier, for: indexPath) as! TrackersCollectionViewCell
-        let tracker = trackers[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.identifier, for: indexPath) as! TrackersCollectionViewCell
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         cell.setupCell(with: tracker)
         return cell
     }

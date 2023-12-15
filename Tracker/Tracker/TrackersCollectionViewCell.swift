@@ -10,7 +10,7 @@ import UIKit
 final class TrackersCollectionViewCell: UICollectionViewCell {
     
     var count = 0
-    static let cellIdentifier = "TrackerCell"
+    //static let cellIdentifier = "TrackerCell"
 
     private var trackerBackgroundView: UIView = {
        let view = UIView()
