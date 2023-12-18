@@ -10,36 +10,6 @@ class TrackersViewController: UIViewController {
     private var currentDate: Date = Date()
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = mockCategories
-   /*
-    private var categories: [TrackerCategory] = [
-        TrackerCategory(title: "Home",
-                        trackers: [Tracker(id: UUID(),
-                                           title: "Поливать растения",
-                                           color: .colorSelection1,
-                                           emoji: "🌺",
-                                           schedule: [.tuesday, .saturday]),
-                                   Tracker(id: UUID(),
-                                           title: "Накормить кошку",
-                                           color: .colorSelection2,
-                                           emoji: "🐈",
-                                           schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
-                        ]),
-        TrackerCategory(title: "Увлечения",
-                        trackers: [Tracker(id: UUID(),
-                                           title: "Практикум",
-                                           color: .colorSelection3,
-                                           emoji: "💼",
-                                           schedule: [.monday, .tuesday, .wednesday, .thursday, .friday])])]
-    
-    */
-    
-//    private var trackers: [Tracker] = [
-//            Tracker(id: UUID(),
-//                    title: "Поливать растения",
-//                    color: .colorSelection5,
-//                    emoji: "❤️",
-//                    schedule: nil)
-//                ]
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -106,22 +76,10 @@ class TrackersViewController: UIViewController {
         return collectionView
     }()
     
-//    init() {
-//        super.init(nibName: nil, bundle: nil)
-//        self.categories = [TrackerCategory(title: "Домашний уют",
-//                                           trackers: self.trackers)]
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         makeAddTrackerButton()
         setupRightBarButtonItem()
-        //makeSearchField()
         layoutSubviews()
         
         navigationItem.title = navBarTitleLabel.text
@@ -144,14 +102,6 @@ class TrackersViewController: UIViewController {
     private func setupRightBarButtonItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
-    
-//    func makeSearchField() {
-//        let search = UISearchController(searchResultsController: nil)
-//        search.searchResultsUpdater = self
-//        search.obscuresBackgroundDuringPresentation = false
-//        search.searchBar.placeholder = "Поиск"
-//        navigationItem.searchController = search
-//    }
     
     @objc private func addtapped() {
         print("addtapped")

@@ -16,14 +16,14 @@ class ScheduleTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        label.text = "ыыыыы"
+        //label.text = "ыыыыы"
         return label
     }()
     
     let toggle: UISwitch = {
        let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
-        toggle.onTintColor = .green
+        toggle.onTintColor = .colorSelection3
         toggle.addTarget(self, action: #selector(switchЕoggle), for: .valueChanged)
         return toggle
     }()
@@ -32,7 +32,7 @@ class ScheduleTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(toggle)
         contentView.addSubview(label)
-        contentView.backgroundColor = .systemGray4
+        contentView.backgroundColor = .backgroundDay1
         layout()
     }
     

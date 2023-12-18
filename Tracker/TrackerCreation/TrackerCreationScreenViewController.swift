@@ -30,6 +30,7 @@ class TrackerCreationScreenViewController: UIViewController {
     private let textFieldForTrackerName: UITextField = {
        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.backgroundColor = .backgroundDay1
         textField.placeholder = "Введите название трекера"
         textField.textColor = .ypBlack
         textField.font = UIFont.systemFont(ofSize: 22)
@@ -81,7 +82,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .colorSelection8
+        view.backgroundColor = .white
         textFieldForTrackerName.delegate = self
         createTrackerTableView.delegate = self
         createTrackerTableView.dataSource = self
@@ -160,7 +161,9 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         cell.selectionStyle = .none
         
-        cell.accessoryView = UIImageView(image: UIImage(systemName: "chevron.forward"))
+        //cell.accessoryView = UIImageView(image: UIImage(named: "ypChevron"))
+//        let imageView = UIImageView(image: UIImage(named: "ypChevron"))
+//        cell.accessoryView = imageView
         return cell
     }
     

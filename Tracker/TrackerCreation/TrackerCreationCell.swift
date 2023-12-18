@@ -19,10 +19,17 @@ class TrackerCreationCell: UITableViewCell {
         return label
     }()
 
+    private var ypChevronlImage: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "ypChevron")
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
       layoutViews()
-        contentView.backgroundColor = .systemGray6
+        
     }
 
     required init?(coder: NSCoder) {
@@ -30,13 +37,19 @@ class TrackerCreationCell: UITableViewCell {
     }
 
     private func layoutViews() {
+        titleLabel.addSubview(ypChevronlImage)
         contentView.addSubview(titleLabel)
-        
+        contentView.backgroundColor = .backgroundDay1
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 22)
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            ypChevronlImage.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: -16),
+            ypChevronlImage.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            ypChevronlImage.heightAnchor.constraint(equalToConstant: 12),
+            ypChevronlImage.widthAnchor.constraint(equalToConstant: 7)
         ])
     }
     
