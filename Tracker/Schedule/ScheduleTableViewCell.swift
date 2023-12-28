@@ -20,7 +20,7 @@ class ScheduleTableViewCell: UITableViewCell {
         return label
     }()
     
-    let toggle: UISwitch = {
+    private lazy var toggle: UISwitch = {
        let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.onTintColor = .colorSelection3

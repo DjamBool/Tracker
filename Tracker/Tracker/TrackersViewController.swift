@@ -29,8 +29,15 @@ class TrackersViewController: UIViewController {
     
     private lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.clipsToBounds = true
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.locale = Locale(identifier: "ru_RU")
+        datePicker.maximumDate = Date()
+        datePicker.calendar.firstWeekday = 2
+        NSLayoutConstraint.activate([
+            datePicker.widthAnchor.constraint(equalToConstant: 120)])
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChanged),
                              for: .valueChanged)
@@ -110,11 +117,56 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-        let selectedDate = sender.date
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd.MM.yy"
-        let formattedDate = dateFormatter.string(from: selectedDate)
-        print("Выбранная дата: \(formattedDate)")
+   
+       // let day = Calendar.current.component(.weekday, from: sender.date)
+       
+
+        //let weekday_string = dateFormatter.stringFromDate(day)
+////        currentDate = datePicker.date
+//       // collectionView.reloadData()
+//        var selectedDate = sender.date
+//
+//        //visibleCategories = []
+//        //selectedDate = datePicker.date
+//        
+        var calendar = Calendar.current
+        let day: WeekDay
+        var filterWeekDay = calendar.component(.weekday, from: datePicker.date) - 1
+        if filterWeekDay > 0 {
+            day = WeekDay.allCases[filterWeekDay - 1]
+        } else {
+            day = WeekDay.sunday
+        }
+        
+        print(day)
+        collectionView.reloadData()
+        
+        
+//        visibleCategories = categories.map { category in
+//            TrackerCategory(title: category.title,
+//                            trackers: category.trackers.filter { tracker in
+//                tracker.schedule?.contains { weekDay in
+//                    
+//                    print(weekDay.rawValue, "1")
+//                    print(filterWeekDay.description, "2")
+//                    return weekDay.rawValue == filterWeekDay.description
+//                } == true
+//            }
+//            )
+//        }
+////        for category in categories {
+////            var sortedTrackers = [Tracker].self
+////            
+////            for tracker in category.trackers {
+////                if tracker.schedule.
+////            }
+////        }
+//        //collectionView.reloadData()
+    }
+    
+    
+    private func reloadVisibleCategories() {
+        
     }
     
     @objc private func typing() {

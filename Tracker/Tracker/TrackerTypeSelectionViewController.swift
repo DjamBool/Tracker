@@ -9,7 +9,7 @@ import UIKit
 
 class TrackerTypeSelectionViewController: UIViewController {
 
-    private let createAHabit: UIButton = {
+    private lazy var createAHabit: UIButton = {
        let button = UIButton()
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
@@ -20,7 +20,7 @@ class TrackerTypeSelectionViewController: UIViewController {
         return button
     }()
     
-    private let createIrregularEvents: UIButton = {
+    private lazy var createIrregularEvents: UIButton = {
        let button = UIButton()
          button.setTitle("Нерегулярное событие", for: .normal)
          button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)

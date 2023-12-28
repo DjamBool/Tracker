@@ -40,7 +40,7 @@ class AddCategoryViewController: UIViewController {
         return label
     }()
     
-    private let addCategoryButton: UIButton = {
+    private lazy var addCategoryButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16

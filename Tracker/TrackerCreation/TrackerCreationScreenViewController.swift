@@ -8,7 +8,11 @@
 import UIKit
 
 class TrackerCreationScreenViewController: UIViewController {
-
+    private var day: String?
+    private var selectedDays: [WeekDay] = []
+    private var newTracker: Tracker?
+    private var trackers: [Tracker] = []
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +31,7 @@ class TrackerCreationScreenViewController: UIViewController {
         return view
     }()
     
-    private let textFieldForTrackerName: UITextField = {
+    private lazy var textFieldForTrackerName: UITextField = {
        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .backgroundDay1
@@ -76,9 +80,18 @@ class TrackerCreationScreenViewController: UIViewController {
                                                     weight: .medium)
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .systemGray4
+        button.backgroundColor = .ypGray
         return button
     }()
+    
+                let scheduleLabel: UILabel =  {
+                    let label = UILabel()
+                    label.font = .systemFont(ofSize: 17, weight: .regular)
+                    label.textColor = .ypGray
+                    label.translatesAutoresizingMaskIntoConstraints = false
+                    return label
+                }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +120,8 @@ class TrackerCreationScreenViewController: UIViewController {
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            
+            scheduleLabel.widthAnchor.constraint(equalToConstant: 150),
+            scheduleLabel.heightAnchor.constraint(equalToConstant: 17),
             
             viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             viewForTextFieldPlacement.topAnchor.constraint(equalTo: view.topAnchor, constant: 126),
@@ -139,7 +153,20 @@ class TrackerCreationScreenViewController: UIViewController {
         print(#function)
     }
     
+//    private func setSubTitle(_ subTitle: String?, forCellAt indexPath: IndexPath) {
+//        guard let cell = createTrackerTableView.cellForRow(at: indexPath) as? TrackerCreationCell else {
+//            return
+//        }
+//        cell.set(subText: subTitle)
+//    }
+    
+    private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
+    private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
+    
     @objc private func createButtonTapped() {
+        guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
+        let newTracker = Tracker(id: UUID(), title: newTrackerName, color: myColors.randomElement() ?? .colorSelection3, emoji: myEmoji.randomElement() ?? "🌞", schedule: selectedDays)
+        
         print(#function)
     }
 }
@@ -156,8 +183,13 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
         if indexPath.row == 0 {
             cell.setTitle(with: "Категория")
         }  else if indexPath.row == 1 {
-            cell.setTitle(with: "Расписание")
+           // cell.setTitle(with: "Расписание")
+            //cell.addSubview(scheduleLabel)
+            //scheduleLabel.text = day
+            cell.setTitle(with: day ?? "Расписание")
+            cell.subtitleLabel.text = "dddd"
         }
+      
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         cell.selectionStyle = .none
         
@@ -188,4 +220,12 @@ extension TrackerCreationScreenViewController: UITextFieldDelegate {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         print(#function)
     }
+}
+
+extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
+    func updateSchedule(_ selectedDays: [WeekDay]) {
+       day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
+    }
+    
+    
 }

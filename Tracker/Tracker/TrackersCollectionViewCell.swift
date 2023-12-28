@@ -33,6 +33,9 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.backgroundColor = .white.withAlphaComponent(0.3)
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 12
         return label
     }()
     
@@ -47,7 +50,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var markAsCompletedButton: UIButton = {
+    private lazy var markAsCompletedButton: UIButton = {
        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(systemName: "plus"), for: .normal)
@@ -127,6 +130,8 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             
             emojiLabel.leadingAnchor.constraint(equalTo: trackerBackgroundView.leadingAnchor, constant: 12),
             emojiLabel.topAnchor.constraint(equalTo: trackerBackgroundView.topAnchor, constant: 12),
+            emojiLabel.heightAnchor.constraint(equalToConstant: 24),
+            emojiLabel.widthAnchor.constraint(equalToConstant: 24),
             
             trackerNameLabel.leadingAnchor.constraint(equalTo: trackerBackgroundView.leadingAnchor, constant: 12),
             trackerNameLabel.trailingAnchor.constraint(equalTo: trackerBackgroundView.trailingAnchor, constant: -12),

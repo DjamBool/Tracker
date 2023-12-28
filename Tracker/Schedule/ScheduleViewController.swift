@@ -7,7 +7,15 @@
 
 import UIKit
 
-class ScheduleViewController: UIViewController {
+protocol ScheduleViewControllerDelegate: AnyObject {
+    func updateSchedule(_ selectedDays: [WeekDay])
+}
+
+
+final class ScheduleViewController: UIViewController {
+    
+    weak var delegate: ScheduleViewControllerDelegate?
+    private var selectedDays: [WeekDay] = []
     
     private lazy var navBarLabel: UILabel = {
         let label = UILabel()
@@ -85,6 +93,7 @@ class ScheduleViewController: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
+        delegate?.updateSchedule(selectedDays)
         dismiss(animated: true)
         print(#function)
     }
@@ -96,7 +105,8 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
         7
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, 
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.id, for: indexPath) as! ScheduleTableViewCell
         let day = WeekDay.allCases[indexPath.row]
         cell.label.text = day.rawValue

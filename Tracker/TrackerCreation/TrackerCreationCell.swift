@@ -19,6 +19,14 @@ class TrackerCreationCell: UITableViewCell {
         return label
     }()
 
+    let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .systemGray3
+        label.font = UIFont.systemFont(ofSize: 16)
+        return label
+    }()
+    
     private var ypChevronlImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -38,13 +46,20 @@ class TrackerCreationCell: UITableViewCell {
 
     private func layoutViews() {
         titleLabel.addSubview(ypChevronlImage)
+        titleLabel.addSubview(subtitleLabel)
         contentView.addSubview(titleLabel)
         contentView.backgroundColor = .backgroundDay1
         NSLayoutConstraint.activate([
+            
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 27),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            subtitleLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            subtitleLabel.bottomAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            subtitleLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: -16),
+            subtitleLabel.heightAnchor.constraint(equalToConstant: 17),
             
             ypChevronlImage.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: -16),
             ypChevronlImage.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
@@ -57,3 +72,5 @@ class TrackerCreationCell: UITableViewCell {
         titleLabel.text = title
     }
 }
+
+
