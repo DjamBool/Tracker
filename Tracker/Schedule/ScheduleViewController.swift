@@ -8,14 +8,14 @@
 import UIKit
 
 protocol ScheduleViewControllerDelegate: AnyObject {
-    func updateSchedule(_ selectedDays: [WeekDay])
+    func daysWereChosen(_ selectedDays: [WeekDay])
 }
 
 
 final class ScheduleViewController: UIViewController {
     
     weak var delegate: ScheduleViewControllerDelegate?
-    private var selectedDays: [WeekDay] = []
+    private var selectedDays: Set<WeekDay> = []
     
     private lazy var navBarLabel: UILabel = {
         let label = UILabel()
@@ -30,7 +30,7 @@ final class ScheduleViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.id)
+        tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         tableView.layer.cornerRadius = 16
         return tableView
     }()
@@ -93,7 +93,8 @@ final class ScheduleViewController: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
-        delegate?.updateSchedule(selectedDays)
+        let weekDays = Array(selectedDays)
+        delegate?.daysWereChosen(weekDays)
         dismiss(animated: true)
         print(#function)
     }
@@ -101,13 +102,14 @@ final class ScheduleViewController: UIViewController {
 
 
 extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
+   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         7
     }
     
     func tableView(_ tableView: UITableView, 
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.id, for: indexPath) as! ScheduleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as! ScheduleTableViewCell
         let day = WeekDay.allCases[indexPath.row]
         cell.label.text = day.rawValue
         cell.label.textColor = .black
@@ -121,3 +123,12 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+extension ScheduleViewController: ScheduleCellDelegate {
+    func toggleWasSwitched(to isOn: Bool, for weekDay: WeekDay) {
+        if isOn {
+            selectedDays.insert(weekDay)
+        } else {
+            selectedDays.remove(weekDay)
+        }
+    }
+}

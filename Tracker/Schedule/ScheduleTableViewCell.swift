@@ -7,16 +7,20 @@
 
 import UIKit
 
-class ScheduleTableViewCell: UITableViewCell {
+protocol ScheduleCellDelegate: AnyObject {
+    func toggleWasSwitched(to isOn: Bool, for weekDay: WeekDay)
+}
 
-    static let id = "ScheduleCell"
+class ScheduleTableViewCell: UITableViewCell {
+    
+    weak var delegate: ScheduleCellDelegate?
+    private var weekDay: WeekDay?
     
     let label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        //label.text = "ыыыыы"
         return label
     }()
     
@@ -24,7 +28,7 @@ class ScheduleTableViewCell: UITableViewCell {
        let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.onTintColor = .colorSelection3
-        toggle.addTarget(self, action: #selector(switchЕoggle), for: .valueChanged)
+        toggle.addTarget(self, action: #selector(toggleSwitch), for: .valueChanged)
         return toggle
     }()
 
@@ -40,7 +44,9 @@ class ScheduleTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func switchЕoggle() {
+    @objc private func toggleSwitch(_ sender: UISwitch) {
+        guard let weekDay = weekDay else { return }
+        delegate?.toggleWasSwitched(to: sender.isOn, for: weekDay)
         print("toggle Tapped")
     }
     

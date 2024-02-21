@@ -1,6 +1,12 @@
 
 import UIKit
 
+protocol TrackersDelegate: AnyObject{
+    //func addTracker(title: String, tracker: Tracker)
+    func addedNew(tracker: Tracker)
+
+}
+
 class TrackersViewController: UIViewController {
     
     //private var categories: [TrackerCategory] = []
@@ -10,6 +16,18 @@ class TrackersViewController: UIViewController {
     private var currentDate: Date = Date()
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = mockCategories
+    //private var trackers = [Tracker]()
+    var trackers: [Tracker] = [Tracker(id: UUID(),
+                   title: "Поливать растения",
+                   color: .colorSelection1,
+                   emoji: "🌺",
+                   schedule: [.tuesday, .saturday]),
+           Tracker(id: UUID(),
+                   title: "Накормить кошку",
+                   color: .colorSelection2,
+                   emoji: "🐈",
+                   schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
+]
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -31,13 +49,16 @@ class TrackersViewController: UIViewController {
         let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.clipsToBounds = true
+        datePicker.backgroundColor = .colorSelection8
+        datePicker.layer.cornerRadius = 10
+       // datePicker.setValue(UIColor.white, forKey: "textColor")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.maximumDate = Date()
         datePicker.calendar.firstWeekday = 2
         NSLayoutConstraint.activate([
-            datePicker.widthAnchor.constraint(equalToConstant: 120)])
+            datePicker.widthAnchor.constraint(equalToConstant: 100)])
         datePicker.addTarget(self,
                              action: #selector(datePickerValueChanged),
                              for: .valueChanged)
@@ -95,7 +116,7 @@ class TrackersViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        visibleCategories = categories
+        //visibleCategories = categories
     }
     
     private func makeAddTrackerButton() {
@@ -112,8 +133,10 @@ class TrackersViewController: UIViewController {
     
     @objc private func addtapped() {
         print("addtapped")
-        let pageАorSelectingANewTrackerType = UINavigationController(rootViewController: TrackerTypeSelectionViewController())
-        present(pageАorSelectingANewTrackerType, animated: true)
+        let trackerСreatingViewController =  /*UINavigationController(rootViewController: TrackerTypeSelectionViewController())*/
+        TrackerTypeSelectionViewController()
+        trackerСreatingViewController.delegate = self
+        present(trackerСreatingViewController, animated: true)
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -214,34 +237,38 @@ extension TrackersViewController: UISearchResultsUpdating {
 
 // MARK: - UICollectionViewDataSource
 extension TrackersViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return visibleCategories.count
-    }
+//    func numberOfSections(in collectionView: UICollectionView) -> Int {
+//      //  return visibleCategories.count
+//    1
+//    }
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        return visibleCategories[section].trackers.count
+       // return visibleCategories[section].trackers.count
+        return trackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.identifier, for: indexPath) as! TrackersCollectionViewCell
-        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        cell.setupCell(with: tracker)
+       // let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+//        let tracker = trackers[indexPath.item]
+//        cell.setupCell(with: tracker)
+        cell.setupCell(with: trackers[indexPath.row])
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(
-            ofKind: kind,
-            withReuseIdentifier: HeaderView.id,
-            for: indexPath) as! HeaderView
-        //view.titleLabel.text = categories[indexPath.row].title
-        view.titleLabel.text = categories[indexPath.section].title
-        return view
-    }
+//    func collectionView(_ collectionView: UICollectionView,
+//                        viewForSupplementaryElementOfKind kind: String,
+//                        at indexPath: IndexPath) -> UICollectionReusableView {
+//        let view = collectionView.dequeueReusableSupplementaryView(
+//            ofKind: kind,
+//            withReuseIdentifier: HeaderView.id,
+//            for: indexPath) as! HeaderView
+//        //view.titleLabel.text = categories[indexPath.row].title
+//        view.titleLabel.text = categories[indexPath.section].title
+//        return view
+//    }
    
 }
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -270,4 +297,22 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                             bottom: 16,
                             right: 0)
     }
+}
+// 19.02
+extension TrackersViewController: TrackersDelegate {
+    func addedNew(tracker: Tracker) {
+        trackers.append(tracker)
+        collectionView.reloadData()
+        print(trackers.count)
+    }
+    
+    //func addTracker(title: String, tracker: Tracker) {
+//        visibleCategories.append(contentsOf: [TrackerCategory(title: title, trackers: [tracker])])
+        //visibleCategories.append(TrackerCategory(title: "sss", trackers: [tracker]))
+//        trackers.append(tracker)
+//        print(tracker.emoji)
+//        collectionView.reloadData()
+//    }
+    
+    
 }

@@ -7,8 +7,24 @@
 
 import UIKit
 
+//protocol TrackerCreatingDelegate: AnyObject {
+//    func createTracker(title: String, tracker: Tracker)
+//}
+
 class TrackerTypeSelectionViewController: UIViewController {
 
+    weak var delegate: TrackersDelegate?
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Создание трекера"
+        label.textColor = .ypBlack
+        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        label.textAlignment = .center
+        return label
+    }()
+    
     private lazy var createAHabit: UIButton = {
        let button = UIButton()
         button.setTitle("Привычка", for: .normal)
@@ -43,7 +59,9 @@ class TrackerTypeSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        navigationItem.title = "Создание трекера"
+       // navigationItem.title = "Создание трекера"
+      //  view.title = "Создание трекера"
+        //navigationBar.topItem.title = "some title"
         layoutSubviews()
     }
   
@@ -51,9 +69,14 @@ class TrackerTypeSelectionViewController: UIViewController {
     @objc private func createNewHabit() {
         print(#function)
         let viewController = TrackerCreationScreenViewController()
+        viewController.delegate = self.delegate
         present(viewController, animated: true, completion: nil)
     }
     
+    deinit {
+    
+        print(#function)
+    }
     @objc private func createNewEvent() {
         print(#function)
        
@@ -61,11 +84,19 @@ class TrackerTypeSelectionViewController: UIViewController {
     }
     
     private func layoutSubviews() {
+        view.addSubview(titleLabel)
         view.addSubview(stackView)
         stackView.addArrangedSubview(createAHabit)
         stackView.addArrangedSubview(createIrregularEvents)
         
         NSLayoutConstraint.activate([
+            
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             // stackView
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -78,3 +109,13 @@ class TrackerTypeSelectionViewController: UIViewController {
             ])
     }
 }
+
+//extension TrackerTypeSelectionViewController: TrackerCreatingDelegate {
+//    func createTracker(title: String, tracker: Tracker) {
+//        delegate?.addTracker(title: title, tracker: tracker)
+//        print(tracker.emoji)
+//        dismiss(animated: true)
+//    }
+    
+    
+//}

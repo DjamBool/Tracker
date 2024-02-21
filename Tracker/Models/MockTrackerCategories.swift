@@ -20,10 +20,11 @@ import UIKit
                                        color: .colorSelection2,
                                        emoji: "🐈",
                                        schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
-                    ]),
-    TrackerCategory(title: "Увлечения",
-                    trackers: [Tracker(id: UUID(),
-                                       title: "Практикум",
-                                       color: .colorSelection3,
-                                       emoji: "💼",
-                                       schedule: [.monday, .tuesday, .wednesday, .thursday, .friday])])]
+                    ])//,
+//    TrackerCategory(title: "Увлечения",
+//                    trackers: [Tracker(id: UUID(),
+//                                       title: "Практикум",
+//                                       color: .colorSelection3,
+//                                       emoji: "💼",
+//                                       schedule: [.monday, .tuesday, .wednesday, .thursday, .friday])])
+ ]

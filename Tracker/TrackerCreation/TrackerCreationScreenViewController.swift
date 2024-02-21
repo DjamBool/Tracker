@@ -8,9 +8,13 @@
 import UIKit
 
 class TrackerCreationScreenViewController: UIViewController {
+    
+    weak var delegate: TrackersDelegate?
+ 
+    
     private var day: String?
     private var selectedDays: [WeekDay] = []
-    private var newTracker: Tracker?
+     var newTracker: Tracker?
     private var trackers: [Tracker] = []
     
     private lazy var titleLabel: UILabel = {
@@ -162,12 +166,22 @@ class TrackerCreationScreenViewController: UIViewController {
     
     private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
     private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
+    private var myEvents: [String] = ["OOO", "AAA", "SSS", "DDD"]
     
     @objc private func createButtonTapped() {
-        guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
-        let newTracker = Tracker(id: UUID(), title: newTrackerName, color: myColors.randomElement() ?? .colorSelection3, emoji: myEmoji.randomElement() ?? "🌞", schedule: selectedDays)
-        
+//        guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
+        let newTracker = Tracker(id: UUID(), 
+                                 title: myEvents.randomElement() ?? "NEW",
+                                 color: myColors.randomElement() ?? .colorSelection3,
+                                 emoji: myEmoji.randomElement() ?? "🌞",
+                                 schedule: selectedDays)
+        //delegate?.createTracker(title: newTrackerName, tracker: newTracker)
+        //self.newTracker = newTracker
+        //delegate?.addTracker(title: newTracker.title, tracker: newTracker)
+        delegate?.addedNew(tracker: newTracker)
         print(#function)
+        print(newTracker.emoji)
+        dismiss(animated: true)
     }
 }
 
@@ -187,7 +201,7 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
             //cell.addSubview(scheduleLabel)
             //scheduleLabel.text = day
             cell.setTitle(with: day ?? "Расписание")
-            cell.subtitleLabel.text = "dddd"
+            cell.subtitleLabel.text = "dddd" // сокр дни недели
         }
       
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -223,6 +237,13 @@ extension TrackerCreationScreenViewController: UITextFieldDelegate {
 }
 
 extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
+    func daysWereChosen(_ selectedDays: [WeekDay]) {
+        self.selectedDays = selectedDays
+        day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
+    
+        createTrackerTableView.reloadData()
+    }
+    
     func updateSchedule(_ selectedDays: [WeekDay]) {
        day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
     }
