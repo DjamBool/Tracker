@@ -9,8 +9,9 @@ import UIKit
 
 class TrackerCreationScreenViewController: UIViewController {
     
-    weak var delegate: TrackersDelegate?
- 
+    weak var trackerDelegate: TrackersDelegate?
+    
+    weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
     
     private var day: String?
     private var selectedDays: [WeekDay] = []
@@ -54,8 +55,10 @@ class TrackerCreationScreenViewController: UIViewController {
         tableView.backgroundColor = .ypGray
         tableView.layer.cornerRadius = 16
         tableView.backgroundColor = .systemGray5
-        tableView.register(TrackerCreationCell.self, forCellReuseIdentifier: TrackerCreationCell.id)
+        tableView.register(TrackerCreationCell.self, forCellReuseIdentifier: TrackerCreationCell.identifier)
         tableView.separatorStyle = .singleLine
+//        tableView.delegate = self
+//        tableView.dataSource = self
 
         return tableView
     }()
@@ -100,6 +103,9 @@ class TrackerCreationScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
+        scheduleViewControllerdelegate = self
+        
         textFieldForTrackerName.delegate = self
         createTrackerTableView.delegate = self
         createTrackerTableView.dataSource = self
@@ -166,21 +172,16 @@ class TrackerCreationScreenViewController: UIViewController {
     
     private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
     private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
-    private var myEvents: [String] = ["OOO", "AAA", "SSS", "DDD"]
     
     @objc private func createButtonTapped() {
-//        guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
+        guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
         let newTracker = Tracker(id: UUID(), 
-                                 title: myEvents.randomElement() ?? "NEW",
+                                 title: newTrackerName,
                                  color: myColors.randomElement() ?? .colorSelection3,
                                  emoji: myEmoji.randomElement() ?? "🌞",
-                                 schedule: selectedDays)
-        //delegate?.createTracker(title: newTrackerName, tracker: newTracker)
-        //self.newTracker = newTracker
-        //delegate?.addTracker(title: newTracker.title, tracker: newTracker)
-        delegate?.addedNew(tracker: newTracker)
-        print(#function)
-        print(newTracker.emoji)
+                                 schedule: self.selectedDays)
+        trackerDelegate?.addedNew(tracker: newTracker)
+        print("days: \(String(describing: newTracker.schedule?.count))")
         dismiss(animated: true)
     }
 }
@@ -192,16 +193,23 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: TrackerCreationCell.id, for: indexPath) as! TrackerCreationCell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackerCreationCell.id, for: indexPath) as? TrackerCreationCell else {
+            assertionFailure("Error of casting to TrackerCreationCell")
+            return UITableViewCell()
+        }
         
         if indexPath.row == 0 {
-            cell.setTitle(with: "Категория")
+            cell.setTitles(with: "Категория", subtitle: "Важное")
         }  else if indexPath.row == 1 {
            // cell.setTitle(with: "Расписание")
             //cell.addSubview(scheduleLabel)
             //scheduleLabel.text = day
-            cell.setTitle(with: day ?? "Расписание")
-            cell.subtitleLabel.text = "dddd" // сокр дни недели
+            //cell.setTitles(with: day ?? "Расписание", subtitle: <#String?#>)
+           // cell.subtitleLabel.text = "dddd" // сокр дни недели
+            let schedule = selectedDays.isEmpty ? "" : selectedDays.map {
+                $0.shortForm
+            }.joined(separator: ", ")
+            cell.setTitles(with: "Расписание", subtitle: schedule)
         }
       
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
@@ -225,6 +233,8 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
         
         } else if indexPath.row == 1 {
             let viewController = ScheduleViewController()
+            viewController.delegate = self
+            self.scheduleViewControllerdelegate?.daysWereChosen(self.selectedDays)
             present(viewController, animated: true, completion: nil)
         }
     }   
@@ -239,8 +249,7 @@ extension TrackerCreationScreenViewController: UITextFieldDelegate {
 extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
     func daysWereChosen(_ selectedDays: [WeekDay]) {
         self.selectedDays = selectedDays
-        day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
-    
+     
         createTrackerTableView.reloadData()
     }
     

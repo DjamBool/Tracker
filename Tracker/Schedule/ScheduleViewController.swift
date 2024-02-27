@@ -7,14 +7,10 @@
 
 import UIKit
 
-protocol ScheduleViewControllerDelegate: AnyObject {
-    func daysWereChosen(_ selectedDays: [WeekDay])
-}
-
-
 final class ScheduleViewController: UIViewController {
     
     weak var delegate: ScheduleViewControllerDelegate?
+    
     private var selectedDays: Set<WeekDay> = []
     
     private lazy var navBarLabel: UILabel = {
@@ -22,7 +18,7 @@ final class ScheduleViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.text = "Расписание"
-        label.textColor = UIColor(named: "YP Black")
+        label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -32,6 +28,7 @@ final class ScheduleViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         tableView.layer.cornerRadius = 16
+        tableView.backgroundColor = .ypGray.withAlphaComponent(0.3)
         return tableView
     }()
     
@@ -44,23 +41,24 @@ final class ScheduleViewController: UIViewController {
                                                     weight: .medium)
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
-        button.backgroundColor = UIColor(named: "YP Black")
+        button.backgroundColor = .ypBlack
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(navBarLabel)
-        view.addSubview(tableView)
         
-        view.addSubview(doneButton)
         tableView.delegate = self
         tableView.dataSource = self
         layout()
     }
     
     func layout() {
+        view.addSubview(navBarLabel)
+        view.addSubview(tableView)
+        view.addSubview(doneButton)
+        
         NSLayoutConstraint.activate([
             
             navBarLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -88,15 +86,17 @@ final class ScheduleViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @objc private func createButtonTapped() {
-        print(#function)
-    }
-    
+//    @objc private func createButtonTapped() {
+//        print(#function)
+//    }
+//    
     @objc private func doneButtonTapped() {
         let weekDays = Array(selectedDays)
         delegate?.daysWereChosen(weekDays)
-        dismiss(animated: true)
+        print(weekDays.count)
         print(#function)
+        dismiss(animated: true)
+   
     }
 }
 
@@ -109,12 +109,19 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, 
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as! ScheduleTableViewCell
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as? ScheduleTableViewCell else {
+            fatalError("Could not cast to ScheduleTableViewCell")
+        }
         let day = WeekDay.allCases[indexPath.row]
-        cell.label.text = day.rawValue
-        cell.label.textColor = .black
-        cell.selectionStyle = .none
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+//        cell.label.text = day.rawValue
+//        cell.label.textColor = .black
+//        cell.selectionStyle = .none
+//        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+//        cell.delegate = self
+//        return cell
+        cell.configureCell(weekDay: day, isOn: selectedDays.contains(day))
+        cell.delegate = self
         return cell
     }
     
@@ -130,5 +137,6 @@ extension ScheduleViewController: ScheduleCellDelegate {
         } else {
             selectedDays.remove(weekDay)
         }
+      
     }
 }

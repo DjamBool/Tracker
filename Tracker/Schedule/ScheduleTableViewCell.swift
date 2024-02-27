@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ScheduleCellDelegate: AnyObject {
-    func toggleWasSwitched(to isOn: Bool, for weekDay: WeekDay)
-}
-
 class ScheduleTableViewCell: UITableViewCell {
     
     weak var delegate: ScheduleCellDelegate?
@@ -45,9 +41,16 @@ class ScheduleTableViewCell: UITableViewCell {
     }
     
     @objc private func toggleSwitch(_ sender: UISwitch) {
+        print(#function)
         guard let weekDay = weekDay else { return }
         delegate?.toggleWasSwitched(to: sender.isOn, for: weekDay)
         print("toggle Tapped")
+    }
+    
+    func configureCell(weekDay: WeekDay, isOn: Bool) {
+        self.weekDay = weekDay
+        label.text = weekDay.rawValue
+        toggle.isOn = isOn
     }
     
     func layout() {

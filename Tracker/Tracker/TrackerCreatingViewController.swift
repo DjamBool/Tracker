@@ -7,11 +7,7 @@
 
 import UIKit
 
-//protocol TrackerCreatingDelegate: AnyObject {
-//    func createTracker(title: String, tracker: Tracker)
-//}
-
-class TrackerTypeSelectionViewController: UIViewController {
+class TrackerCreatingViewController: UIViewController {
 
     weak var delegate: TrackersDelegate?
     
@@ -59,9 +55,6 @@ class TrackerTypeSelectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-       // navigationItem.title = "Создание трекера"
-      //  view.title = "Создание трекера"
-        //navigationBar.topItem.title = "some title"
         layoutSubviews()
     }
   
@@ -69,14 +62,11 @@ class TrackerTypeSelectionViewController: UIViewController {
     @objc private func createNewHabit() {
         print(#function)
         let viewController = TrackerCreationScreenViewController()
-        viewController.delegate = self.delegate
+        viewController.trackerDelegate = self.delegate
         present(viewController, animated: true, completion: nil)
     }
     
-    deinit {
-    
-        print(#function)
-    }
+   
     @objc private func createNewEvent() {
         print(#function)
        
@@ -102,20 +92,11 @@ class TrackerTypeSelectionViewController: UIViewController {
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            // createAHabitButton
+            
             createAHabit.heightAnchor.constraint(equalToConstant: 60),
-            //createIrregularEvents
+
             createIrregularEvents.heightAnchor.constraint(equalToConstant: 60)
             ])
     }
 }
 
-//extension TrackerTypeSelectionViewController: TrackerCreatingDelegate {
-//    func createTracker(title: String, tracker: Tracker) {
-//        delegate?.addTracker(title: title, tracker: tracker)
-//        print(tracker.emoji)
-//        dismiss(animated: true)
-//    }
-    
-    
-//}

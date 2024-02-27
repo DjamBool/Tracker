@@ -1,12 +1,6 @@
 
 import UIKit
 
-protocol TrackersDelegate: AnyObject{
-    //func addTracker(title: String, tracker: Tracker)
-    func addedNew(tracker: Tracker)
-
-}
-
 class TrackersViewController: UIViewController {
     
     //private var categories: [TrackerCategory] = []
@@ -16,18 +10,18 @@ class TrackersViewController: UIViewController {
     private var currentDate: Date = Date()
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = mockCategories
-    //private var trackers = [Tracker]()
-    var trackers: [Tracker] = [Tracker(id: UUID(),
-                   title: "Поливать растения",
-                   color: .colorSelection1,
-                   emoji: "🌺",
-                   schedule: [.tuesday, .saturday]),
-           Tracker(id: UUID(),
-                   title: "Накормить кошку",
-                   color: .colorSelection2,
-                   emoji: "🐈",
-                   schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
-]
+    private var trackers = [Tracker]()
+//    var trackers: [Tracker] = [Tracker(id: UUID(),
+//                   title: "Поливать растения",
+//                   color: .colorSelection1,
+//                   emoji: "🌺",
+//                   schedule: [.tuesday, .saturday]),
+//           Tracker(id: UUID(),
+//                   title: "Накормить кошку",
+//                   color: .colorSelection2,
+//                   emoji: "🐈",
+//                   schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
+//]
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -119,6 +113,7 @@ class TrackersViewController: UIViewController {
         //visibleCategories = categories
     }
     
+    
     private func makeAddTrackerButton() {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, 
                                         target: self, action: #selector(addtapped))
@@ -133,8 +128,7 @@ class TrackersViewController: UIViewController {
     
     @objc private func addtapped() {
         print("addtapped")
-        let trackerСreatingViewController =  /*UINavigationController(rootViewController: TrackerTypeSelectionViewController())*/
-        TrackerTypeSelectionViewController()
+        let trackerСreatingViewController = TrackerCreatingViewController()
         trackerСreatingViewController.delegate = self
         present(trackerСreatingViewController, animated: true)
     }
@@ -239,7 +233,7 @@ extension TrackersViewController: UISearchResultsUpdating {
 extension TrackersViewController: UICollectionViewDataSource {
 //    func numberOfSections(in collectionView: UICollectionView) -> Int {
 //      //  return visibleCategories.count
-//    1
+
 //    }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -250,6 +244,7 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.identifier, for: indexPath) as! TrackersCollectionViewCell
        // let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
 //        let tracker = trackers[indexPath.item]
@@ -303,7 +298,7 @@ extension TrackersViewController: TrackersDelegate {
     func addedNew(tracker: Tracker) {
         trackers.append(tracker)
         collectionView.reloadData()
-        print(trackers.count)
+        
     }
     
     //func addTracker(title: String, tracker: Tracker) {

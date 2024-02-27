@@ -68,8 +68,11 @@ class TrackerCreationCell: UITableViewCell {
         ])
     }
     
-    func setTitle(with title: String) {
+    func setTitles(with title: String, subtitle: String?) {
         titleLabel.text = title
+        if let subtitle {
+            subtitleLabel.text = subtitle
+        }
     }
 }
 
