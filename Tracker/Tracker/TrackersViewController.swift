@@ -2,26 +2,26 @@
 import UIKit
 
 class TrackersViewController: UIViewController {
-    
-    //private var categories: [TrackerCategory] = []
-    private var visibleCategories: [TrackerCategory] = []
-
-    var completedTrackers: [TrackerRecord] = []
-    private var currentDate: Date = Date()
-    private var selectedDate = Date()
+   
     private var categories: [TrackerCategory] = mockCategories
     private var trackers = [Tracker]()
-//    var trackers: [Tracker] = [Tracker(id: UUID(),
-//                   title: "Поливать растения",
-//                   color: .colorSelection1,
-//                   emoji: "🌺",
-//                   schedule: [.tuesday, .saturday]),
-//           Tracker(id: UUID(),
-//                   title: "Накормить кошку",
-//                   color: .colorSelection2,
-//                   emoji: "🐈",
-//                   schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
-//]
+    private var visibleCategories: [TrackerCategory] = []
+    private var completedTrackers: [TrackerRecord] = []
+    var currentDate: Date = Date()
+    private var selectedDate = Date()
+    
+    
+    //    var trackers: [Tracker] = [Tracker(id: UUID(),
+    //                   title: "Поливать растения",
+    //                   color: .colorSelection1,
+    //                   emoji: "🌺",
+    //                   schedule: [.tuesday, .saturday]),
+    //           Tracker(id: UUID(),
+    //                   title: "Накормить кошку",
+    //                   color: .colorSelection2,
+    //                   emoji: "🐈",
+    //                   schedule: [.monday, .tuesday, .wednesday, .thursday, .friday, .saturday, .sunday])
+    //]
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -45,7 +45,7 @@ class TrackersViewController: UIViewController {
         datePicker.clipsToBounds = true
         datePicker.backgroundColor = .colorSelection8
         datePicker.layer.cornerRadius = 10
-       // datePicker.setValue(UIColor.white, forKey: "textColor")
+        // datePicker.setValue(UIColor.white, forKey: "textColor")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ru_RU")
@@ -69,23 +69,6 @@ class TrackersViewController: UIViewController {
         return searchBar
     }()
     
-    private var starImage: UIImageView = {
-        let view = UIImageView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.image = UIImage(named: "starImage")
-        return view
-    }()
-    
-    private var whatWillWeTrackLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Что будем отслеживать?"
-        label.textColor = .ypBlack
-        label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textAlignment = .center
-        return label
-    }()
-    
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -96,6 +79,18 @@ class TrackersViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
         return collectionView
+    }()
+    
+    private lazy var whatWillWeTrackView: WhatWillWeTrackView = {
+        let view = WhatWillWeTrackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+    private lazy var nothingWasFoundView: NothingWasFoundView = {
+        let view = NothingWasFoundView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
     }()
     
     override func viewDidLoad() {
@@ -115,7 +110,7 @@ class TrackersViewController: UIViewController {
     
     
     private func makeAddTrackerButton() {
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, 
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self, action: #selector(addtapped))
         addButton.tintColor = .black
         navigationItem.leftBarButtonItem = addButton
@@ -134,18 +129,18 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-   
-       // let day = Calendar.current.component(.weekday, from: sender.date)
-       
-
+        
+        // let day = Calendar.current.component(.weekday, from: sender.date)
+        
+        
         //let weekday_string = dateFormatter.stringFromDate(day)
-////        currentDate = datePicker.date
-//       // collectionView.reloadData()
-//        var selectedDate = sender.date
-//
-//        //visibleCategories = []
-//        //selectedDate = datePicker.date
-//        
+        ////        currentDate = datePicker.date
+        //       // collectionView.reloadData()
+        //        var selectedDate = sender.date
+        //
+        //        //visibleCategories = []
+        //        //selectedDate = datePicker.date
+        //
         var calendar = Calendar.current
         let day: WeekDay
         var filterWeekDay = calendar.component(.weekday, from: datePicker.date) - 1
@@ -159,26 +154,26 @@ class TrackersViewController: UIViewController {
         collectionView.reloadData()
         
         
-//        visibleCategories = categories.map { category in
-//            TrackerCategory(title: category.title,
-//                            trackers: category.trackers.filter { tracker in
-//                tracker.schedule?.contains { weekDay in
-//                    
-//                    print(weekDay.rawValue, "1")
-//                    print(filterWeekDay.description, "2")
-//                    return weekDay.rawValue == filterWeekDay.description
-//                } == true
-//            }
-//            )
-//        }
-////        for category in categories {
-////            var sortedTrackers = [Tracker].self
-////            
-////            for tracker in category.trackers {
-////                if tracker.schedule.
-////            }
-////        }
-//        //collectionView.reloadData()
+        //        visibleCategories = categories.map { category in
+        //            TrackerCategory(title: category.title,
+        //                            trackers: category.trackers.filter { tracker in
+        //                tracker.schedule?.contains { weekDay in
+        //
+        //                    print(weekDay.rawValue, "1")
+        //                    print(filterWeekDay.description, "2")
+        //                    return weekDay.rawValue == filterWeekDay.description
+        //                } == true
+        //            }
+        //            )
+        //        }
+        ////        for category in categories {
+        ////            var sortedTrackers = [Tracker].self
+        ////
+        ////            for tracker in category.trackers {
+        ////                if tracker.schedule.
+        ////            }
+        ////        }
+        //        //collectionView.reloadData()
     }
     
     
@@ -192,9 +187,8 @@ class TrackersViewController: UIViewController {
     
     private func layoutSubviews() {
         view.addSubview(searchBar)
-        view.addSubview(starImage)
-        view.addSubview(whatWillWeTrackLabel)
         view.addSubview(collectionView)
+        view.addSubview(whatWillWeTrackView)
         NSLayoutConstraint.activate([
             
             searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
@@ -202,21 +196,17 @@ class TrackersViewController: UIViewController {
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             searchBar.heightAnchor.constraint(equalToConstant: 36),
             
-            starImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            starImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            starImage.widthAnchor.constraint(equalToConstant: 80),
-            starImage.heightAnchor.constraint(equalToConstant: 80),
-            
-            whatWillWeTrackLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            whatWillWeTrackLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 490),
-            whatWillWeTrackLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            whatWillWeTrackLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -340),
-            whatWillWeTrackLabel.heightAnchor.constraint(equalToConstant: 18),
-            
-           collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 24),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+//            whatWillWeTrackView.constraint(equalTo: view.leadingAnchor),
+//            whatWillWeTrackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            whatWillWeTrackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            whatWillWeTrackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            whatWillWeTrackView.topAnchor.constraint(equalTo: view.topAnchor),
+            whatWillWeTrackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -231,40 +221,46 @@ extension TrackersViewController: UISearchResultsUpdating {
 
 // MARK: - UICollectionViewDataSource
 extension TrackersViewController: UICollectionViewDataSource {
-//    func numberOfSections(in collectionView: UICollectionView) -> Int {
-//      //  return visibleCategories.count
-
-//    }
+    //    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    //      //  return visibleCategories.count
+    
+    //    }
     
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-       // return visibleCategories[section].trackers.count
+        if visibleCategories.isEmpty {
+            whatWillWeTrackView.isHidden = false
+        }
+        else {
+            whatWillWeTrackView.isHidden = true
+        }
+        // return visibleCategories[section].trackers.count
         return trackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-       
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.identifier, for: indexPath) as! TrackersCollectionViewCell
-       // let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-//        let tracker = trackers[indexPath.item]
-//        cell.setupCell(with: tracker)
+        // let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+        //        let tracker = trackers[indexPath.item]
+        //        cell.setupCell(with: tracker)
         cell.setupCell(with: trackers[indexPath.row])
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView,
-//                        viewForSupplementaryElementOfKind kind: String,
-//                        at indexPath: IndexPath) -> UICollectionReusableView {
-//        let view = collectionView.dequeueReusableSupplementaryView(
-//            ofKind: kind,
-//            withReuseIdentifier: HeaderView.id,
-//            for: indexPath) as! HeaderView
-//        //view.titleLabel.text = categories[indexPath.row].title
-//        view.titleLabel.text = categories[indexPath.section].title
-//        return view
-//    }
-   
+    //    func collectionView(_ collectionView: UICollectionView,
+    //                        viewForSupplementaryElementOfKind kind: String,
+    //                        at indexPath: IndexPath) -> UICollectionReusableView {
+    //        let view = collectionView.dequeueReusableSupplementaryView(
+    //            ofKind: kind,
+    //            withReuseIdentifier: HeaderView.id,
+    //            for: indexPath) as! HeaderView
+    //        //view.titleLabel.text = categories[indexPath.row].title
+    //        view.titleLabel.text = categories[indexPath.section].title
+    //        return view
+    //    }
+    
 }
 // MARK: - UICollectionViewDelegateFlowLayout
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
@@ -281,8 +277,8 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-           return 9
-       }
+        return 9
+    }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
@@ -293,21 +289,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
                             right: 0)
     }
 }
-// 19.02
+
 extension TrackersViewController: TrackersDelegate {
     func addedNew(tracker: Tracker) {
         trackers.append(tracker)
         collectionView.reloadData()
         
     }
-    
-    //func addTracker(title: String, tracker: Tracker) {
-//        visibleCategories.append(contentsOf: [TrackerCategory(title: title, trackers: [tracker])])
-        //visibleCategories.append(TrackerCategory(title: "sss", trackers: [tracker]))
-//        trackers.append(tracker)
-//        print(tracker.emoji)
-//        collectionView.reloadData()
-//    }
-    
-    
 }
