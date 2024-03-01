@@ -8,17 +8,18 @@
 import UIKit
 
 final class NothingWasFoundView: UIView {
-    
     private lazy var image: UIImageView = {
         let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "serchEmoji")
         return imageView
     }()
 
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
-        label.textColor = UIColor.black
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        label.textColor = .ypBlack
         label.text = "Ничего не найдено"
         label.textAlignment = .center
         return label
@@ -37,8 +38,8 @@ final class NothingWasFoundView: UIView {
         [image, label].forEach { self.addSubview($0)
         }
         NSLayoutConstraint.activate([
-            image.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
-            image.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.centerYAnchor),
+            image.centerXAnchor.constraint(equalTo: centerXAnchor),
+            image.centerYAnchor.constraint(equalTo: centerYAnchor),
             image.widthAnchor.constraint(equalToConstant: 80),
             image.heightAnchor.constraint(equalToConstant: 80),
             

@@ -3,11 +3,11 @@ import UIKit
 
 class TrackersViewController: UIViewController {
     
-    private var categories: [TrackerCategory] = [] //mockCategories
+    private var categories: [TrackerCategory] = []
     private var trackers = [Tracker]()
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
-    var currentDate: Date = Date() // Date.init()
+    var currentDate: Date = Date() 
     private var selectedDate = Date()
     
     private lazy var dateFormatter: DateFormatter = {
@@ -37,7 +37,7 @@ class TrackersViewController: UIViewController {
         datePicker.locale = Locale(identifier: "ru_Ru")
         datePicker.tintColor = .colorSelection3
         datePicker.maximumDate = Date()
-datePicker.calendar.firstWeekday = 2
+        datePicker.calendar.firstWeekday = 2
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 100)])
         datePicker.addTarget(self,
@@ -75,6 +75,8 @@ datePicker.calendar.firstWeekday = 2
     
     private lazy var nothingWasFoundView: NothingWasFoundView = {
         let view = NothingWasFoundView()
+        view.isHidden = true
+        
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -117,7 +119,7 @@ datePicker.calendar.firstWeekday = 2
     }
     
     @objc func dateChanged() {
-      reloadVisibleCategories()
+        reloadVisibleCategories()
     }
     
     private func reloadVisibleCategories() {
@@ -130,7 +132,6 @@ datePicker.calendar.firstWeekday = 2
                 let textCondition = filterText.isEmpty ||
                 tracker.title.lowercased().contains(filterText)
                 let dateCondition = tracker.schedule.contains { weekDay in
-                   // weekDay.numberValue == filterWeekDay
                     if filterWeekDay > 0 {
                         weekDay == WeekDay.allCases[filterWeekDay - 1]
                     } else {
@@ -138,14 +139,13 @@ datePicker.calendar.firstWeekday = 2
                     }
                 }
                 return textCondition && dateCondition
-               // tracker.title.lowercased().contains(filterText)
             }
             
             if trackers.isEmpty {
                 return nil
             }
             
-           return  TrackerCategory(
+            return  TrackerCategory(
                 title: category.title,
                 trackers: trackers
             )
@@ -154,39 +154,20 @@ datePicker.calendar.firstWeekday = 2
         showNothingWasFoundView()
     }
     
-    /*    private func updateVisibleCategories() {
-        let calendar = Calendar.current
-        let filterWeekDay = calendar.component(.weekday, from: datePicker.date) - 1
-        let filterText = (searchTextField.text ?? "").lowercased()
-        
-        visibleCategories = categories.map { category in
-            let trackers = category.trackers.filter { traracker in
-                let text = filterText.isEmpty || traracker.title.lowercased().contains(filterText)
-                let selecteDate = traracker.schedule.contains { weekDay in
-                    weekDay.numberValue == filterWeekDay
-                } == true
-                return text && selecteDate
-            }
-            return TrackerCategory(title: category.title, trackers: trackers)
-        }
-        collectionView.reloadData()
-        showNothingWasFoundView()
-    }
-   */
     private func showNothingWasFoundView() {
-        if !categories.isEmpty, visibleCategories.isEmpty {
-            whatWillWeTrackView.isHidden = true
+        
+        if !categories.isEmpty && visibleCategories.isEmpty {
             nothingWasFoundView.isHidden = false
+        } else {
+            nothingWasFoundView.isHidden = true
         }
     }
-    //    @objc private func typing() {
-    //        print(#function)
-    //    }
     
     private func layoutSubviews() {
         view.addSubview(searchTextField)
         view.addSubview(collectionView)
         view.addSubview(whatWillWeTrackView)
+        view.addSubview(nothingWasFoundView)
         NSLayoutConstraint.activate([
             
             searchTextField.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
@@ -198,11 +179,16 @@ datePicker.calendar.firstWeekday = 2
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 24),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        
+            
             whatWillWeTrackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             whatWillWeTrackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             whatWillWeTrackView.topAnchor.constraint(equalTo: view.topAnchor),
-            whatWillWeTrackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            whatWillWeTrackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            nothingWasFoundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nothingWasFoundView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            nothingWasFoundView.topAnchor.constraint(equalTo: view.topAnchor),
+            nothingWasFoundView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -212,7 +198,6 @@ datePicker.calendar.firstWeekday = 2
 extension TrackersViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return visibleCategories.count
-        
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -235,7 +220,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         let isCompletedToday = isTheTaskCompleted (id: tracker.id)
         let completedDays = completedTrackers.filter { $0.id == tracker.id }.count
-        cell.setupCell(with: tracker, 
+        cell.setupCell(with: tracker,
                        isCompleted: isCompletedToday,
                        completedDays: completedDays,
                        indexPath: indexPath)
@@ -253,17 +238,17 @@ extension TrackersViewController: UICollectionViewDataSource {
                                                 inSameDayAs: datePicker.date)
         return trackerRecord.id == id && isSameDay
     }
-        func collectionView(_ collectionView: UICollectionView,
-                            viewForSupplementaryElementOfKind kind: String,
-                            at indexPath: IndexPath) -> UICollectionReusableView {
-           guard let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: HeaderView.identifier,
-                for: indexPath) as? HeaderView else {  fatalError("Error in converting to a HeaderView") }
-            let categoryForSection = visibleCategories[indexPath.section]
-            headerView.configureHeader(with: categoryForSection)
-            return headerView
-        }
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: HeaderView.identifier,
+            for: indexPath) as? HeaderView else {  fatalError("Error in converting to a HeaderView") }
+        let categoryForSection = visibleCategories[indexPath.section]
+        headerView.configureHeader(with: categoryForSection)
+        return headerView
+    }
     
 }
 
@@ -347,7 +332,6 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        //updateVisibleCategories()
         reloadVisibleCategories()
         return true
     }
