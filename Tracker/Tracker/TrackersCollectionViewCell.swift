@@ -10,8 +10,13 @@ import UIKit
 final class TrackersCollectionViewCell: UICollectionViewCell {
     
     var count = 0
-    //static let cellIdentifier = "TrackerCell"
-
+    private weak var delegate: TrackerCollectionViewCellDelegate?
+    
+    private var trackersModel = [Tracker]()
+    private var isCompleted: Bool = false
+    private var trackerId: UUID?
+    private var indexPath: IndexPath?
+    
     private var trackerBackgroundView: UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +77,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         super.init(coder: coder)
     }
     
-    func setupCell(with tracker: Tracker) {
+    func setupCell(with tracker: Tracker, isCompleted: Bool, completedDays: Int, indexPath: IndexPath) {
+        self.trackerId = tracker.id
+        self.isCompleted = isCompleted
+        self.indexPath = indexPath
+        
         trackerBackgroundView.backgroundColor = tracker.color
         trackerNameLabel.text = tracker.title
         emojiLabel.text = tracker.emoji
@@ -125,7 +134,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             trackerBackgroundView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             trackerBackgroundView.topAnchor.constraint(equalTo: contentView.topAnchor),
             trackerBackgroundView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-           // trackerBackgroundView.widthAnchor.constraint(equalToConstant: 140),
             trackerBackgroundView.heightAnchor.constraint(equalToConstant: 90),
             
             emojiLabel.leadingAnchor.constraint(equalTo: trackerBackgroundView.leadingAnchor, constant: 12),

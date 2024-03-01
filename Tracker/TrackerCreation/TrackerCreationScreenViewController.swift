@@ -180,8 +180,8 @@ class TrackerCreationScreenViewController: UIViewController {
                                  color: myColors.randomElement() ?? .colorSelection3,
                                  emoji: myEmoji.randomElement() ?? "🌞",
                                  schedule: self.selectedDays)
-        trackerDelegate?.addedNew(tracker: newTracker)
-        print("days: \(String(describing: newTracker.schedule?.count))")
+        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: "Важное")
+        print("days: \(String(describing: newTracker.schedule.count))")
         dismiss(animated: true)
     }
 }

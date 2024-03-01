@@ -14,6 +14,6 @@ struct Tracker {
     let color: UIColor
     let emoji: String
    // let schedule: Date? //
-    let schedule: [WeekDay]?
+    let schedule: [WeekDay]
 
 }

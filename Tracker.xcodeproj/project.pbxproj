@@ -19,6 +19,7 @@
 		30338CD32B8753DE006FEED5 /* ScheduleCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD22B8753DE006FEED5 /* ScheduleCellDelegate.swift */; };
 		30338CD52B8E11C1006FEED5 /* WhatWillWeTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD42B8E11C1006FEED5 /* WhatWillWeTrackView.swift */; };
 		30338CD72B8E1205006FEED5 /* NothingWasFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */; };
+		30338CD92B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */; };
 		30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC24922B14CD00009791FC /* AppDelegate.swift */; };
 		30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC24942B14CD00009791FC /* SceneDelegate.swift */; };
 		30CC249C2B14CD01009791FC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30CC249B2B14CD01009791FC /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		30338CD22B8753DE006FEED5 /* ScheduleCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCellDelegate.swift; sourceTree = "<group>"; };
 		30338CD42B8E11C1006FEED5 /* WhatWillWeTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatWillWeTrackView.swift; sourceTree = "<group>"; };
 		30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingWasFoundView.swift; sourceTree = "<group>"; };
+		30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		30CC248F2B14CD00009791FC /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30CC24922B14CD00009791FC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		30CC24942B14CD00009791FC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				30338CCE2B875141006FEED5 /* ScheduleViewControllerDelegate.swift */,
+				30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */,
 				30338CD02B875198006FEED5 /* TrackersDelegate.swift */,
 				30338CD22B8753DE006FEED5 /* ScheduleCellDelegate.swift */,
 			);
@@ -256,6 +259,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30338CD92B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift in Sources */,
 				3029B1052B2700A400AE1EA9 /* ScheduleViewController.swift in Sources */,
 				3029B1032B27003200AE1EA9 /* WeekDay.swift in Sources */,
 				30338CD32B8753DE006FEED5 /* ScheduleCellDelegate.swift in Sources */,

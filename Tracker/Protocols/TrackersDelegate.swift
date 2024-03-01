@@ -9,6 +9,6 @@ import UIKit
 
 protocol TrackersDelegate: AnyObject{
     //func addTracker(title: String, tracker: Tracker)
-    func addedNew(tracker: Tracker)
+    func addedNew(tracker: Tracker, categoryTitle: String)
 
 }
