@@ -8,6 +8,6 @@
 import UIKit
 
 protocol TrackerCollectionViewCellDelegate: AnyObject {
-    func competeTracker(id: UUID)
-    func uncompleteTracker(id: UUID)
+    func competeTracker(id: UUID, indexPath: IndexPath)
+    func uncompleteTracker(id: UUID, indexPath: IndexPath)
 }

@@ -7,8 +7,8 @@ class TrackersViewController: UIViewController {
     private var trackers = [Tracker]()
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
-    var currentDate: Date = Date() 
-    private var selectedDate = Date()
+   // var currentDate: Date = .init() //Date()
+    //private var selectedDate = Date()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -16,6 +16,8 @@ class TrackersViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
+    
+   
     
     private var navBarTitleLabel: UILabel = {
         let label = UILabel()
@@ -36,7 +38,6 @@ class TrackersViewController: UIViewController {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ru_Ru")
         datePicker.tintColor = .colorSelection3
-        datePicker.maximumDate = Date()
         datePicker.calendar.firstWeekday = 2
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 100)])
@@ -218,7 +219,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        let isCompletedToday = isTheTaskCompleted (id: tracker.id)
+        
+        cell.delegate = self
+        
+        let isCompletedToday = isTrackerCompletedToday (id: tracker.id)
         let completedDays = completedTrackers.filter { $0.id == tracker.id }.count
         cell.setupCell(with: tracker,
                        isCompleted: isCompletedToday,
@@ -227,17 +231,19 @@ extension TrackersViewController: UICollectionViewDataSource {
         return cell
     }
     
-    private func isTheTaskCompleted (id: UUID) -> Bool {
+    private func isTrackerCompletedToday (id: UUID) -> Bool {
         completedTrackers.contains { trackerRecord in
-            isSameTrackerRecord(trackerRecord: trackerRecord, id: id)
+            isSameTracker(trackerRecord: trackerRecord, id: id)
+            
         }
     }
     
-    private func isSameTrackerRecord(trackerRecord: TrackerRecord, id: UUID) -> Bool {
+    private func isSameTracker(trackerRecord: TrackerRecord, id: UUID) -> Bool {
         let isSameDay = Calendar.current.isDate(trackerRecord.date,
                                                 inSameDayAs: datePicker.date)
         return trackerRecord.id == id && isSameDay
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
@@ -307,23 +313,18 @@ extension TrackersViewController: TrackersDelegate {
 // MARK: -TrackerCollectionViewCellDelegate
 
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
-    func competeTracker(id: UUID) {
-        guard currentDate <= Date() else {
-            return
-        }
-        completedTrackers.append(TrackerRecord(id: id, date: currentDate))
-        collectionView.reloadData()
+    func competeTracker(id: UUID, indexPath: IndexPath) {
+        guard datePicker.date <= Date() else { return }
+        let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
+        completedTrackers.append(trackerRecord)
+        collectionView.reloadItems(at: [indexPath])
     }
     
-    func uncompleteTracker(id: UUID) {
-        completedTrackers.removeAll { element in
-            if (element.id == id &&  Calendar.current.isDate(element.date, equalTo: currentDate, toGranularity: .day)) {
-                return true
-            } else {
-                return false
-            }
+    func uncompleteTracker(id: UUID, indexPath: IndexPath) {
+        completedTrackers.removeAll { trackerRecord in
+            isSameTracker(trackerRecord: trackerRecord, id: id)
         }
-        collectionView.reloadData()
+        collectionView.reloadItems(at: [indexPath])
     }
 }
 
