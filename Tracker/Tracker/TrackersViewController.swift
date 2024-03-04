@@ -7,8 +7,6 @@ class TrackersViewController: UIViewController {
     private var trackers = [Tracker]()
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
-   // var currentDate: Date = .init() //Date()
-    //private var selectedDate = Date()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -16,8 +14,6 @@ class TrackersViewController: UIViewController {
         formatter.timeStyle = .none
         return formatter
     }()
-    
-   
     
     private var navBarTitleLabel: UILabel = {
         let label = UILabel()
@@ -113,7 +109,6 @@ class TrackersViewController: UIViewController {
     }
     
     @objc private func addtapped() {
-        print("addtapped")
         let trackerСreatingViewController = TrackerCreatingViewController()
         trackerСreatingViewController.delegate = self
         present(trackerСreatingViewController, animated: true)
@@ -141,11 +136,9 @@ class TrackersViewController: UIViewController {
                 }
                 return textCondition && dateCondition
             }
-            
             if trackers.isEmpty {
                 return nil
             }
-            
             return  TrackerCategory(
                 title: category.title,
                 trackers: trackers
@@ -156,7 +149,6 @@ class TrackersViewController: UIViewController {
     }
     
     private func showNothingWasFoundView() {
-        
         if !categories.isEmpty && visibleCategories.isEmpty {
             nothingWasFoundView.isHidden = false
         } else {
@@ -255,7 +247,6 @@ extension TrackersViewController: UICollectionViewDataSource {
         headerView.configureHeader(with: categoryForSection)
         return headerView
     }
-    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -291,23 +282,28 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: TrackersDelegate {
     func addedNew(tracker: Tracker, categoryTitle: String) {
-        if visibleCategories.isEmpty {
-            let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
-            visibleCategories.append(newCategory)
-        } else {
-            if let existingCategoryIndex = visibleCategories.firstIndex(where: { $0.title == categoryTitle }) {
-                var updatedTrackers = visibleCategories[existingCategoryIndex].trackers
-                updatedTrackers.append(tracker)
-                visibleCategories[existingCategoryIndex] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
-            } else {
-                let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
-                visibleCategories.append(newCategory)
-            }
-        }
-        self.trackers.append(tracker)
-        collectionView.reloadData()
-        dismiss(animated: true)
+        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
+        reloadVisibleCategories()
     }
+    
+    // func addedNew(tracker: Tracker, categoryTitle: String) {
+    //        if visibleCategories.isEmpty {
+    //            let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+    //            visibleCategories.append(newCategory)
+    //        } else {
+    //            if let existingCategoryIndex = visibleCategories.firstIndex(where: { $0.title == categoryTitle }) {
+    //                var updatedTrackers = visibleCategories[existingCategoryIndex].trackers
+    //                updatedTrackers.append(tracker)
+    //                visibleCategories[existingCategoryIndex] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
+    //            } else {
+    //                let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+    //                visibleCategories.append(newCategory)
+    //            }
+    //        }
+    //        self.trackers.append(tracker)
+    //        collectionView.reloadData()
+    //        dismiss(animated: true)
+    //}
 }
 
 // MARK: -TrackerCollectionViewCellDelegate

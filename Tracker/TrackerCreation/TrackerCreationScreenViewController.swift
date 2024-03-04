@@ -10,12 +10,14 @@ import UIKit
 class TrackerCreationScreenViewController: UIViewController {
     
     weak var trackerDelegate: TrackersDelegate?
-    
     weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
+    
+    private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
+    private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
     
     private var day: String?
     private var selectedDays: [WeekDay] = []
-     var newTracker: Tracker?
+    var newTracker: Tracker?
     private var trackers: [Tracker] = []
     
     private lazy var titleLabel: UILabel = {
@@ -37,7 +39,7 @@ class TrackerCreationScreenViewController: UIViewController {
     }()
     
     private lazy var textFieldForTrackerName: UITextField = {
-       let textField = UITextField()
+        let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .backgroundDay1
         textField.placeholder = "Введите название трекера"
@@ -45,7 +47,7 @@ class TrackerCreationScreenViewController: UIViewController {
         textField.font = UIFont.systemFont(ofSize: 22)
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         textField.textAlignment = .left
-
+        
         return textField
     }()
     
@@ -57,9 +59,6 @@ class TrackerCreationScreenViewController: UIViewController {
         tableView.backgroundColor = .systemGray5
         tableView.register(TrackerCreationCell.self, forCellReuseIdentifier: TrackerCreationCell.identifier)
         tableView.separatorStyle = .singleLine
-//        tableView.delegate = self
-//        tableView.dataSource = self
-
         return tableView
     }()
     
@@ -77,7 +76,7 @@ class TrackerCreationScreenViewController: UIViewController {
         button.layer.borderColor = UIColor.ypRed.cgColor
         return button
     }()
-
+    
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -91,13 +90,13 @@ class TrackerCreationScreenViewController: UIViewController {
         return button
     }()
     
-                let scheduleLabel: UILabel =  {
-                    let label = UILabel()
-                    label.font = .systemFont(ofSize: 17, weight: .regular)
-                    label.textColor = .ypGray
-                    label.translatesAutoresizingMaskIntoConstraints = false
-                    return label
-                }()
+    let scheduleLabel: UILabel =  {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.textColor = .ypGray
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     
     override func viewDidLoad() {
@@ -111,13 +110,13 @@ class TrackerCreationScreenViewController: UIViewController {
         createTrackerTableView.dataSource = self
         layout()
     }
-
+    
     func layout() {
         
         viewForTextFieldPlacement.addSubview(textFieldForTrackerName)
         view.addSubview(viewForTextFieldPlacement)
         view.addSubview(createTrackerTableView)
-
+        
         view.addSubview(createButton)
         view.addSubview(cancelButton)
         view.addSubview(titleLabel)
@@ -151,7 +150,7 @@ class TrackerCreationScreenViewController: UIViewController {
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             cancelButton.widthAnchor.constraint(equalToConstant: 160),
             cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-
+            
             createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             createButton.heightAnchor.constraint(equalToConstant: 60),
             createButton.widthAnchor.constraint(equalToConstant: 160),
@@ -163,19 +162,9 @@ class TrackerCreationScreenViewController: UIViewController {
         print(#function)
     }
     
-//    private func setSubTitle(_ subTitle: String?, forCellAt indexPath: IndexPath) {
-//        guard let cell = createTrackerTableView.cellForRow(at: indexPath) as? TrackerCreationCell else {
-//            return
-//        }
-//        cell.set(subText: subTitle)
-//    }
-    
-    private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
-    private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
-    
     @objc private func createButtonTapped() {
         guard let newTrackerName = textFieldForTrackerName.text, !newTrackerName.isEmpty else { return }
-        let newTracker = Tracker(id: UUID(), 
+        let newTracker = Tracker(id: UUID(),
                                  title: newTrackerName,
                                  color: myColors.randomElement() ?? .colorSelection3,
                                  emoji: myEmoji.randomElement() ?? "🌞",
@@ -186,7 +175,7 @@ class TrackerCreationScreenViewController: UIViewController {
     }
 }
 
-
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         2
@@ -201,23 +190,14 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
         if indexPath.row == 0 {
             cell.setTitles(with: "Категория", subtitle: "Важное")
         }  else if indexPath.row == 1 {
-           // cell.setTitle(with: "Расписание")
-            //cell.addSubview(scheduleLabel)
-            //scheduleLabel.text = day
-            //cell.setTitles(with: day ?? "Расписание", subtitle: <#String?#>)
-           // cell.subtitleLabel.text = "dddd" // сокр дни недели
             let schedule = selectedDays.isEmpty ? "" : selectedDays.map {
                 $0.shortForm
             }.joined(separator: ", ")
             cell.setTitles(with: "Расписание", subtitle: schedule)
         }
-      
+        
         cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         cell.selectionStyle = .none
-        
-        //cell.accessoryView = UIImageView(image: UIImage(named: "ypChevron"))
-//        let imageView = UIImageView(image: UIImage(named: "ypChevron"))
-//        cell.accessoryView = imageView
         return cell
     }
     
@@ -230,32 +210,31 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
             print("Категория")
             let vc = AddCategoryViewController()
             present(UINavigationController(rootViewController: vc), animated: true)
-        
+            
         } else if indexPath.row == 1 {
             let viewController = ScheduleViewController()
             viewController.delegate = self
             self.scheduleViewControllerdelegate?.daysWereChosen(self.selectedDays)
             present(viewController, animated: true, completion: nil)
         }
-    }   
+    }
 }
 
+// MARK: - UITextFieldDelegate
 extension TrackerCreationScreenViewController: UITextFieldDelegate {
     @objc private func textFieldDidChange(_ textField: UITextField) {
         print(#function)
     }
 }
 
+// MARK: - ScheduleViewControllerDelegate
 extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
     func daysWereChosen(_ selectedDays: [WeekDay]) {
         self.selectedDays = selectedDays
-     
         createTrackerTableView.reloadData()
     }
     
     func updateSchedule(_ selectedDays: [WeekDay]) {
-       day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
+        day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
     }
-    
-    
 }

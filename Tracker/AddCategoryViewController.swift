@@ -10,7 +10,7 @@ import UIKit
 class AddCategoryViewController: UIViewController {
     
     private let titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
         label.text = "Категория"

@@ -8,8 +8,6 @@
 import UIKit
 
 final class TrackersCollectionViewCell: UICollectionViewCell {
-    
-    //var count = 0
     weak var delegate: TrackerCollectionViewCellDelegate?
     
     private var trackersModel = [Tracker]()
@@ -99,37 +97,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         let image = isCompleted ? doneImage : plusImage
         markAsCompletedButton.setImage(image, for: .normal)
     }
-    
-//    @objc private func taskIsCompleted() {
-//        print(#function)
-//        switch markAsCompletedButton.imageView?.image {
-//        case UIImage(systemName: "plus"):
-//            self.markAsCompletedButton.setImage(UIImage(named: "Done"), for: .normal)
-//           // count += 1
-//        case UIImage(named: "Done"):
-//            self.markAsCompletedButton.setImage(UIImage(systemName: "plus"), for: .normal)
-//         //   count -= 1
-//        default:
-//            break
-//        }
-//        
-//     
-//        
-//        //        let indexPath = IndexPath(row: 0, section: 0)
-//        //        var trackers = [Tracker]()
-//        //        var tracker = trackers[indexPath.item]
-//        //        let currentDate = Date()
-//        
-//        //        if count == 1 || count == 21 || count == 31 || count == 41 {
-//        //            self.daysCounterLabel.text = "\(count) день"
-//        //        } else if
-//        //               count == 2 || count == 3 || count == 4 {
-//        //            self.daysCounterLabel.text = "\(count) дня"
-//        //           } else {
-//        //               self.daysCounterLabel.text = "\(count) дней"
-//        //        }
-//        
-//    }
     
     @objc private func trackerButtonTapped() {
         guard let trackerId = trackerId, let indexPath = indexPath else {

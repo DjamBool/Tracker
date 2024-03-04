@@ -162,10 +162,10 @@
 		30CC25482B235A02009791FC /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				30CC24A82B15E4F4009791FC /* TrackersViewController.swift */,
 				30CC25462B224907009791FC /* HeaderView.swift */,
 				30CC25222B20B0BC009791FC /* TrackersCollectionViewCell.swift */,
 				30CC251E2B1FA069009791FC /* TrackerCreatingViewController.swift */,
-				30CC24A82B15E4F4009791FC /* TrackersViewController.swift */,
 				30338CD42B8E11C1006FEED5 /* WhatWillWeTrackView.swift */,
 				30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */,
 			);

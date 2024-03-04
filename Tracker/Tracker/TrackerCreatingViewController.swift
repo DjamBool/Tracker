@@ -8,7 +8,7 @@
 import UIKit
 
 class TrackerCreatingViewController: UIViewController {
-
+    
     weak var delegate: TrackersDelegate?
     
     private lazy var titleLabel: UILabel = {
@@ -22,7 +22,7 @@ class TrackerCreatingViewController: UIViewController {
     }()
     
     private lazy var createAHabit: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.backgroundColor = .ypBlack
@@ -33,18 +33,18 @@ class TrackerCreatingViewController: UIViewController {
     }()
     
     private lazy var createIrregularEvents: UIButton = {
-       let button = UIButton()
-         button.setTitle("Нерегулярное событие", for: .normal)
-         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
-         button.backgroundColor = .ypBlack
-         button.layer.cornerRadius = 16
-         button.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
-         button.translatesAutoresizingMaskIntoConstraints = false
+        let button = UIButton()
+        button.setTitle("Нерегулярное событие", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        button.backgroundColor = .ypBlack
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
@@ -57,7 +57,6 @@ class TrackerCreatingViewController: UIViewController {
         view.backgroundColor = .white
         layoutSubviews()
     }
-  
     
     @objc private func createNewHabit() {
         print(#function)
@@ -66,11 +65,8 @@ class TrackerCreatingViewController: UIViewController {
         present(viewController, animated: true, completion: nil)
     }
     
-   
     @objc private func createNewEvent() {
         print(#function)
-       
-
     }
     
     private func layoutSubviews() {
@@ -94,9 +90,9 @@ class TrackerCreatingViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             
             createAHabit.heightAnchor.constraint(equalToConstant: 60),
-
+            
             createIrregularEvents.heightAnchor.constraint(equalToConstant: 60)
-            ])
+        ])
     }
 }
 

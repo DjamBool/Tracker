@@ -35,7 +35,6 @@ final class WhatWillWeTrackView: UIView {
     }
     
     private func setupViews() {
-        
         [starImage, whatWillWeTrackLabel].forEach { self.addSubview($0)
         }
         NSLayoutConstraint.activate([
@@ -50,5 +49,4 @@ final class WhatWillWeTrackView: UIView {
             whatWillWeTrackLabel.heightAnchor.constraint(equalToConstant: 18)
         ])
     }
-    
 }

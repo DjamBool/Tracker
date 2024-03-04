@@ -8,7 +8,7 @@
 import UIKit
 
 class TrackerCreationCell: UITableViewCell {
-
+    
     static let id = "TrackerCreationCell"
     
     private lazy var titleLabel: UILabel = {
@@ -18,7 +18,7 @@ class TrackerCreationCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         return label
     }()
-
+    
     let subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,14 +36,14 @@ class TrackerCreationCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-      layoutViews()
+        layoutViews()
         
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     private func layoutViews() {
         titleLabel.addSubview(ypChevronlImage)
         titleLabel.addSubview(subtitleLabel)

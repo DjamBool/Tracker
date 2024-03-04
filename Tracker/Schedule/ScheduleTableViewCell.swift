@@ -13,7 +13,7 @@ class ScheduleTableViewCell: UITableViewCell {
     private var weekDay: WeekDay?
     
     let label: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = UIColor.black
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
@@ -21,13 +21,13 @@ class ScheduleTableViewCell: UITableViewCell {
     }()
     
     private lazy var toggle: UISwitch = {
-       let toggle = UISwitch()
+        let toggle = UISwitch()
         toggle.translatesAutoresizingMaskIntoConstraints = false
         toggle.onTintColor = .colorSelection3
         toggle.addTarget(self, action: #selector(toggleSwitch), for: .valueChanged)
         return toggle
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(toggle)
@@ -55,7 +55,6 @@ class ScheduleTableViewCell: UITableViewCell {
     
     func layout() {
         NSLayoutConstraint.activate([
-            
             label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             label.heightAnchor.constraint(equalToConstant: 22),
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

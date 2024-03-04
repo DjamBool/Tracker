@@ -10,9 +10,7 @@ import UIKit
 final class ScheduleViewController: UIViewController {
     
     weak var delegate: ScheduleViewControllerDelegate?
-    
     private var selectedDays: Set<WeekDay> = []
-    
     private lazy var navBarLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +20,7 @@ final class ScheduleViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
-
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,62 +62,47 @@ final class ScheduleViewController: UIViewController {
             navBarLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navBarLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             navBarLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
-//            navBarLabel.heightAnchor.constraint(equalToConstant: 102),
             navBarLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-
+            
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             tableView.topAnchor.constraint(equalTo: navBarLabel.bottomAnchor, constant: 25),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 525),
             
             doneButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-           // doneButton.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 24),
             doneButton.heightAnchor.constraint(equalToConstant: 60),
             doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             doneButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-            
         ])
-        
     }
     
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
     }
     
-//    @objc private func createButtonTapped() {
-//        print(#function)
-//    }
-//    
     @objc private func doneButtonTapped() {
         let weekDays = Array(selectedDays)
         delegate?.daysWereChosen(weekDays)
         print(weekDays.count)
         print(#function)
         dismiss(animated: true)
-   
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
-   
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         7
     }
     
-    func tableView(_ tableView: UITableView, 
+    func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: ScheduleTableViewCell.identifier, for: indexPath) as? ScheduleTableViewCell else {
             fatalError("Could not cast to ScheduleTableViewCell")
         }
         let day = WeekDay.allCases[indexPath.row]
-//        cell.label.text = day.rawValue
-//        cell.label.textColor = .black
-//        cell.selectionStyle = .none
-//        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-//        cell.delegate = self
-//        return cell
         cell.configureCell(weekDay: day, isOn: selectedDays.contains(day))
         cell.delegate = self
         return cell
@@ -130,6 +113,8 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - ScheduleCellDelegate
+
 extension ScheduleViewController: ScheduleCellDelegate {
     func toggleWasSwitched(to isOn: Bool, for weekDay: WeekDay) {
         if isOn {
@@ -137,6 +122,6 @@ extension ScheduleViewController: ScheduleCellDelegate {
         } else {
             selectedDays.remove(weekDay)
         }
-      
+        
     }
 }

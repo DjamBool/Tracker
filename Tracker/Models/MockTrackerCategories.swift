@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
- var mockCategories: [TrackerCategory] = [
+var mockCategories: [TrackerCategory] = [
     TrackerCategory(title: "Home",
                     trackers: [Tracker(id: UUID(),
                                        title: "Поливать растения",
@@ -28,4 +28,4 @@ import UIKit
                                        emoji: "💼",
                                        schedule: [.monday, .wednesday, .friday])
                     ])
- ]
+]
