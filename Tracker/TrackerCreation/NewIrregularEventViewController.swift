@@ -39,7 +39,7 @@ class NewIrregularEventViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.placeholder = "Введите название события"
         textField.font = UIFont.systemFont(ofSize: 17)
-      textField.delegate = self
+        textField.delegate = self
         textField.textAlignment = .left
         textField.backgroundColor = .clear
         return textField
@@ -71,7 +71,7 @@ class NewIrregularEventViewController: UIViewController {
         button.layer.borderColor = UIColor.ypRed.cgColor
         return button
     }()
-
+    
     private lazy var createButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -81,7 +81,7 @@ class NewIrregularEventViewController: UIViewController {
                                                     weight: .medium)
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
-      button.backgroundColor = .ypGray
+        button.backgroundColor = .ypGray
         return button
     }()
     
@@ -111,7 +111,7 @@ class NewIrregularEventViewController: UIViewController {
         guard let newTrackerName = eventNameTextField.text, !newTrackerName.isEmpty else { return }
         let currentDate = Date()
         let weekDay = Calendar.current.component(.weekday, from: currentDate) - 1
-      //  let sss =  Calendar.current.component(.day, from: currentDate)
+        //  let sss =  Calendar.current.component(.day, from: currentDate)
         let dateForEvent = WeekDay.allCases.filter { day in
             if weekDay > 0 {
                 day == WeekDay.allCases[weekDay - 1]
@@ -125,8 +125,8 @@ class NewIrregularEventViewController: UIViewController {
                                  color: myColors.randomElement() ?? .colorSelection3,
                                  emoji: myEmoji.randomElement() ?? "🌞",
                                  schedule: dateForEvent)
-            delegate?.addedNew(tracker: newTracker, categoryTitle: "Irregular")
-    dismiss(animated: true)
+        delegate?.addedNew(tracker: newTracker, categoryTitle: "Irregular")
+        dismiss(animated: true)
     }
     
     func layout() {
@@ -138,7 +138,7 @@ class NewIrregularEventViewController: UIViewController {
         view.addSubview(stackView)
         
         [cancelButton, createButton].forEach { stackView.addArrangedSubview($0) }
-
+        
         NSLayoutConstraint.activate([
             
             navBarLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -146,7 +146,7 @@ class NewIrregularEventViewController: UIViewController {
             navBarLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
             navBarLabel.heightAnchor.constraint(equalToConstant: 22),
             navBarLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                       
+            
             viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             viewForTextFieldPlacement.topAnchor.constraint(equalTo: view.topAnchor, constant: 126),
             viewForTextFieldPlacement.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
@@ -195,9 +195,9 @@ extension NewIrregularEventViewController: UITableViewDelegate, UITableViewDataS
         cell.setTitles(subtitle: "Event")
         return cell
     }
-        func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return 75
-        }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
 }
 
 extension NewIrregularEventViewController {

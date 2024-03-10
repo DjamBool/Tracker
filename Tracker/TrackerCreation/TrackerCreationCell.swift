@@ -8,8 +8,8 @@
 import UIKit
 
 class TrackerCreationCell: UITableViewCell {
-        
-     let titleLabel: UILabel = {
+    
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 17)
@@ -37,7 +37,7 @@ class TrackerCreationCell: UITableViewCell {
     private func layoutViews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
-
+        
         NSLayoutConstraint.activate([
             
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),

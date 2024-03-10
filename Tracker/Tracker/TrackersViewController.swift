@@ -4,7 +4,6 @@ import UIKit
 class TrackersViewController: UIViewController {
     
     private var categories: [TrackerCategory] = []
-  //  private var trackers = [Tracker]()
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
     var currentDate: Date = Date()
@@ -62,7 +61,6 @@ class TrackersViewController: UIViewController {
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        //collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
         return collectionView
     }()
     
@@ -293,30 +291,30 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - TrackersDelegate
 
 extension TrackersViewController: TrackersDelegate {
-//    func addedNew(tracker: Tracker, categoryTitle: String) {
-//        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
-//        dismiss(animated: true)
-//        reloadVisibleCategories()
-//    }
+    //    func addedNew(tracker: Tracker, categoryTitle: String) {
+    //        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
+    //        dismiss(animated: true)
+    //        reloadVisibleCategories()
+    //    }
     
     //------------------------------------------------------
     
-     func addedNew(tracker: Tracker, categoryTitle: String) {
-            if categories.isEmpty {
+    func addedNew(tracker: Tracker, categoryTitle: String) {
+        if categories.isEmpty {
+            let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+            categories.append(newCategory)
+        } else {
+            if let index = categories.firstIndex(where: { $0.title == categoryTitle }) {
+                var updatedTrackers = categories[index].trackers
+                updatedTrackers.append(tracker)
+                categories[index] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
+            } else {
                 let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
                 categories.append(newCategory)
-            } else {
-                if let index = categories.firstIndex(where: { $0.title == categoryTitle }) {
-                    var updatedTrackers = categories[index].trackers
-                    updatedTrackers.append(tracker)
-                    categories[index] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
-                } else {
-                    let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
-                    categories.append(newCategory)
-                }
             }
-            dismiss(animated: true)
-         reloadVisibleCategories()
+        }
+        dismiss(animated: true)
+        reloadVisibleCategories()
     }
 }
 

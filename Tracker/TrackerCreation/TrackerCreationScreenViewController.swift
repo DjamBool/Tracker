@@ -226,7 +226,7 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
 extension TrackerCreationScreenViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-       // reloadVisibleCategories()
+        // reloadVisibleCategories()
         switchCreateButton()
         return true
     }
@@ -236,7 +236,7 @@ extension TrackerCreationScreenViewController: UITextFieldDelegate {
 extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
     func daysWereChosen(_ selectedDays: [WeekDay]) {
         self.selectedDays = selectedDays
-switchCreateButton()
+        switchCreateButton()
         createTrackerTableView.reloadData()
     }
     
@@ -249,12 +249,12 @@ switchCreateButton()
 extension TrackerCreationScreenViewController {
     private func switchCreateButton() {
         if let trackerName = textFieldForTrackerName.text, !trackerName.isEmpty, !selectedDays.isEmpty {
-                createButton.isEnabled = true
-                createButton.backgroundColor = .ypBlack
-            } else {
-                createButton.isEnabled = false
-                createButton.backgroundColor = .ypGray
-            }
+            createButton.isEnabled = true
+            createButton.backgroundColor = .ypBlack
+        } else {
+            createButton.isEnabled = false
+            createButton.backgroundColor = .ypGray
         }
     }
+}
 
