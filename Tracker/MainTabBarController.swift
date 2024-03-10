@@ -21,6 +21,8 @@ class MainTabBarController: UITabBarController {
     func makeTabBar() {
         viewControllers = [createController(title: "Трекеры", imageName: "trackers", vc: trackersVC), createController(title: "Cтатистика", imageName: "stats", vc: statsVC)]
         tabBar.barTintColor = .white
+        tabBar.layer.borderWidth = 1
+        tabBar.layer.borderColor = UIColor.systemGray5.cgColor
     }
     
     private func createController(title: String, imageName: String, vc: UIViewController) -> UINavigationController {

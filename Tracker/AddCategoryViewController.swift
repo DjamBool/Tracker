@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddCategoryViewController: UIViewController {
+final class AddCategoryViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()

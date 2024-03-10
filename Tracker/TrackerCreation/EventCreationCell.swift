@@ -1,14 +1,14 @@
 //
-//  TrackerCreationCell.swift
+//  EventCreationCell.swift
 //  Tracker
 //
-//  Created by Игорь Мунгалов on 12.12.2023.
+//  Created by Игорь Мунгалов on 06.03.2024.
 //
 
 import UIKit
 
-class TrackerCreationCell: UITableViewCell {
-        
+class EventCreationCell: UITableViewCell {
+
      let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +41,7 @@ class TrackerCreationCell: UITableViewCell {
         NSLayoutConstraint.activate([
             
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15), 
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
@@ -71,5 +71,3 @@ class TrackerCreationCell: UITableViewCell {
         }
     }
 }
-
-

@@ -26,11 +26,11 @@ final class HeaderView: UICollectionReusableView {
         
         NSLayoutConstraint.activate([
             
-            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -143),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 18)
+            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 12),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -12),
+           // titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            titleLabel.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
     

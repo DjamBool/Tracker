@@ -4,9 +4,10 @@ import UIKit
 class TrackersViewController: UIViewController {
     
     private var categories: [TrackerCategory] = []
-    private var trackers = [Tracker]()
+  //  private var trackers = [Tracker]()
     private var visibleCategories: [TrackerCategory] = []
     private var completedTrackers: [TrackerRecord] = []
+    var currentDate: Date = Date()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -47,6 +48,7 @@ class TrackersViewController: UIViewController {
         let textField = UISearchTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Поиск"
+        textField.backgroundColor = .ypLightGray
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.delegate = self
         return textField
@@ -60,7 +62,7 @@ class TrackersViewController: UIViewController {
         collectionView.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HeaderView.identifier)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
+        //collectionView.contentInset = UIEdgeInsets(top: 6, left: 16, bottom: 24, right: 16)
         return collectionView
     }()
     
@@ -90,6 +92,10 @@ class TrackersViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
     private func makeAddTrackerButton() {
@@ -108,6 +114,10 @@ class TrackersViewController: UIViewController {
         dateChanged()
     }
     
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc private func addtapped() {
         let trackerСreatingViewController = TrackerCreatingViewController()
         trackerСreatingViewController.delegate = self
@@ -120,7 +130,8 @@ class TrackersViewController: UIViewController {
     
     private func reloadVisibleCategories() {
         let calendar = Calendar.current
-        let filterWeekDay = calendar.component(.weekday, from: datePicker.date) - 1
+        currentDate = datePicker.date
+        let filterWeekDay = calendar.component(.weekday, from: currentDate) - 1
         let filterText = (searchTextField.text ?? "").lowercased()
         
         visibleCategories = categories.compactMap { category in
@@ -168,9 +179,9 @@ class TrackersViewController: UIViewController {
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             searchTextField.heightAnchor.constraint(equalToConstant: 36),
             
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 24),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 10),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             whatWillWeTrackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -199,7 +210,7 @@ extension TrackersViewController: UICollectionViewDataSource {
             whatWillWeTrackView.isHidden = false
         }
         else {
-            whatWillWeTrackView.isHidden = true
+            whatWillWeTrackView.isHidden = !visibleCategories.isEmpty
         }
         return visibleCategories[section].trackers.count
     }
@@ -226,7 +237,6 @@ extension TrackersViewController: UICollectionViewDataSource {
     private func isTrackerCompletedToday (id: UUID) -> Bool {
         completedTrackers.contains { trackerRecord in
             isSameTracker(trackerRecord: trackerRecord, id: id)
-            
         }
     }
     
@@ -242,7 +252,8 @@ extension TrackersViewController: UICollectionViewDataSource {
         guard let headerView = collectionView.dequeueReusableSupplementaryView(
             ofKind: kind,
             withReuseIdentifier: HeaderView.identifier,
-            for: indexPath) as? HeaderView else {  fatalError("Error in converting to a HeaderView") }
+            for: indexPath) as? HeaderView else { fatalError("Error in converting to a HeaderView")
+        }
         let categoryForSection = visibleCategories[indexPath.section]
         headerView.configureHeader(with: categoryForSection)
         return headerView
@@ -261,19 +272,20 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 167, height: 148)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 9
+        
+        let interItemSpacing: CGFloat = 10
+        let height: CGFloat = 148
+        let width = (collectionView.bounds.width - interItemSpacing) / 2
+        
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10,
+        return UIEdgeInsets(top: 12,
                             left: 0,
-                            bottom: 16,
+                            bottom: 0,
                             right: 0)
     }
 }
@@ -281,29 +293,31 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - TrackersDelegate
 
 extension TrackersViewController: TrackersDelegate {
-    func addedNew(tracker: Tracker, categoryTitle: String) {
-        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
-        reloadVisibleCategories()
-    }
+//    func addedNew(tracker: Tracker, categoryTitle: String) {
+//        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
+//        dismiss(animated: true)
+//        reloadVisibleCategories()
+//    }
     
-    // func addedNew(tracker: Tracker, categoryTitle: String) {
-    //        if visibleCategories.isEmpty {
-    //            let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
-    //            visibleCategories.append(newCategory)
-    //        } else {
-    //            if let existingCategoryIndex = visibleCategories.firstIndex(where: { $0.title == categoryTitle }) {
-    //                var updatedTrackers = visibleCategories[existingCategoryIndex].trackers
-    //                updatedTrackers.append(tracker)
-    //                visibleCategories[existingCategoryIndex] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
-    //            } else {
-    //                let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
-    //                visibleCategories.append(newCategory)
-    //            }
-    //        }
-    //        self.trackers.append(tracker)
-    //        collectionView.reloadData()
-    //        dismiss(animated: true)
-    //}
+    //------------------------------------------------------
+    
+     func addedNew(tracker: Tracker, categoryTitle: String) {
+            if categories.isEmpty {
+                let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+                categories.append(newCategory)
+            } else {
+                if let index = categories.firstIndex(where: { $0.title == categoryTitle }) {
+                    var updatedTrackers = categories[index].trackers
+                    updatedTrackers.append(tracker)
+                    categories[index] = TrackerCategory(title: categoryTitle, trackers: updatedTrackers)
+                } else {
+                    let newCategory = TrackerCategory(title: categoryTitle, trackers: [tracker])
+                    categories.append(newCategory)
+                }
+            }
+            dismiss(animated: true)
+         reloadVisibleCategories()
+    }
 }
 
 // MARK: -TrackerCollectionViewCellDelegate

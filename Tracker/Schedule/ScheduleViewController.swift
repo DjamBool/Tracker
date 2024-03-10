@@ -26,7 +26,8 @@ final class ScheduleViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
         tableView.layer.cornerRadius = 16
-        tableView.backgroundColor = .ypGray.withAlphaComponent(0.3)
+        tableView.backgroundColor = .backgroundDay1
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -105,6 +106,11 @@ extension ScheduleViewController: UITableViewDelegate, UITableViewDataSource {
         let day = WeekDay.allCases[indexPath.row]
         cell.configureCell(weekDay: day, isOn: selectedDays.contains(day))
         cell.delegate = self
+        if indexPath.row == WeekDay.allCases.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
         return cell
     }
     

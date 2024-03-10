@@ -66,7 +66,10 @@ class TrackerCreatingViewController: UIViewController {
     }
     
     @objc private func createNewEvent() {
-        print(#function)
+        let viewController = NewIrregularEventViewController()
+        viewController.delegate = self.delegate
+        present(viewController, animated: true)
+        print("#function")
     }
     
     private func layoutSubviews() {

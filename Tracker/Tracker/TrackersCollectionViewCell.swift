@@ -15,6 +15,9 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     private var trackerId: UUID?
     private var indexPath: IndexPath?
     
+    private let plusImage = UIImage(systemName: "plus")
+    private let doneImage = UIImage(named: "Done")
+    
     private var trackerBackgroundView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -47,16 +50,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        
         label.text = "0 days"
-        
         return label
     }()
     
-    private let plusImage = UIImage(systemName: "plus")
-    private let doneImage = UIImage(named: "Done")
-    
-    private lazy var markAsCompletedButton: UIButton = {
+    private lazy var trackerButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(plusImage, for: .normal)
@@ -89,13 +87,13 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         trackerBackgroundView.backgroundColor = tracker.color
         trackerNameLabel.text = tracker.title
         emojiLabel.text = tracker.emoji
-        markAsCompletedButton.backgroundColor = tracker.color
+        trackerButton.backgroundColor = tracker.color
         
         let counterText = convertCompletedDays(completedDays: completedDays)
         daysCounterLabel.text = counterText
         
         let image = isCompleted ? doneImage : plusImage
-        markAsCompletedButton.setImage(image, for: .normal)
+        trackerButton.setImage(image, for: .normal)
     }
     
     @objc private func trackerButtonTapped() {
@@ -128,7 +126,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     private func addSubviews() {
         contentView.addSubview(trackerBackgroundView)
         contentView.addSubview(daysCounterLabel)
-        contentView.addSubview(markAsCompletedButton)
+        contentView.addSubview(trackerButton)
         
         trackerBackgroundView.addSubview(emojiLabel)
         trackerBackgroundView.addSubview(trackerNameLabel)
@@ -156,10 +154,10 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             daysCounterLabel.widthAnchor.constraint(equalToConstant: 101),
             daysCounterLabel.heightAnchor.constraint(equalToConstant: 18),
             
-            markAsCompletedButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
-            markAsCompletedButton.topAnchor.constraint(equalTo: trackerBackgroundView.bottomAnchor, constant: 8),
-            markAsCompletedButton.widthAnchor.constraint(equalToConstant: 34),
-            markAsCompletedButton.heightAnchor.constraint(equalToConstant: 34)
+            trackerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            trackerButton.topAnchor.constraint(equalTo: trackerBackgroundView.bottomAnchor, constant: 8),
+            trackerButton.widthAnchor.constraint(equalToConstant: 34),
+            trackerButton.heightAnchor.constraint(equalToConstant: 34)
             
         ])
     }

@@ -12,9 +12,6 @@ class TrackerCreationScreenViewController: UIViewController {
     weak var trackerDelegate: TrackersDelegate?
     weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
     
-    private var myColors: [UIColor] = [.ypRed, .yellow, .green, .blue]
-    private var myEmoji: [String] = ["🐸", "🐳", "🍀", "🎲"]
-    
     private var day: String?
     private var selectedDays: [WeekDay] = []
     var newTracker: Tracker?
@@ -33,7 +30,7 @@ class TrackerCreationScreenViewController: UIViewController {
     private lazy var viewForTextFieldPlacement: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray5
+        view.backgroundColor = .backgroundDay1
         view.layer.cornerRadius = 16
         return view
     }()
@@ -41,11 +38,10 @@ class TrackerCreationScreenViewController: UIViewController {
     private lazy var textFieldForTrackerName: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .backgroundDay1
+        textField.returnKeyType = .done
+        textField.clearButtonMode = .whileEditing
         textField.placeholder = "Введите название трекера"
-        textField.textColor = .ypBlack
-        textField.font = UIFont.systemFont(ofSize: 22)
-        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        textField.font = UIFont.systemFont(ofSize: 17)
         textField.textAlignment = .left
         
         return textField
@@ -54,11 +50,11 @@ class TrackerCreationScreenViewController: UIViewController {
     private let createTrackerTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .ypGray
+        tableView.layer.masksToBounds = true
+        tableView.backgroundColor = .backgroundDay1
         tableView.layer.cornerRadius = 16
-        tableView.backgroundColor = .systemGray5
         tableView.register(TrackerCreationCell.self, forCellReuseIdentifier: TrackerCreationCell.identifier)
-        tableView.separatorStyle = .singleLine
+        tableView.isScrollEnabled = false
         return tableView
     }()
     
@@ -90,6 +86,15 @@ class TrackerCreationScreenViewController: UIViewController {
         return button
     }()
     
+    lazy var stackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 8
+        stack.distribution = .fillEqually
+        return stack
+    }()
+    
     let scheduleLabel: UILabel =  {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
@@ -116,11 +121,10 @@ class TrackerCreationScreenViewController: UIViewController {
         viewForTextFieldPlacement.addSubview(textFieldForTrackerName)
         view.addSubview(viewForTextFieldPlacement)
         view.addSubview(createTrackerTableView)
-        
-        view.addSubview(createButton)
-        view.addSubview(cancelButton)
+        view.addSubview(stackView)
         view.addSubview(titleLabel)
         
+        [cancelButton, createButton].forEach { stackView.addArrangedSubview($0) }
         NSLayoutConstraint.activate([
             
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -146,15 +150,10 @@ class TrackerCreationScreenViewController: UIViewController {
             createTrackerTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             createTrackerTableView.heightAnchor.constraint(equalToConstant: 150),
             
-            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            cancelButton.widthAnchor.constraint(equalToConstant: 160),
-            cancelButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34),
-            
-            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            createButton.heightAnchor.constraint(equalToConstant: 60),
-            createButton.widthAnchor.constraint(equalToConstant: 160),
-            createButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -34)
+            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+            stackView.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
     @objc private func cancelButtonTapped() {
@@ -170,7 +169,6 @@ class TrackerCreationScreenViewController: UIViewController {
                                  emoji: myEmoji.randomElement() ?? "🌞",
                                  schedule: self.selectedDays)
         trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: "Важное")
-        print("days: \(String(describing: newTracker.schedule.count))")
         dismiss(animated: true)
     }
 }
@@ -182,21 +180,25 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackerCreationCell.id, for: indexPath) as? TrackerCreationCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TrackerCreationCell.identifier, for: indexPath) as? TrackerCreationCell else {
             assertionFailure("Error of casting to TrackerCreationCell")
             return UITableViewCell()
         }
-        
+        cell.accessoryType = .disclosureIndicator
+        cell.backgroundColor = .backgroundDay1
+        cell.selectionStyle = .none
         if indexPath.row == 0 {
-            cell.setTitles(with: "Категория", subtitle: "Важное")
+            cell.titleLabel.text = "Категория"
+            cell.setTitles(subtitle: "Важное")
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }  else if indexPath.row == 1 {
             let schedule = selectedDays.isEmpty ? "" : selectedDays.map {
                 $0.shortForm
             }.joined(separator: ", ")
-            cell.setTitles(with: "Расписание", subtitle: schedule)
+            cell.titleLabel.text = "Расписание"
+            cell.setTitles(subtitle: schedule)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }
-        
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         cell.selectionStyle = .none
         return cell
     }
@@ -222,8 +224,11 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
 
 // MARK: - UITextFieldDelegate
 extension TrackerCreationScreenViewController: UITextFieldDelegate {
-    @objc private func textFieldDidChange(_ textField: UITextField) {
-        print(#function)
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+       // reloadVisibleCategories()
+        switchCreateButton()
+        return true
     }
 }
 
@@ -231,6 +236,7 @@ extension TrackerCreationScreenViewController: UITextFieldDelegate {
 extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
     func daysWereChosen(_ selectedDays: [WeekDay]) {
         self.selectedDays = selectedDays
+switchCreateButton()
         createTrackerTableView.reloadData()
     }
     
@@ -238,3 +244,17 @@ extension TrackerCreationScreenViewController: ScheduleViewControllerDelegate {
         day = selectedDays.map { $0.shortForm }.joined(separator: ", ")
     }
 }
+
+
+extension TrackerCreationScreenViewController {
+    private func switchCreateButton() {
+        if let trackerName = textFieldForTrackerName.text, !trackerName.isEmpty, !selectedDays.isEmpty {
+                createButton.isEnabled = true
+                createButton.backgroundColor = .ypBlack
+            } else {
+                createButton.isEnabled = false
+                createButton.backgroundColor = .ypGray
+            }
+        }
+    }
+
