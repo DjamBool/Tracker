@@ -17,6 +17,18 @@ class TrackerCreationScreenViewController: UIViewController {
     var newTracker: Tracker?
     private var trackers: [Tracker] = []
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -103,6 +115,14 @@ class TrackerCreationScreenViewController: UIViewController {
         return label
     }()
     
+    lazy var trackerFeaturesCollectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.isScrollEnabled = false
+        collectionView.register(TrackerFeaturesCell.self, forCellWithReuseIdentifier: TrackerFeaturesCell.identifier)
+        
+        return collectionView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,47 +133,89 @@ class TrackerCreationScreenViewController: UIViewController {
         textFieldForTrackerName.delegate = self
         createTrackerTableView.delegate = self
         createTrackerTableView.dataSource = self
+        
+        trackerFeaturesCollectionView.dataSource = self
+        trackerFeaturesCollectionView.delegate = self
+        
         layout()
     }
     
     func layout() {
         
-        viewForTextFieldPlacement.addSubview(textFieldForTrackerName)
-        view.addSubview(viewForTextFieldPlacement)
-        view.addSubview(createTrackerTableView)
-        view.addSubview(stackView)
-        view.addSubview(titleLabel)
+        scrollView.addSubview(contentView)
+        view.addSubview(scrollView)
         
-        [cancelButton, createButton].forEach { stackView.addArrangedSubview($0) }
+        viewForTextFieldPlacement.addSubview(textFieldForTrackerName)
+        [cancelButton, createButton].forEach { stackView.addArrangedSubview($0)
+        
+        [titleLabel, viewForTextFieldPlacement, createTrackerTableView, trackerFeaturesCollectionView, stackView].forEach { contentView.addSubview($0)
+        }
+        
+        //-------------
+//        view.addSubview(viewForTextFieldPlacement)
+//        view.addSubview(createTrackerTableView)
+//        view.addSubview(stackView)
+//        view.addSubview(titleLabel)
+//        
+//        view.addSubview(trackerFeaturesCollectionView)
+        //-------------
+        
+         }
         NSLayoutConstraint.activate([
             
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            contentView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
             
             scheduleLabel.widthAnchor.constraint(equalToConstant: 150),
             scheduleLabel.heightAnchor.constraint(equalToConstant: 17),
             
-            viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            viewForTextFieldPlacement.topAnchor.constraint(equalTo: view.topAnchor, constant: 126),
-            viewForTextFieldPlacement.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            viewForTextFieldPlacement.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
+            viewForTextFieldPlacement.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             viewForTextFieldPlacement.heightAnchor.constraint(equalToConstant: 75),
             
             textFieldForTrackerName.leadingAnchor.constraint(equalTo: viewForTextFieldPlacement.leadingAnchor, constant: 16),
             textFieldForTrackerName.centerYAnchor.constraint(equalTo: viewForTextFieldPlacement.centerYAnchor),
             textFieldForTrackerName.trailingAnchor.constraint(equalTo: viewForTextFieldPlacement.trailingAnchor),
             
-            createTrackerTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            createTrackerTableView.topAnchor.constraint(equalTo: textFieldForTrackerName.bottomAnchor, constant: 50),
-            createTrackerTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            createTrackerTableView.leadingAnchor.constraint(equalTo: viewForTextFieldPlacement.leadingAnchor),
+            createTrackerTableView.topAnchor.constraint(equalTo: viewForTextFieldPlacement.bottomAnchor, constant: 24),
+            createTrackerTableView.trailingAnchor.constraint(equalTo: viewForTextFieldPlacement.trailingAnchor),
             createTrackerTableView.heightAnchor.constraint(equalToConstant: 150),
             
-            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+          //  trackerFeaturesCollectionView
+            trackerFeaturesCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            trackerFeaturesCollectionView.topAnchor.constraint(equalTo: createTrackerTableView.bottomAnchor, constant: 32),
+            trackerFeaturesCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            trackerFeaturesCollectionView.heightAnchor.constraint(equalToConstant: 230),
+       //----------------
+//            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+//            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+//            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
+//            stackView.heightAnchor.constraint(equalToConstant: 60),
+//            stackView.topAnchor.constraint(equalTo: trackerFeaturesCollectionView.bottomAnchor, constant: 16)
+        //------------------
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),
             stackView.heightAnchor.constraint(equalToConstant: 60)
+            
+            
+            
         ])
     }
     @objc private func cancelButtonTapped() {
@@ -258,3 +320,57 @@ extension TrackerCreationScreenViewController {
     }
 }
 
+// MARK: - UICollectionViewDataSource
+extension TrackerCreationScreenViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1//2
+    }
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
+//        if section == 0 {
+//            return emojis.count
+//        } else if section == 1 {
+            return colors.count
+//        }
+       // return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, 
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerFeaturesCell.identifier, for: indexPath) as? TrackerFeaturesCell else { assertionFailure("Error casting to TrackerFeaturesCell")
+            return UICollectionViewCell()
+        }
+//        if indexPath.section == 0 {
+//            let emoji = emojis[indexPath.row]
+//            cell.view.backgroundColor = .brown
+//        } else if indexPath.section == 1 {
+            let color = colors[indexPath.row]
+            cell.view.backgroundColor = color
+       // }
+    return cell
+    }
+    
+    
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 52, height: 52)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 24, left: 18, bottom: 40, right: 18)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+}

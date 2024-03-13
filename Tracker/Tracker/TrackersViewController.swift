@@ -291,13 +291,6 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - TrackersDelegate
 
 extension TrackersViewController: TrackersDelegate {
-    //    func addedNew(tracker: Tracker, categoryTitle: String) {
-    //        categories.append(TrackerCategory(title: categoryTitle, trackers: [tracker]))
-    //        dismiss(animated: true)
-    //        reloadVisibleCategories()
-    //    }
-    
-    //------------------------------------------------------
     
     func addedNew(tracker: Tracker, categoryTitle: String) {
         if categories.isEmpty {
