@@ -62,7 +62,9 @@ class TrackerCreatingViewController: UIViewController {
         print(#function)
         let viewController = TrackerCreationScreenViewController()
         viewController.trackerDelegate = self.delegate
-        present(viewController, animated: true, completion: nil)
+        let navVC = UINavigationController(rootViewController: viewController)
+        //present(viewController, animated: true, completion: nil)
+        present(navVC, animated: true, completion: nil)
     }
     
     @objc private func createNewEvent() {
