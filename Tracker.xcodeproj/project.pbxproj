@@ -43,6 +43,9 @@
 		30CC25232B20B0BC009791FC /* TrackersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC25222B20B0BC009791FC /* TrackersCollectionViewCell.swift */; };
 		30CC25472B224907009791FC /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC25462B224907009791FC /* HeaderView.swift */; };
 		30CC254C2B239709009791FC /* TrackerCreationScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CC254B2B239709009791FC /* TrackerCreationScreenViewController.swift */; };
+		30F3CB172BE8CC4D0055129A /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB162BE8CC4D0055129A /* TrackerStore.swift */; };
+		30F3CB192BE8CC610055129A /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB182BE8CC610055129A /* TrackerCategoryStore.swift */; };
+		30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +87,9 @@
 		30CC25222B20B0BC009791FC /* TrackersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCollectionViewCell.swift; sourceTree = "<group>"; };
 		30CC25462B224907009791FC /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		30CC254B2B239709009791FC /* TrackerCreationScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCreationScreenViewController.swift; sourceTree = "<group>"; };
+		30F3CB162BE8CC4D0055129A /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
+		30F3CB182BE8CC610055129A /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
+		30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +128,9 @@
 			isa = PBXGroup;
 			children = (
 				3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */,
+				30F3CB162BE8CC4D0055129A /* TrackerStore.swift */,
+				30F3CB182BE8CC610055129A /* TrackerCategoryStore.swift */,
+				30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -301,10 +310,12 @@
 				30338CD52B8E11C1006FEED5 /* WhatWillWeTrackView.swift in Sources */,
 				30338CD72B8E1205006FEED5 /* NothingWasFoundView.swift in Sources */,
 				3029B1092B283ACF00AE1EA9 /* TrackerCreationCell.swift in Sources */,
+				30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */,
 				30CC24AE2B17B906009791FC /* PaddingLabel.swift in Sources */,
 				30CC24A72B15E351009791FC /* MainTabBarController.swift in Sources */,
 				30CC24A92B15E4F4009791FC /* TrackersViewController.swift in Sources */,
 				3029B1072B2700DA00AE1EA9 /* ScheduleTableViewCell.swift in Sources */,
+				30F3CB172BE8CC4D0055129A /* TrackerStore.swift in Sources */,
 				30338CCF2B875141006FEED5 /* ScheduleViewControllerDelegate.swift in Sources */,
 				30338CD12B875198006FEED5 /* TrackersDelegate.swift in Sources */,
 				30C7E06F2B9880FF00BD407B /* MockArrays.swift in Sources */,
@@ -322,6 +333,7 @@
 				3029B1132B2C7FFC00AE1EA9 /* AddCategoryViewController.swift in Sources */,
 				30CC24AB2B15E511009791FC /* StatisticViewController.swift in Sources */,
 				3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */,
+				30F3CB192BE8CC610055129A /* TrackerCategoryStore.swift in Sources */,
 				30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */,
 				30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */,
 				30B87C5E2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift in Sources */,
