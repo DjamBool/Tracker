@@ -48,6 +48,7 @@
 		30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */; };
 		30F3CB1D2BEA1FA70055129A /* ActiveTrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1C2BEA1FA70055129A /* ActiveTrackersViewController.swift */; };
 		30F3CB1F2BEA266E0055129A /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1E2BEA266E0055129A /* UIColorMarshalling.swift */; };
+		30F3CB212BEA280E0055129A /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB202BEA280E0055129A /* DataError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
 		30F3CB1C2BEA1FA70055129A /* ActiveTrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveTrackersViewController.swift; sourceTree = "<group>"; };
 		30F3CB1E2BEA266E0055129A /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
+		30F3CB202BEA280E0055129A /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			children = (
 				30CC24AD2B17B906009791FC /* PaddingLabel.swift */,
 				3029B10E2B2AF1B600AE1EA9 /* UIView+extension.swift */,
+				30F3CB202BEA280E0055129A /* DataError.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				3029B10F2B2AF1B600AE1EA9 /* UIView+extension.swift in Sources */,
 				30F3CB1D2BEA1FA70055129A /* ActiveTrackersViewController.swift in Sources */,
 				30C7E06D2B987BD100BD407B /* EventCreationCell.swift in Sources */,
+				30F3CB212BEA280E0055129A /* DataError.swift in Sources */,
 				30CC25472B224907009791FC /* HeaderView.swift in Sources */,
 				30CC251F2B1FA069009791FC /* TrackerCreatingViewController.swift in Sources */,
 				3029B1132B2C7FFC00AE1EA9 /* AddCategoryViewController.swift in Sources */,

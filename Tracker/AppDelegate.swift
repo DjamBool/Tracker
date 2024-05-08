@@ -15,9 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-//        window = UIWindow()
-//        window?.rootViewController = MainTabBarController()
-//        window?.makeKeyAndVisible()
+        //        window = UIWindow()
+        //        window?.rootViewController = MainTabBarController()
+        //        window?.makeKeyAndVisible()
         return true
     }
     
@@ -31,8 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
         
     }
-   
-// MARK: - Core Data stack
+    
+    // MARK: - Core Data
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Tracker")
@@ -48,8 +48,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         persistentContainer.viewContext
     }
     
-    // MARK: - Core Data Saving support
-    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -61,6 +59,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
 }
 
