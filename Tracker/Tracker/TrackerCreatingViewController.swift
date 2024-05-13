@@ -59,19 +59,18 @@ class TrackerCreatingViewController: UIViewController {
     }
     
     @objc private func createNewHabit() {
-        print(#function)
         let viewController = TrackerCreationScreenViewController()
         viewController.trackerDelegate = self.delegate
         let navVC = UINavigationController(rootViewController: viewController)
-        //present(viewController, animated: true, completion: nil)
         present(navVC, animated: true, completion: nil)
     }
     
     @objc private func createNewEvent() {
         let viewController = NewIrregularEventViewController()
         viewController.delegate = self.delegate
-        present(viewController, animated: true)
-        print("#function")
+        let navVC = UINavigationController(rootViewController: viewController)
+        present(navVC, animated: true)
+        
     }
     
     private func layoutSubviews() {

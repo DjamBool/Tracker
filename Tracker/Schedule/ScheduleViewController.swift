@@ -84,8 +84,6 @@ final class ScheduleViewController: UIViewController {
     @objc private func doneButtonTapped() {
         let weekDays = Array(selectedDays)
         delegate?.daysWereChosen(weekDays)
-        print(weekDays.count)
-        print(#function)
         dismiss(animated: true)
     }
 }

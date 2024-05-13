@@ -121,7 +121,6 @@ class NewIrregularEventViewController: UIViewController {
         collectionView.register(TrackerFeaturesHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: TrackerFeaturesHeaderView.identifier)
-        // collectionView.allowsMultipleSelection = false
         return collectionView
     }()
     
@@ -134,13 +133,11 @@ class NewIrregularEventViewController: UIViewController {
         
         trackerFeaturesCollectionView.delegate = self
         trackerFeaturesCollectionView.dataSource = self
-        //layout()
         setupViews()
     }
     
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
-        print(#function)
     }
     
     @objc private func createTapped() {
@@ -160,27 +157,6 @@ class NewIrregularEventViewController: UIViewController {
         delegate?.addedNew(tracker: newEvent, categoryTitle: "Irregular")
         dismiss(animated: true)
     }
-    
-//    @objc private func createButtonTapped() {
-//        guard let newTrackerName = eventNameTextField.text, !newTrackerName.isEmpty else { return }
-//        let currentDate = Date()
-//        let weekDay = Calendar.current.component(.weekday, from: currentDate) - 1
-//        let dateForEvent = WeekDay.allCases.filter { day in
-//            if weekDay > 0 {
-//                day == WeekDay.allCases[weekDay - 1]
-//            } else {
-//                day == WeekDay.sunday
-//            }
-//        }
-//        
-//        let newTracker = Tracker(id: UUID(),
-//                                 title: newTrackerName,
-//                                 color: myColors.randomElement() ?? .colorSelection3,
-//                                 emoji: myEmoji.randomElement() ?? "🌞",
-//                                 schedule: dateForEvent)
-//        delegate?.addedNew(tracker: newTracker, categoryTitle: "Irregular")
-//        dismiss(animated: true)
-//    }
     
     func setupViews() {
         view.addSubview(scrollView)
@@ -230,47 +206,8 @@ class NewIrregularEventViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             stackView.heightAnchor.constraint(equalToConstant: 60),
             stackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -24)
-            ])
+        ])
     }
-    
-//    func layout() {
-//        
-//        viewForTextFieldPlacement.addSubview(eventNameTextField)
-//        view.addSubview(navBarLabel)
-//        view.addSubview(viewForTextFieldPlacement)
-//        view.addSubview(tableView)
-//        view.addSubview(stackView)
-//        
-//        [cancelButton, createButton].forEach { stackView.addArrangedSubview($0) }
-//        
-//        NSLayoutConstraint.activate([
-//            
-//            navBarLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            navBarLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            navBarLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
-//            navBarLabel.heightAnchor.constraint(equalToConstant: 22),
-//            navBarLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            
-//            viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-//            viewForTextFieldPlacement.topAnchor.constraint(equalTo: view.topAnchor, constant: 126),
-//            viewForTextFieldPlacement.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-//            viewForTextFieldPlacement.heightAnchor.constraint(equalToConstant: 75),
-//            
-//            eventNameTextField.leadingAnchor.constraint(equalTo: viewForTextFieldPlacement.leadingAnchor, constant: 16),
-//            eventNameTextField.centerYAnchor.constraint(equalTo: viewForTextFieldPlacement.centerYAnchor),
-//            eventNameTextField.trailingAnchor.constraint(equalTo: viewForTextFieldPlacement.trailingAnchor),
-//            
-//            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-//            tableView.topAnchor.constraint(equalTo: eventNameTextField.bottomAnchor, constant: 50),
-//            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-//            tableView.heightAnchor.constraint(equalToConstant: 75),
-//            
-//            stackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-//            stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-//            stackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -24),  
-//            stackView.heightAnchor.constraint(equalToConstant: 60)
-//        ])
-//    }
 }
 
 extension NewIrregularEventViewController: UITextFieldDelegate {
@@ -310,14 +247,14 @@ extension NewIrregularEventViewController {
            !text.isEmpty,
            selectedColor != nil,
            selectedEmoji != nil {
-                createButton.isEnabled = true
-                createButton.backgroundColor = .ypBlack
-            } else {
-                createButton.isEnabled = false
-                createButton.backgroundColor = .ypGray
-            }
+            createButton.isEnabled = true
+            createButton.backgroundColor = .ypBlack
+        } else {
+            createButton.isEnabled = false
+            createButton.backgroundColor = .ypGray
         }
     }
+}
 
 
 // MARK: - UICollectionViewDataSource
@@ -371,7 +308,7 @@ extension NewIrregularEventViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1 //0
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

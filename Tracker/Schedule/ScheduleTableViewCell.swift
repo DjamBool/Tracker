@@ -41,10 +41,8 @@ class ScheduleTableViewCell: UITableViewCell {
     }
     
     @objc private func toggleSwitch(_ sender: UISwitch) {
-        print(#function)
         guard let weekDay = weekDay else { return }
         delegate?.toggleWasSwitched(to: sender.isOn, for: weekDay)
-        print("toggle Tapped")
     }
     
     func configureCell(weekDay: WeekDay, isOn: Bool) {

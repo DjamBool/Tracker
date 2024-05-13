@@ -33,17 +33,7 @@ class TrackerCreationScreenViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    //----------
-//    private lazy var titleLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "Новая привычка"
-//        label.textColor = .ypBlack
-//        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-//        label.textAlignment = .center
-//        return label
-//    }()
-    //----------
+    
     private lazy var viewForTextFieldPlacement: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -131,7 +121,6 @@ class TrackerCreationScreenViewController: UIViewController {
         collectionView.register(TrackerFeaturesHeaderView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: TrackerFeaturesHeaderView.identifier)
-        // collectionView.allowsMultipleSelection = false
         return collectionView
     }()
     
@@ -174,17 +163,10 @@ class TrackerCreationScreenViewController: UIViewController {
             contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             
-            //            titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            //            titleLabel.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            //            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
-            //            titleLabel.heightAnchor.constraint(equalToConstant: 22),
-            //            titleLabel.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            //
             scheduleLabel.widthAnchor.constraint(equalToConstant: 150),
             scheduleLabel.heightAnchor.constraint(equalToConstant: 17),
             
             viewForTextFieldPlacement.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            // viewForTextFieldPlacement.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24),
             viewForTextFieldPlacement.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 24),
             viewForTextFieldPlacement.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             viewForTextFieldPlacement.heightAnchor.constraint(equalToConstant: 75),
@@ -204,7 +186,6 @@ class TrackerCreationScreenViewController: UIViewController {
             trackerFeaturesCollectionView.heightAnchor.constraint(equalToConstant: 460),
             
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            // stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -60),
             stackView.topAnchor.constraint(equalTo: trackerFeaturesCollectionView.bottomAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             stackView.heightAnchor.constraint(equalToConstant: 60),
@@ -214,7 +195,6 @@ class TrackerCreationScreenViewController: UIViewController {
     
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
-        print(#function)
     }
     
     @objc private func createButtonTapped() {
@@ -270,7 +250,6 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            print("Категория")
             let vc = AddCategoryViewController()
             present(UINavigationController(rootViewController: vc), animated: true)
             
@@ -287,7 +266,6 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
 extension TrackerCreationScreenViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        // reloadVisibleCategories()
         switchCreateButton()
         return true
     }
@@ -418,16 +396,4 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
         }
         switchCreateButton()
     }
-    //    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-    //        if indexPath.section == 0 {
-    //            if let cell = collectionView.cellForItem(at: indexPath) as? TrackerFeaturesCell {
-    //                //cell.layer.borderWidth = 0
-    //                cell.clearEmojiSelection()
-    //            }
-    //        } else { //} if indexPath.section == 1 {
-    //            if let cell = collectionView.cellForItem(at: indexPath) as? TrackerFeaturesCell {
-    //                cell.clearColorSelection()
-    //            }
-    //        }
-    //    }
 }
