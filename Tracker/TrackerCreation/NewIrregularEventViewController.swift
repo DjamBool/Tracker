@@ -288,7 +288,10 @@ extension NewIrregularEventViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TrackerFeaturesHeaderView.identifier, for: indexPath) as! TrackerFeaturesHeaderView
+        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TrackerFeaturesHeaderView.identifier, for: indexPath) as? TrackerFeaturesHeaderView else {
+            assertionFailure("Could not cast to TrackerFeaturesHeaderView")
+            return UICollectionReusableView()
+        }
         if indexPath.section == 0 {
             view.header.text = "Emoji"
         } else if indexPath.section == 1 {

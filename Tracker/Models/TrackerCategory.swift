@@ -10,7 +10,7 @@ import Foundation
 struct TrackerCategory {
     let title: String
     var trackers: [Tracker]
-    //08/05
+   
     func visibleTrackers(filterString: String) -> [Tracker] {
         if filterString.isEmpty {
             return trackers
