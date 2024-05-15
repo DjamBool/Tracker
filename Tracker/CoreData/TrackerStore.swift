@@ -13,8 +13,24 @@ final class TrackerStore {
     private let context: NSManagedObjectContext
     private let uiColorMarshalling = UIColorMarshalling()
     
+//    convenience init() {
+//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//        self.init(context: context)
+//    }
+    
+//    convenience init?() {
+//        
+//        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return nil }
+//        
+//        self.init(context: context)
+//    }
+//    
+//    init(context: NSManagedObjectContext) {
+//        self.context = context
+//    }
+    
     convenience init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = DataStore.shared.context
         self.init(context: context)
     }
     
@@ -22,14 +38,14 @@ final class TrackerStore {
         self.context = context
     }
     
-    func fetchTrackers() throws -> [Tracker] {
+    private func fetchTrackers() throws -> [Tracker] {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         let trackersFromCoreData = try context.fetch(request)
 
         return try trackersFromCoreData.map { try self.convert(from: $0) }
     }
     
-    func convert(from tracker: TrackerCoreData) throws -> Tracker {
+    private func convert(from tracker: TrackerCoreData) throws -> Tracker {
         let trackerColor = uiColorMarshalling.color(from: tracker.color ?? "")
 
         guard
@@ -51,13 +67,13 @@ final class TrackerStore {
         )
     }
     
-    func addNewTracker(_ tracker: Tracker) throws {
+    private func addNewTracker(_ tracker: Tracker) throws {
         let trackerCoreData = TrackerCoreData(context: context)
         updateTracker(trackerCoreData, with: tracker)
         try saveContext()
     }
     
-    func updateTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
+    private func updateTracker(_ trackerCoreData: TrackerCoreData, with tracker: Tracker) {
         let trackerColor = uiColorMarshalling.hexString(from: tracker.color)
         
         trackerCoreData.id = tracker.id

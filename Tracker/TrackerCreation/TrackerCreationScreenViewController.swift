@@ -379,10 +379,10 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
                     cell.clearEmojiSelection()
                 }
             }
-            let cell = collectionView.cellForItem(at: indexPath) as! TrackerFeaturesCell
+            let cell = collectionView.cellForItem(at: indexPath) as? TrackerFeaturesCell
             selectedEmoji = emojis[indexPath.item]
             selectedEmojiIndex = indexPath.item
-            cell.highlightEmoji()
+            cell?.highlightEmoji()
             
         } else if indexPath.section == 1 {
             if let index = selectedColorIndex {
@@ -391,10 +391,10 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
                     cell.clearColorSelection()
                 }
             }
-            let cell = collectionView.cellForItem(at: indexPath) as! TrackerFeaturesCell
+            let cell = collectionView.cellForItem(at: indexPath) as? TrackerFeaturesCell
             selectedColor = colors[indexPath.item]
             selectedColorIndex = indexPath.item
-            cell.highlightColor()
+            cell?.highlightColor()
             
         }
         switchCreateButton()

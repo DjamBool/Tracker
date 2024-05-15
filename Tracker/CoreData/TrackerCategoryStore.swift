@@ -54,7 +54,8 @@ final class TrackerCategoryStore: NSObject {
     }()
         
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+      //  let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = DataStore.shared.context
         self.init(context: context)
     }
     
@@ -72,7 +73,7 @@ final class TrackerCategoryStore: NSObject {
         return trackerCategories
     }
     
-    func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
+    private func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
         guard let category = trackerCategoryCoreData.title else {
             throw DataError.decodingError
         }
@@ -103,7 +104,7 @@ final class TrackerCategoryStore: NSObject {
         )
     }
     
-    func addNewTrackerCategory(_ trackerCategory: TrackerCategory) throws {
+     func addNewTrackerCategory(_ trackerCategory: TrackerCategory) throws {
         let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
 
         trackerCategoryCoreData.title = trackerCategory.title
@@ -123,7 +124,7 @@ final class TrackerCategoryStore: NSObject {
         try context.save()
     }
     
-    func addTrackerToCategory(_ tracker: Tracker, to trackerCategory: TrackerCategory) throws {
+     func addTrackerToCategory(_ tracker: Tracker, to trackerCategory: TrackerCategory) throws {
         let category = fetchedResultsController.fetchedObjects?.first {
             $0.title == trackerCategory.title
         }
@@ -141,7 +142,7 @@ final class TrackerCategoryStore: NSObject {
         try context.save()
     }
     
-    func predicateFetch(trackerTitle: String) -> [TrackerCategory] {
+     func predicateFetch(trackerTitle: String) -> [TrackerCategory] {
         if trackerTitle.isEmpty {
             return trackerCategories
         } else {

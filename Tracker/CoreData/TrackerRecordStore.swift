@@ -13,7 +13,8 @@ final class TrackerRecordStore: NSObject {
     private let context: NSManagedObjectContext
     
     convenience override init() {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let context = DataStore.shared.context
         self.init(context: context)
     }
     
@@ -21,7 +22,7 @@ final class TrackerRecordStore: NSObject {
         self.context = context
     }
     
-    func addNewTracker(_ trackerRecord: TrackerRecord) throws {
+     func addNewTracker(_ trackerRecord: TrackerRecord) throws {
         let trackerRecordCoreData = TrackerRecordCoreData(context: context)
 
         trackerRecordCoreData.id = trackerRecord.id
@@ -30,7 +31,7 @@ final class TrackerRecordStore: NSObject {
         try context.save()
     }
     
-    func deleteTrackerRecord(_ trackerRecord: TrackerRecord) throws {
+     func deleteTrackerRecord(_ trackerRecord: TrackerRecord) throws {
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.predicate = NSPredicate(format: "id == %@ AND date == %@", trackerRecord.id as CVarArg, trackerRecord.date as CVarArg)
 
@@ -40,7 +41,7 @@ final class TrackerRecordStore: NSObject {
         }
     }
     
-    func trackerRecord(from trackerRecordCoreData: TrackerRecordCoreData) throws -> TrackerRecord {
+     func trackerRecord(from trackerRecordCoreData: TrackerRecordCoreData) throws -> TrackerRecord {
         guard
             let id = trackerRecordCoreData.id,
             let date = trackerRecordCoreData.date
@@ -52,10 +53,29 @@ final class TrackerRecordStore: NSObject {
         )
     }
     
-    func fetchTrackerRecords() throws -> [TrackerRecord] {
+     func fetchTrackerRecords() throws -> [TrackerRecord] {
         let request = TrackerRecordCoreData.fetchRequest()
         let trackerRecordFromCoreData = try context.fetch(request)
 
         return try trackerRecordFromCoreData.map { try self.trackerRecord(from: $0) }
+    }
+    
+    func fetchRecord(by trackerId: UUID, and currentDate: Date) -> TrackerRecord? {
+        let request = TrackerRecordCoreData.fetchRequest()
+        let datePredicate = NSPredicate(format: "date == %@", currentDate as CVarArg)
+        let trackerIdPredicate = NSPredicate(format: "id == %@", trackerId as CVarArg)
+        request.predicate = NSCompoundPredicate(type: .and, subpredicates: [datePredicate, trackerIdPredicate])
+        guard
+            let record = try? context.fetch(request).first
+        else { return nil }
+        return convert(object: record)
+    }
+    
+    private func convert(object: TrackerRecordCoreData) -> TrackerRecord? {
+        guard
+            let id = object.id,
+            let date = object.date
+        else { return nil }
+        return TrackerRecord(id: id, date: date)
     }
 }
