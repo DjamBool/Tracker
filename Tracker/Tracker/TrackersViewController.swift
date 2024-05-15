@@ -357,45 +357,15 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func uncompleteTracker(id: UUID, indexPath: IndexPath) {
-        //        if let index = completedTrackers.firstIndex(where: { trackerRecord in
-        //            trackerRecord.id == id //&&
-        //           // trackerRecord.date == datePicker.date
-        //        }) {
-        //            //completedTrackers.remove(at: index)
-        //            completedTrackers.removeAll { trackerRecord in
-        //                isSameTracker(trackerRecord: trackerRecord, id: id)
-        //            }
-        //            try? trackerRecordStore.deleteTrackerRecord(TrackerRecord(id: id, date: datePicker.date))
-        //        }
-        //        collectionView.reloadItems(at: [indexPath])
-        //    }
-        
-        
         completedTrackers.removeAll { trackerRecord in
             isSameTracker(trackerRecord: trackerRecord, id: id)
         }
         if let record = trackerRecordStore.fetchRecord(by: id, and: datePicker.date) {
             try? trackerRecordStore.deleteTrackerRecord(record)
-            
-            
         }
         collectionView.reloadItems(at: [indexPath])
     }
 }
-//    func competeTracker(id: UUID, indexPath: IndexPath) {
-//        guard datePicker.date <= Date() else { return }
-//        let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
-//        completedTrackers.append(trackerRecord)
-//        collectionView.reloadItems(at: [indexPath])
-//    }
-//    
-//    func uncompleteTracker(id: UUID, indexPath: IndexPath) {
-//        completedTrackers.removeAll { trackerRecord in
-//            isSameTracker(trackerRecord: trackerRecord, id: id)
-//        }
-//        collectionView.reloadItems(at: [indexPath])
-//    }
-//}
 
 // MARK: - UITextFieldDelegate
 
@@ -406,7 +376,6 @@ extension TrackersViewController: UITextFieldDelegate {
         searchText = searchTextField.text ?? ""
         showNothingWasFoundView()
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-        
         reloadVisibleCategories()
         return true
     }

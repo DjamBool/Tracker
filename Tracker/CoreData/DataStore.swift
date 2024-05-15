@@ -12,7 +12,7 @@ final class DataStore {
     static let shared = DataStore()
     
     private let model = "Tracker"
-
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Tracker")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in

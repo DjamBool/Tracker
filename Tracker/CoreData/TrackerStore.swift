@@ -13,22 +13,6 @@ final class TrackerStore {
     private let context: NSManagedObjectContext
     private let uiColorMarshalling = UIColorMarshalling()
     
-//    convenience init() {
-//        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//        self.init(context: context)
-//    }
-    
-//    convenience init?() {
-//        
-//        guard let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext else { return nil }
-//        
-//        self.init(context: context)
-//    }
-//    
-//    init(context: NSManagedObjectContext) {
-//        self.context = context
-//    }
-    
     convenience init() {
         let context = DataStore.shared.context
         self.init(context: context)
@@ -41,13 +25,13 @@ final class TrackerStore {
     private func fetchTrackers() throws -> [Tracker] {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         let trackersFromCoreData = try context.fetch(request)
-
+        
         return try trackersFromCoreData.map { try self.convert(from: $0) }
     }
     
     private func convert(from tracker: TrackerCoreData) throws -> Tracker {
         let trackerColor = uiColorMarshalling.color(from: tracker.color ?? "")
-
+        
         guard
             let id = tracker.id,
             let title = tracker.title,
@@ -57,7 +41,7 @@ final class TrackerStore {
         else {
             throw DataError.dataError
         }
-
+        
         return Tracker(
             id: id,
             title: title,
