@@ -40,7 +40,7 @@ final class TrackerRecordStore: NSObject {
         }
     }
     
-     func trackerRecord(from trackerRecordCoreData: TrackerRecordCoreData) throws -> TrackerRecord {
+    private func trackerRecord(from trackerRecordCoreData: TrackerRecordCoreData) throws -> TrackerRecord {
         guard
             let id = trackerRecordCoreData.id,
             let date = trackerRecordCoreData.date
