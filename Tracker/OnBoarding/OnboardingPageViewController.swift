@@ -1,17 +1,11 @@
-//
-//  OndoardingPageViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 17.05.2024.
-//
 
 import UIKit
 
-class OndoardingPageViewController: UIViewController {
-
+class OnboardingPageViewController: UIViewController {
+    
     private let imageName: String
     private let labelText: String
-        
+    
     private lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -28,7 +22,7 @@ class OndoardingPageViewController: UIViewController {
         label.font = .systemFont(ofSize: 32, weight: .bold)
         return label
     }()
-        
+    
     init(imageName: String, labelText: String) {
         self.imageName = imageName
         self.labelText = labelText
@@ -38,12 +32,12 @@ class OndoardingPageViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
     }
-        
+    
     private func setupUI() {
         backgroundImageView.image = UIImage(named: imageName)
         view.addSubview(backgroundImageView)

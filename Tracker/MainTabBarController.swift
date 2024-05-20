@@ -1,9 +1,3 @@
-//
-//  MainTabBarViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 28.11.2023.
-//
 
 import UIKit
 

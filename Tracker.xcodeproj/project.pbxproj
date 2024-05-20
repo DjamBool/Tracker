@@ -21,7 +21,7 @@
 		30338CD72B8E1205006FEED5 /* NothingWasFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */; };
 		30338CD92B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
-		306C1B052BF7966400F4717A /* OndoardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OndoardingPageViewController.swift */; };
+		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
 		30B727102BF4B2080047EB56 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B7270F2BF4B2080047EB56 /* DataStore.swift */; };
 		30B87C5C2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B87C5B2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift */; };
@@ -68,7 +68,7 @@
 		30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingWasFoundView.swift; sourceTree = "<group>"; };
 		30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
-		306C1B042BF7966400F4717A /* OndoardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OndoardingPageViewController.swift; sourceTree = "<group>"; };
+		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 		30B7270F2BF4B2080047EB56 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		30B87C5B2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsOfEmojisAndColors.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				306C1B012BF78D3000F4717A /* OnboardingViewController.swift */,
-				306C1B042BF7966400F4717A /* OndoardingPageViewController.swift */,
+				306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */,
 			);
 			path = OnBoarding;
 			sourceTree = "<group>";
@@ -363,7 +363,7 @@
 				30F3CB192BE8CC610055129A /* TrackerCategoryStore.swift in Sources */,
 				30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */,
 				30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */,
-				306C1B052BF7966400F4717A /* OndoardingPageViewController.swift in Sources */,
+				306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */,
 				30B87C5E2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
