@@ -1,9 +1,3 @@
-//
-//  AddCategoryViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 15.12.2023.
-//
 
 import UIKit
 
@@ -53,10 +47,25 @@ final class AddCategoryViewController: UIViewController {
         return button
     }()
     
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.layer.cornerRadius = 16
+        tableView.layer.masksToBounds = true
+        tableView.separatorStyle = .singleLine
+        tableView.tableHeaderView = UIView()
+        tableView.separatorColor = .ypGray
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         layout()
+        
+        tableView.dataSource = self
+        tableView.delegate = self
     }
     
     @objc private func addcategory() {
@@ -64,13 +73,18 @@ final class AddCategoryViewController: UIViewController {
     }
     
     private func layout() {
-        [titleLabel, starImage, infoLabel, addCategoryButton].forEach { view.addSubview($0)
+        [titleLabel, tableView, starImage, infoLabel, addCategoryButton].forEach { view.addSubview($0)
         }
         
         NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             titleLabel.heightAnchor.constraint(equalToConstant: 22),
+            
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -24),
             
             starImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             starImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
@@ -84,4 +98,40 @@ final class AddCategoryViewController: UIViewController {
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant:  -24)
         ])
     }
+}
+
+// MARK: - UITableViewDataSource
+
+extension AddCategoryViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else {
+            assertionFailure("Error of casting to CustomTableViewCell for AddCategoryViewController")
+            return UITableViewCell()
+        }
+        
+        cell.backgroundColor = .backgroundDay
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16.0
+        cell.separatorInset = UIEdgeInsets(
+            top: 0,
+            left: 16,
+            bottom: 0,
+            right: 16
+        )
+        
+        return cell
+    }
+
+}
+// MARK: - UITableViewDelegate
+
+extension AddCategoryViewController: UITableViewDelegate {
+    
 }
