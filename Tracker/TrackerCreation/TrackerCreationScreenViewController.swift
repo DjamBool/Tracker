@@ -1,9 +1,3 @@
-//
-//  TrackerCreationViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 08.12.2023.
-//
 
 import UIKit
 
@@ -21,6 +15,14 @@ class TrackerCreationScreenViewController: UIViewController {
     private var selectedColor: UIColor?
     var selectedEmojiIndex: Int?
     var selectedColorIndex: Int?
+    
+    lazy var category: TrackerCategory? = nil {
+        didSet {
+            checkСontent()
+        }
+    }
+    
+    private var selectedCategoriesTitle = ""
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -209,8 +211,17 @@ class TrackerCreationScreenViewController: UIViewController {
                                  color: color,
                                  emoji: emoji,
                                  schedule: self.selectedDays)
-        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: "Важное")
+        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
         dismiss(animated: true)
+    }
+    
+    private func checkСontent() {
+        createButton.isEnabled = textFieldForTrackerName.text?.isEmpty == false && selectedColor != nil && selectedEmoji != nil
+        if createButton.isEnabled {
+            createButton.backgroundColor = .ypBlack
+        } else {
+            createButton.backgroundColor = .backgroundDay
+        }
     }
 }
 
@@ -230,7 +241,7 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
         cell.selectionStyle = .none
         if indexPath.row == 0 {
             cell.titleLabel.text = "Категория"
-            cell.setTitles(subtitle: "Важное")
+            cell.setTitles(subtitle: selectedCategoriesTitle)
             cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         }  else if indexPath.row == 1 {
             let schedule = selectedDays.isEmpty ? "" : selectedDays.map {
@@ -250,7 +261,7 @@ extension TrackerCreationScreenViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let vc = AddCategoryViewController()
+            let vc = CategoriesViewController(delegate: self, selectedCategory: category)
             present(UINavigationController(rootViewController: vc), animated: true)
             
         } else if indexPath.row == 1 {
@@ -398,5 +409,14 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
             
         }
         switchCreateButton()
+    }
+}
+
+extension TrackerCreationScreenViewController: CategoriesViewModelDelegate {
+    func didSelectCategory(category: TrackerCategory) {
+        self.category = category
+        let categoryTitle = category.title
+        selectedCategoriesTitle = categoryTitle
+        createTrackerTableView.reloadData()
     }
 }

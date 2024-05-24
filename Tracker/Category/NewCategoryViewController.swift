@@ -13,6 +13,7 @@ protocol NewCategoryViewControllerDelegate: AnyObject {
 final class NewCategoryViewController: UIViewController {
     
     weak var delegate: NewCategoryViewControllerDelegate?
+    private let trackerCategoryStore = TrackerCategoryStore.shared
     
     private lazy var viewForTextFieldPlacement: UIView = {
         let view = UIView()
@@ -45,10 +46,10 @@ final class NewCategoryViewController: UIViewController {
         button.setTitle("Готово", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.addTarget(NewCategoryViewController.self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(doneButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,15 +60,18 @@ final class NewCategoryViewController: UIViewController {
         doneButton.isEnabled = false
         doneButton.backgroundColor = .ypGray
     }
-        
-    @objc private func doneButtonTapped() {
+    
+    @objc private func doneButtonTapped(sender: AnyObject) {
         if let text = textField.text, !text.isEmpty {
             let category = TrackerCategory(title: text, trackers: [])
+            try? trackerCategoryStore.addNewTrackerCategory(category)
+            print("\(trackerCategoryStore.trackerCategories)")
             delegate?.didCreateCategory(category)
+            dismiss(animated: true)
         }
-        dismiss(animated: true)
-    }
         
+    }
+    
     private func setupNavBar() {
         navigationItem.title = "Новая категория"
     }

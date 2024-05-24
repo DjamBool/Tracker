@@ -1,7 +1,24 @@
 
 import UIKit
 
-final class AddCategoryViewController: UIViewController {
+final class CategoriesViewController: UIViewController {
+    
+    private var viewModel: CategoriesViewModel
+    private var selectedCategoryIndex: Int?
+    init(
+        delegate: CategoriesViewModelDelegate?,
+        selectedCategory: TrackerCategory?
+    ) {
+        viewModel = CategoriesViewModel(
+            selectedCategory: selectedCategory,
+            delegate: delegate
+        )
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var emptyView: СategoriesEmptyView = {
         let view = СategoriesEmptyView()
@@ -42,17 +59,26 @@ final class AddCategoryViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        viewModel.updateClosure = { [weak self] in
+            print("Update closure called")
+            guard let self else { return }
+            self.tableView.reloadData()
+            self.showEmptyView()
+        }
+        
     }
     
     @objc private func addcategory() {
         print(#function)
         let viewController = NewCategoryViewController()
+        viewController.delegate = self
         let navVC = UINavigationController(rootViewController: viewController)
         present(navVC, animated: true, completion: nil)
     }
     
     private func showEmptyView() {
-
+        tableView.isHidden = viewModel.tableViewIsHidden
+        emptyView.isHidden = !viewModel.tableViewIsHidden
     }
     
     private func layout() {
@@ -64,7 +90,7 @@ final class AddCategoryViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -24),
-
+            
             emptyView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             emptyView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -80,36 +106,91 @@ final class AddCategoryViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 
-extension AddCategoryViewController: UITableViewDataSource {
+extension CategoriesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        0
+        let count = viewModel.categories.count
+        showEmptyView()
+        return count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: CustomTableViewCell.identifier, for: indexPath) as? CustomTableViewCell else {
-            assertionFailure("Error of casting to CustomTableViewCell for AddCategoryViewController")
+            assertionFailure("Error of casting to CustomTableViewCell for CategoriesViewController")
             return UITableViewCell()
         }
         
-        cell.backgroundColor = .backgroundDay
-        cell.layer.masksToBounds = true
-        cell.layer.cornerRadius = 16.0
-        cell.separatorInset = UIEdgeInsets(
-            top: 0,
-            left: 16,
-            bottom: 0,
-            right: 16
+        let category = viewModel.categories[indexPath.row].title
+        cell.configureCell(
+            with: category
         )
         
+        cell.backgroundColor = .backgroundDay1
+        
+        if indexPath.row == viewModel.categories.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
+        
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16.0
+        
+        if viewModel.categories.count == 1 {
+            cell.layer.maskedCorners = [
+                .layerMinXMinYCorner,
+                .layerMaxXMinYCorner,
+                .layerMinXMaxYCorner,
+                .layerMaxXMaxYCorner
+            ]
+        } else {
+            let numberOfRows = tableView.numberOfRows(inSection: indexPath.section)
+            if indexPath.row == 0 {
+                cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            } else if indexPath.row == numberOfRows - 1 {
+                cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            } else {
+                cell.layer.maskedCorners = []
+            }
+        }
+        
+        if indexPath.row == selectedCategoryIndex {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
         return cell
     }
-
 }
 // MARK: - UITableViewDelegate
 
-extension AddCategoryViewController: UITableViewDelegate {
+extension CategoriesViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        75
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        selectedCategoryIndex = indexPath.row
+        if let cell = tableView.cellForRow(at: indexPath) as? CustomTableViewCell {
+            let categoryTitle = cell.getSelectedCategoryTitle()
+            viewModel.selectCategory(with: categoryTitle)
+            tableView.reloadData()
+            
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            self?.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+extension CategoriesViewController: NewCategoryViewControllerDelegate {
+    func didCreateCategory(_ category: TrackerCategory) {
+        viewModel.selectCategory(with: category.title)
+        viewModel.selectedCategory(category)
+        tableView.reloadData()
+    }
 }
