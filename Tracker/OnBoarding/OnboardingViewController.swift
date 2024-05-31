@@ -111,7 +111,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         let previousIndex = viewControllerIndex - 1
         
         guard previousIndex >= 0 else {
-            return pages.last
+            return nil
         }
         
         return pages[previousIndex]
@@ -123,7 +123,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         }
         let nextIndex = viewControllerIndex + 1
         guard nextIndex < pages.count else {
-            return pages.first
+            return nil
         }
         return pages[nextIndex]
     }
