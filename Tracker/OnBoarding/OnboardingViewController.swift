@@ -11,10 +11,12 @@ class OnboardingViewController: UIPageViewController {
     private lazy var pages: [OnboardingPageViewController] =
     [OnboardingPageViewController(
         imageName: firstOnBoardingImg,
-        labelText: "Отслеживайте только то, что хотите"),
+        //labelText: "Отслеживайте только то, что хотите"),
+        labelText: NSLocalizedString("firstOnboardingPageText", comment: "")),
      OnboardingPageViewController(
         imageName: secondtOnBoardingImg,
-        labelText: "Даже если это\nне литры воды и йога")]
+        //labelText: "Даже если это\nне литры воды и йога")]
+        labelText: NSLocalizedString("secondOnboardingPageText", comment: ""))]
     
     private lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
@@ -23,7 +25,8 @@ class OnboardingViewController: UIPageViewController {
         control.translatesAutoresizingMaskIntoConstraints = false
         control.currentPageIndicatorTintColor = .ypBlack
         control.pageIndicatorTintColor = .ypBlack.withAlphaComponent(0.3)
-        control.addTarget(self, action: #selector(pageControlDidChange), for: .valueChanged)
+        control.addTarget(self, action: #selector(pageControlDidChange), 
+                          for: .valueChanged)
         return control
     }()
     
@@ -33,10 +36,13 @@ class OnboardingViewController: UIPageViewController {
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
-        button.setTitle("Вот это технологии!", for: .normal)
+//button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(NSLocalizedString("onboardingDoneButton", comment: ""),
+                        for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(doneButtonDidTap), 
+                         for: .touchUpInside)
         return button
     }()
     

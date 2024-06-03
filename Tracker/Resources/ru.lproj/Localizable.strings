@@ -1,0 +1,14 @@
+// MARK: - OnboardingViewController
+
+"firstOnboardingPageText" = "Отслеживайте только то, что хотите";
+"secondOnboardingPageText" = "Даже если это\nне литры воды и йога";
+"onboardingDoneButton" = "Вот это технологии!";
+
+// MARK: - TabBarController
+
+"navBarTitleLabelText" = "Трекеры";
+"trackersTabBarItemTitle" =  "Трекеры";
+"statisticsTabBarItemTitle" = "Статистика";
+
+// MARK: - Filters
+"filterButtonTitleText" = "Фильтры";

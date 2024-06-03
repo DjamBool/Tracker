@@ -23,7 +23,7 @@ class TrackersViewController: UIViewController {
     private var navBarTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Трекеры"
+        label.text = NSLocalizedString("navBarTitleLabelText", comment: "")
         label.textColor = .ypBlack
         label.font = UIFont.boldSystemFont(ofSize: 34)
         return label
