@@ -108,19 +108,26 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         }
     }
     
+//    private func convertCompletedDays(completedDays: Int) -> String {
+//        let remainder10 = completedDays % 10
+//        let remainder100 = completedDays % 100
+//        
+//        if remainder10 == 1 && remainder100 != 11 {
+//            return "\(completedDays) день"
+//        } else if remainder10 >= 2 &&
+//                    remainder10 <= 4 &&
+//                    (remainder100 < 10 || remainder100 >= 20) {
+//            return "\(completedDays) дня"
+//        } else {
+//            return "\(completedDays) дней"
+//        }
+//    }
+    
     private func convertCompletedDays(completedDays: Int) -> String {
-        let remainder10 = completedDays % 10
-        let remainder100 = completedDays % 100
-        
-        if remainder10 == 1 && remainder100 != 11 {
-            return "\(completedDays) день"
-        } else if remainder10 >= 2 &&
-                    remainder10 <= 4 &&
-                    (remainder100 < 10 || remainder100 >= 20) {
-            return "\(completedDays) дня"
-        } else {
-            return "\(completedDays) дней"
-        }
+        let formattedString = String.localizedStringWithFormat(
+            NSLocalizedString("StringKey", comment: ""),
+            completedDays)
+        return String.localizedStringWithFormat(formattedString, completedDays)
     }
     
     private func addSubviews() {
