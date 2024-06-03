@@ -24,6 +24,7 @@
 		30338CD52B8E11C1006FEED5 /* WhatWillWeTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD42B8E11C1006FEED5 /* WhatWillWeTrackView.swift */; };
 		30338CD72B8E1205006FEED5 /* NothingWasFoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */; };
 		30338CD92B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */; };
+		304EDBF12C0A0A0000500AC8 /* DetectLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDBF02C0A0A0000500AC8 /* DetectLaunch.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
 		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
@@ -75,6 +76,7 @@
 		30338CD42B8E11C1006FEED5 /* WhatWillWeTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatWillWeTrackView.swift; sourceTree = "<group>"; };
 		30338CD62B8E1205006FEED5 /* NothingWasFoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NothingWasFoundView.swift; sourceTree = "<group>"; };
 		30338CD82B8F2B24006FEED5 /* TrackerCollectionViewCellDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCellDelegate.swift; sourceTree = "<group>"; };
+		304EDBF02C0A0A0000500AC8 /* DetectLaunch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectLaunch.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 				30CC24AD2B17B906009791FC /* PaddingLabel.swift */,
 				3029B10E2B2AF1B600AE1EA9 /* UIView+extension.swift */,
 				30F3CB202BEA280E0055129A /* DataError.swift */,
+				304EDBF02C0A0A0000500AC8 /* DetectLaunch.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				30CC24AE2B17B906009791FC /* PaddingLabel.swift in Sources */,
 				30CC24A72B15E351009791FC /* MainTabBarController.swift in Sources */,
 				30CC24A92B15E4F4009791FC /* TrackersViewController.swift in Sources */,
+				304EDBF12C0A0A0000500AC8 /* DetectLaunch.swift in Sources */,
 				3029B1072B2700DA00AE1EA9 /* ScheduleTableViewCell.swift in Sources */,
 				30F3CB172BE8CC4D0055129A /* TrackerStore.swift in Sources */,
 				30338CCF2B875141006FEED5 /* ScheduleViewControllerDelegate.swift in Sources */,

@@ -99,9 +99,13 @@ class OnboardingViewController: UIPageViewController {
     }
     
     @objc private func doneButtonDidTap() {
-        onboardingHandler?()
+        //onboardingHandler?()
+        let viewController = MainTabBarController()
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        window.rootViewController = viewController
     }
 }
+
 extension OnboardingViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController as! OnboardingPageViewController) else {
