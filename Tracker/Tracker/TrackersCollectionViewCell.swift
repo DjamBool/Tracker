@@ -69,7 +69,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubviews()
         layout()
-        
     }
     
     required init?(coder: NSCoder) {

@@ -122,7 +122,7 @@ class TrackersViewController: UIViewController {
     private func makeAddTrackerButton() {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add,
                                         target: self, action: #selector(addtapped))
-        addButton.tintColor = .black
+        addButton.tintColor = colors.textColor
         navigationItem.leftBarButtonItem = addButton
     }
     

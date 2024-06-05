@@ -11,7 +11,7 @@ protocol NewCategoryViewControllerDelegate: AnyObject {
 // MARK: - NewCategoryViewController
 
 final class NewCategoryViewController: UIViewController {
-    
+    let viewColors = Colors()
     weak var delegate: NewCategoryViewControllerDelegate?
     private let trackerCategoryStore = TrackerCategoryStore.shared
     
@@ -23,17 +23,19 @@ final class NewCategoryViewController: UIViewController {
         return view
     }()
     
-    private let textField: UITextField = {
+    private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.cornerRadius = 16
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 17)
-        textField.placeholder = "Введите название категории"
+        //textField.placeholder = "Введите название категории"
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .done
         textField.enablesReturnKeyAutomatically = true
         textField.smartInsertDeleteType = .no
+        textField.attributedPlaceholder = NSAttributedString(string: "Введите название категории", attributes: [NSAttributedString.Key.foregroundColor: UIColor.ypGray])
+        textField.textColor = .black
         return textField
     }()
     
@@ -53,7 +55,7 @@ final class NewCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+       // view.backgroundColor = .white
         setupNavBar()
         setupView()
         setupConstraints()
@@ -77,6 +79,7 @@ final class NewCategoryViewController: UIViewController {
     }
     
     private func setupView() {
+        view.backgroundColor = viewColors.viewBackgroundColor
         viewForTextFieldPlacement.addSubview(textField)
         [viewForTextFieldPlacement,
          doneButton
@@ -95,7 +98,7 @@ final class NewCategoryViewController: UIViewController {
             
             textField.leadingAnchor.constraint(equalTo: viewForTextFieldPlacement.leadingAnchor, constant: 16),
             textField.centerYAnchor.constraint(equalTo: viewForTextFieldPlacement.centerYAnchor),
-            textField.trailingAnchor.constraint(equalTo: viewForTextFieldPlacement.trailingAnchor),
+            textField.trailingAnchor.constraint(equalTo: viewForTextFieldPlacement.trailingAnchor, constant: -16),
             textField.heightAnchor.constraint(equalToConstant: 75),
             
             doneButton.heightAnchor.constraint(equalToConstant: 60),

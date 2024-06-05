@@ -3,6 +3,8 @@ import UIKit
 
 final class CategoriesViewController: UIViewController {
     
+    let viewColors = Colors()
+    
     private var viewModel: CategoriesViewModel
     private var selectedCategoryIndex: Int?
     init(
@@ -53,7 +55,7 @@ final class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = viewColors.viewBackgroundColor
         layout()
         title = "Категория"
         tableView.dataSource = self

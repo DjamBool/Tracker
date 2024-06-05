@@ -8,6 +8,7 @@
 import UIKit
 
 class NewIrregularEventViewController: UIViewController {
+    let viewColors = Colors()
     
     weak var delegate: TrackersDelegate?
     private var selectedDays: [WeekDay] = []
@@ -159,6 +160,8 @@ class NewIrregularEventViewController: UIViewController {
     }
     
     func setupViews() {
+        view.backgroundColor = viewColors.viewBackgroundColor
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         

@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    
+    private let viewColors = Colors()
     weak var delegate: ScheduleViewControllerDelegate?
     private var selectedDays: Set<WeekDay> = []
     private lazy var navBarLabel: UILabel = {
@@ -21,7 +21,7 @@ final class ScheduleViewController: UIViewController {
         return label
     }()
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.identifier)
@@ -40,13 +40,14 @@ final class ScheduleViewController: UIViewController {
                                                     weight: .medium)
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = viewColors.textColor
+        button.setTitleColor(viewColors.viewBackgroundColor, for: .normal)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = viewColors.viewBackgroundColor
         
         tableView.delegate = self
         tableView.dataSource = self

@@ -3,6 +3,8 @@ import UIKit
 
 class TrackerCreationScreenViewController: UIViewController {
     
+    private let viewColors = Colors()
+    
     weak var trackerDelegate: TrackersDelegate?
     weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
     
@@ -128,7 +130,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = viewColors.viewBackgroundColor
         title = "Новая привычка"
         scheduleViewControllerdelegate = self
         
