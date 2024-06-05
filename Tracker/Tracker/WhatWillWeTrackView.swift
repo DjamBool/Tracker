@@ -8,6 +8,9 @@
 import UIKit
 
 final class WhatWillWeTrackView: UIView {
+    
+    private let colors = Colors()
+    
     private var starImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +38,7 @@ final class WhatWillWeTrackView: UIView {
     }
     
     private func setupViews() {
+        whatWillWeTrackLabel.textColor = colors.textColor
         [starImage, whatWillWeTrackLabel].forEach { self.addSubview($0)
         }
         NSLayoutConstraint.activate([

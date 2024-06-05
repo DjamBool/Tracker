@@ -13,6 +13,8 @@ class TrackersViewController: UIViewController {
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerRecordStore = TrackerRecordStore.shared
     
+    private let colors = Colors()
+    
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -51,7 +53,7 @@ class TrackersViewController: UIViewController {
         let textField = UISearchTextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Поиск"
-        textField.backgroundColor = .ypLightGray
+        textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.delegate = self
         return textField
@@ -90,6 +92,8 @@ class TrackersViewController: UIViewController {
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
         setWeekDay()
         makeAddTrackerButton()
         setupRightBarButtonItem()
@@ -188,6 +192,8 @@ class TrackersViewController: UIViewController {
     }
     
     private func layoutSubviews() {
+        view.backgroundColor = colors.viewBackgroundColor
+        
         view.addSubview(searchTextField)
         view.addSubview(collectionView)
         view.addSubview(whatWillWeTrackView)

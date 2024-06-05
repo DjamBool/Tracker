@@ -27,6 +27,7 @@
 		304EDBF12C0A0A0000500AC8 /* DetectLaunch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDBF02C0A0A0000500AC8 /* DetectLaunch.swift */; };
 		304EDBF52C0DF5B600500AC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 304EDBF72C0DF5B600500AC8 /* Localizable.strings */; };
 		304EDBFE2C0E008100500AC8 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 304EDC002C0E008100500AC8 /* Localizable.stringsdict */; };
+		304EDC042C10509000500AC8 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC032C10509000500AC8 /* Colors.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
 		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
@@ -87,6 +88,7 @@
 		304EDBFF2C0E008100500AC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		304EDC012C0E008400500AC8 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = fr; path = fr.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		304EDC022C0E008400500AC8 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		304EDC032C10509000500AC8 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				304EDBF72C0DF5B600500AC8 /* Localizable.strings */,
 				304EDC002C0E008100500AC8 /* Localizable.stringsdict */,
+				304EDC032C10509000500AC8 /* Colors.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -403,6 +406,7 @@
 				30C7E06F2B9880FF00BD407B /* MockArrays.swift in Sources */,
 				3029B1112B2C5FF700AE1EA9 /* MockTrackerCategories.swift in Sources */,
 				30CC251D2B19FEB5009791FC /* TrackerRecord.swift in Sources */,
+				304EDC042C10509000500AC8 /* Colors.swift in Sources */,
 				30B87C5C2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift in Sources */,
 				30C7E0712B999FD700BD407B /* Schedule.swift in Sources */,
 				30CC254C2B239709009791FC /* TrackerCreationScreenViewController.swift in Sources */,
