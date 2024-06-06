@@ -23,9 +23,9 @@ class OnboardingViewController: UIPageViewController {
         control.numberOfPages = pages.count
         control.currentPage = 0
         control.translatesAutoresizingMaskIntoConstraints = false
-        control.currentPageIndicatorTintColor = .ypBlack
-        control.pageIndicatorTintColor = .ypBlack.withAlphaComponent(0.3)
-        control.addTarget(self, action: #selector(pageControlDidChange), 
+        control.currentPageIndicatorTintColor = .black
+        control.pageIndicatorTintColor = .black.withAlphaComponent(0.3)
+        control.addTarget(self, action: #selector(pageControlDidChange),
                           for: .valueChanged)
         return control
     }()
@@ -33,7 +33,7 @@ class OnboardingViewController: UIPageViewController {
     private lazy var doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = .black
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
 //button.setTitle("Вот это технологии!", for: .normal)

@@ -8,7 +8,6 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    private let viewColors = Colors()
     weak var delegate: ScheduleViewControllerDelegate?
     private var selectedDays: Set<WeekDay> = []
     private lazy var navBarLabel: UILabel = {
@@ -35,19 +34,18 @@ final class ScheduleViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Готово", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
         button.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
-        button.backgroundColor = viewColors.textColor
-        button.setTitleColor(viewColors.viewBackgroundColor, for: .normal)
+        button.backgroundColor = .ypBlack
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = viewColors.viewBackgroundColor
+        view.backgroundColor = .ypWhite
         
         tableView.delegate = self
         tableView.dataSource = self

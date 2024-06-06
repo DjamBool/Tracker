@@ -8,7 +8,6 @@
 import UIKit
 
 class NewIrregularEventViewController: UIViewController {
-    let viewColors = Colors()
     
     weak var delegate: TrackersDelegate?
     private var selectedDays: [WeekDay] = []
@@ -81,7 +80,7 @@ class NewIrregularEventViewController: UIViewController {
         button.setTitleColor(.ypRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
-        button.backgroundColor = .white
+        button.backgroundColor = .ypWhite
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 1.0
@@ -93,7 +92,7 @@ class NewIrregularEventViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Создать", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
         button.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
@@ -127,7 +126,7 @@ class NewIrregularEventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         title = "Новое нерегулярное событие"
         tableView.delegate = self
         tableView.dataSource = self
@@ -160,7 +159,6 @@ class NewIrregularEventViewController: UIViewController {
     }
     
     func setupViews() {
-        view.backgroundColor = viewColors.viewBackgroundColor
         
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)

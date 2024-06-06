@@ -9,8 +9,6 @@ import UIKit
 
 final class NothingWasFoundView: UIView {
     
-    private let colors = Colors()
-
     private lazy var image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -38,9 +36,7 @@ final class NothingWasFoundView: UIView {
     }
     
     private func setupViews() {
-        
-        label.textColor = colors.textColor
-        
+                
         [image, label].forEach { self.addSubview($0)
         }
         NSLayoutConstraint.activate([

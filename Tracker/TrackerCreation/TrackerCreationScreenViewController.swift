@@ -54,6 +54,7 @@ class TrackerCreationScreenViewController: UIViewController {
         textField.placeholder = "Введите название трекера"
         textField.font = UIFont.systemFont(ofSize: 17)
         textField.textAlignment = .left
+        textField.textColor = .ypBlack
         
         return textField
     }()
@@ -76,7 +77,7 @@ class TrackerCreationScreenViewController: UIViewController {
         button.setTitleColor(.ypRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
-        button.backgroundColor = .white
+        button.backgroundColor = .ypWhite
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 1.0
@@ -88,7 +89,7 @@ class TrackerCreationScreenViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Создать", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
         button.addTarget(self, action: #selector(createButtonTapped), for: .touchUpInside)

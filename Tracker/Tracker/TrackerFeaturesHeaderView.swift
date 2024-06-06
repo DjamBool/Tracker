@@ -8,12 +8,11 @@
 import UIKit
 
 final class TrackerFeaturesHeaderView: UICollectionReusableView {
-    
-    let header: UILabel = {
+     lazy var  header: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.boldSystemFont(ofSize: 19)
-        label.textColor = .ypBlack
+         label.textColor = .ypBlack
         label.textAlignment = .left
         return label
     }()

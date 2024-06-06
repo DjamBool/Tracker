@@ -35,7 +35,7 @@ final class NewCategoryViewController: UIViewController {
         textField.enablesReturnKeyAutomatically = true
         textField.smartInsertDeleteType = .no
         textField.attributedPlaceholder = NSAttributedString(string: "Введите название категории", attributes: [NSAttributedString.Key.foregroundColor: UIColor.ypGray])
-        textField.textColor = .black
+        textField.textColor = .ypBlack
         return textField
     }()
     
@@ -46,7 +46,7 @@ final class NewCategoryViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
         button.setTitle("Готово", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         button.addTarget(self, action: #selector(doneButtonTapped(sender:)), for: .touchUpInside)
         return button

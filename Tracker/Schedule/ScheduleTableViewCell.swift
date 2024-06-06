@@ -15,7 +15,7 @@ class ScheduleTableViewCell: UITableViewCell {
     let label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.black
+        label.textColor = .ypBlack
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         return label
     }()

@@ -26,6 +26,7 @@ class TrackerCreatingViewController: UIViewController {
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.backgroundColor = .ypBlack
+        button.setTitleColor(.ypWhite, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(createNewHabit), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -37,6 +38,7 @@ class TrackerCreatingViewController: UIViewController {
         button.setTitle("Нерегулярное событие", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.backgroundColor = .ypBlack
+        button.setTitleColor(.ypWhite, for: .normal)
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(createNewEvent), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -54,7 +56,7 @@ class TrackerCreatingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         layoutSubviews()
     }
     

@@ -36,7 +36,7 @@ class TrackersViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.clipsToBounds = true
         datePicker.layer.cornerRadius = 10
-        datePicker.setValue(UIColor.white, forKey: "textColor")
+        datePicker.setValue(UIColor.ypWhite, forKey: "textColor")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ru_Ru")
