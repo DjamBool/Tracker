@@ -1,12 +1,17 @@
 
 import UIKit
 
+protocol TrackerCreationScreenViewControllerDelegate: AnyObject {
+    func createButtonidTap(tracker: Tracker, category: String)
+}
+
 class TrackerCreationScreenViewController: UIViewController {
     
     private let viewColors = Colors()
     
     weak var trackerDelegate: TrackersDelegate?
     weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
+    weak var trackerCreationDelegate: TrackerCreationScreenViewControllerDelegate?
     
     private var day: String?
     private var selectedDays: [WeekDay] = []
@@ -25,6 +30,14 @@ class TrackerCreationScreenViewController: UIViewController {
     }
     
     private var selectedCategoriesTitle = ""
+    
+    private var completedTrackers: [TrackerRecord] = []
+    private let trackerRecordStore = TrackerRecordStore()
+    private let trackerStore = TrackerStore()
+    var selectedCategory: TrackerCategory?
+    private var selectedEmojiCell: IndexPath? = nil
+    private var selectedColorCell: IndexPath? = nil
+    
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -213,7 +226,8 @@ class TrackerCreationScreenViewController: UIViewController {
                                  title: newTrackerName,
                                  color: color,
                                  emoji: emoji,
-                                 schedule: self.selectedDays)
+                                 schedule: self.selectedDays, 
+                                 isPinned: false)
         trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
         dismiss(animated: true)
     }

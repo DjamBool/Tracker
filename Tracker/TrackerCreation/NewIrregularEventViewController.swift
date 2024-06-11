@@ -153,7 +153,9 @@ class NewIrregularEventViewController: UIViewController {
                                title: newTrackerName,
                                color: color,
                                emoji: emoji,
-                               schedule: dateForEvent)
+                               schedule: dateForEvent, 
+                               isPinned: false)
+            
         delegate?.addedNew(tracker: newEvent, categoryTitle: "Irregular")
         dismiss(animated: true)
     }

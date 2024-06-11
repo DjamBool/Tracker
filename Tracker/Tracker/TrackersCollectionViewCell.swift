@@ -65,6 +65,14 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
+    private lazy var pinImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(named: "pin.fill")
+        image.isHidden = false
+        return image
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
@@ -96,15 +104,16 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func trackerButtonTapped() {
-        guard let trackerId = trackerId, let indexPath = indexPath else {
+        guard let trackerId = trackerId else { //}, let indexPath = indexPath else {
             assertionFailure("No trackerId")
             return
         }
-        if isCompleted {
-            delegate?.uncompleteTracker(id: trackerId, indexPath: indexPath)
-        } else {
-            delegate?.competeTracker(id: trackerId, indexPath: indexPath)
-        }
+        delegate?.competeTracker(id: trackerId)
+//        if isCompleted {
+//            delegate?.uncompleteTracker(id: trackerId, indexPath: indexPath)
+//        } else {
+//            delegate?.competeTracker(id: trackerId, indexPath: indexPath)
+//        }
     }
     
 //    private func convertCompletedDays(completedDays: Int) -> String {

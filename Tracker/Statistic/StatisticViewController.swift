@@ -59,10 +59,10 @@ class StatisticViewController: UIViewController {
         super.viewDidLoad()
         title = "Статистика"
         setupViews()
-        emptyView.isHidden = true
     }
     
     func setupViews() {
+        view.backgroundColor = UIColor.systemBackground
         [titleLabel, subtitleLabel].forEach { containerView.addSubview($0) }
         [emptyView, containerView].forEach { view.addSubview($0) }
             
@@ -91,6 +91,26 @@ class StatisticViewController: UIViewController {
                 subtitleLabel.heightAnchor.constraint(equalToConstant: 18),
             ])
         }
+    
+    private func updateTrackerRecords() {
+            completedTrackers = trackerRecordStore.trackerRecords
+            titleLabel.text = "\(completedTrackers.count)"
+            subtitleLabel.text = String.localizedStringWithFormat(NSLocalizedString("trackersCompleted", comment: "число дней"), completedTrackers.count)
+        emptyView.isHidden = completedTrackers.count > 0
+            containerView.isHidden = completedTrackers.count == 0
+            delegate?.updateStatistics()
+            trackerRecordStore.update()
+            updateStatistics()
+        }
+    
     }
    
+
+extension StatisticViewController: StatisticViewControllerDelegate {
+    func updateStatistics() {
+        DispatchQueue.main.async{
+            self.updateTrackerRecords()
+        }
+    }
+}
 
