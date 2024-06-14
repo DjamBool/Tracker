@@ -11,7 +11,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     weak var trackerDelegate: TrackersDelegate?
     weak var scheduleViewControllerdelegate: ScheduleViewControllerDelegate?
-    weak var trackerCreationDelegate: TrackerCreationScreenViewControllerDelegate?
+    weak var trackerCreationDelegate: TrackersViewController?
     
     private var day: String?
     private var selectedDays: [WeekDay] = []
@@ -38,13 +38,17 @@ class TrackerCreationScreenViewController: UIViewController {
     private var selectedEmojiCell: IndexPath? = nil
     private var selectedColorCell: IndexPath? = nil
     
+    var editTrackerTitle = "Редактирование привычки"
+    var editTracker: Tracker?
+    var editTrackerDate: Date?
+    private let uiColorMarshalling = UIColorMarshalling()
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    
+
     private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -100,8 +104,9 @@ class TrackerCreationScreenViewController: UIViewController {
     
     private lazy var createButton: UIButton = {
         let button = UIButton()
+        let title = editTracker == nil ? "Создать" : "Сохранить"
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Создать", for: .normal)
+        button.setTitle(title, for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
@@ -142,10 +147,23 @@ class TrackerCreationScreenViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var completedDaysLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .ypBlack
+        label.text = "дней"
+        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
+    }()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        title = editTracker == nil ? "Новая привычка" : "Редактирование привычки"
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = viewColors.viewBackgroundColor
-        title = "Новая привычка"
+     
         scheduleViewControllerdelegate = self
         
         textFieldForTrackerName.delegate = self
@@ -156,6 +174,7 @@ class TrackerCreationScreenViewController: UIViewController {
         trackerFeaturesCollectionView.delegate = self
         
         layout()
+        setupEditTracker()
     }
     
     func layout() {
@@ -168,6 +187,7 @@ class TrackerCreationScreenViewController: UIViewController {
             [viewForTextFieldPlacement, createTrackerTableView, trackerFeaturesCollectionView, stackView].forEach { scrollView.addSubview($0)
             }
         }
+        
         NSLayoutConstraint.activate([
             
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -211,24 +231,70 @@ class TrackerCreationScreenViewController: UIViewController {
         ])
     }
     
+    private func setupEditTracker() {
+        if let editTracker = editTracker {
+            selectedDays = editTracker.schedule ?? []
+            textFieldForTrackerName.text = editTracker.title
+            selectedEmoji =  editTracker.emoji
+            selectedColor = editTracker.color
+            daysWereChosen(selectedDays)
+            selectedCategoriesTitle = category?.title ?? ""
+            completedDaysLabel.isHidden = false
+            
+            completedTrackers = trackerRecordStore.trackerRecords
+            let completedCount = completedTrackers.filter({ record in
+                record.id == editTracker.id
+            }).count
+            completedDaysLabel.text = String.localizedStringWithFormat(NSLocalizedString("numberValue", comment: "дней"), completedCount)
+        }
+    }
+    
     @objc private func cancelButtonTapped() {
         dismiss(animated: true)
     }
     
     @objc private func createButtonTapped() {
-        guard let newTrackerName = textFieldForTrackerName.text,
-              !newTrackerName.isEmpty,
-              let color = selectedColor,
-              let emoji = selectedEmoji else {
-            return
-        }
-        let newTracker = Tracker(id: UUID(),
+        //        guard let newTrackerName = textFieldForTrackerName.text,
+        //              !newTrackerName.isEmpty,
+        //              let color = selectedColor,
+        //              let emoji = selectedEmoji else {
+        //            return
+        //        }
+        //        let newTracker = Tracker(id: UUID(),
+        //                                 title: newTrackerName,
+        //                                 color: color,
+        //                                 emoji: emoji,
+        //                                 schedule: self.selectedDays,
+        //                                 isPinned: false)
+        //        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
+        //        dismiss(animated: true)
+        var newTracker: Tracker?
+        
+        if editTracker == nil {
+            guard let newTrackerName = textFieldForTrackerName.text,
+                  !newTrackerName.isEmpty,
+                  let color = selectedColor,
+                  let emoji = selectedEmoji else {
+                return
+            }
+            newTracker = Tracker(id: UUID(),
                                  title: newTrackerName,
                                  color: color,
                                  emoji: emoji,
-                                 schedule: self.selectedDays, 
+                                 schedule: self.selectedDays,
                                  isPinned: false)
-        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
+            guard let newTracker = newTracker else { return }
+            trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
+        } else {
+            guard let editTracker = editTracker else { return }
+            let color = uiColorMarshalling.hexString(from: selectedColor ?? .ypBlack)
+            try? trackerStore.updateTracker(newTitle: textFieldForTrackerName.text ?? "",
+                                            newEmoji: selectedEmoji ?? "",
+                                            newColor: color,
+                                            newSchedule: selectedDays,
+                                            categoryTitle: category?.title ?? "Category",
+                                            editableTracker: editTracker)
+        }
         dismiss(animated: true)
     }
     

@@ -154,6 +154,28 @@ final class TrackerStore: NSObject {
         }
     }
     
+    func pinTracker(id: UUID, at indexPath: IndexPath) throws {
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        if let result = try context.fetch(fetchRequest).first {
+            result.isPinned = !result.isPinned
+            try saveContext()
+        } else {
+            throw DataError.dataError
+        }
+    }
+    
+    func deleteTracker(id: UUID, at indexPath: IndexPath) throws {
+       let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+       fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+       if let result = try context.fetch(fetchRequest).first {
+           context.delete(result)
+           try saveContext()
+       } else {
+           throw DataError.dataError
+       }
+   }
+    
     func changeTrackerPinStatus(_ tracker: Tracker) throws {
         let trackerIndex = fetchedResultsController.fetchedObjects?.firstIndex { $0.id == tracker.id }
 
@@ -161,6 +183,16 @@ final class TrackerStore: NSObject {
             fetchedResultsController.fetchedObjects?[index].isPinned = !(fetchedResultsController.fetchedObjects?[index].isPinned ?? false)
             try saveContext()
 
+        }
+    }
+    
+    func fetchTrackerByID(id: UUID, at indexPath: IndexPath) throws -> Tracker {
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        if let result = try context.fetch(fetchRequest).first {
+            return try convert(from: result)
+        } else {
+            throw DataError.dataError
         }
     }
 }

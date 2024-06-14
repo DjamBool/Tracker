@@ -12,3 +12,8 @@
 
 // MARK: - Filters
 "filterButtonTitleText" = "Фильтры";
+"deleteTrackerAlert.title" = "Уверены что хотите удалить трекер?";
+"pinAction.title" = "Закрепить";
+"unpinAction.title" = "Открепить";
+"editAction.title" = "Редактировать";
+"deleteAction.title" = "Удалить";

@@ -97,9 +97,10 @@ final class TrackerRecordStore: NSObject {
         }
     }
     
-    func deleteTrackerRecord(with id: UUID) throws {
+    func deleteTrackerRecord(with id: UUID, date: Date) throws {
         let record = fetchedResultsController.fetchedObjects?.first {
-            $0.id == id
+            $0.id == id &&
+            $0.date == date
         }
 
         if let record = record {

@@ -94,6 +94,7 @@ final class TrackerCategoryStore: NSObject {
         return categories.first
     }
     
+    
     func deleteCategory(
         _ categoryToDelete: TrackerCategory)
     throws {

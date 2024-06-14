@@ -12,3 +12,8 @@
 
 // MARK: - Filters
 "filterButtonTitleText" = "Filters";
+"deleteTrackerAlert.title" = "Are you sure you want to delete the tracker?";
+"pinAction.title" = "Pin";
+"unpinAction.title" = "Unpin";
+"editAction.title" = "Edit";
+"deleteAction.title" = "Delete";
