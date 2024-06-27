@@ -110,6 +110,20 @@ final class TrackerRecordStore: NSObject {
         update()
     }
     
+    func deleteTrackerRecord(trackerRecord: TrackerRecord) throws {
+        guard let record = fetchedResultsController?.fetchedObjects?.first(where: {
+            $0.id == trackerRecord.id && $0.date == trackerRecord.date
+        }) else { return }
+        context.delete(record)
+        do {
+            try context.save()
+        } catch {
+            throw DataError.decodingError
+        }
+    }
+
+    
+    
     func deleteAllTrackerRecords(with trackerID: UUID) throws {
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.predicate = NSPredicate(format: "id == %@", trackerID as CVarArg)
@@ -121,6 +135,37 @@ final class TrackerRecordStore: NSObject {
             try context.save()
         } catch {
             throw error
+        }
+    }
+    
+//    private func fetchRecords(_ tracker: Tracker) throws -> [TrackerRecord] {
+//        let request = TrackerRecordCoreData.fetchRequest()
+//        request.returnsObjectsAsFaults = false
+//        request.predicate = NSPredicate(
+//            format: "%K = %@",
+//            #keyPath(TrackerRecordCoreData.id), tracker.id as CVarArg
+//        )
+//        let objects = try context.fetch(request)
+//        let records = objects.compactMap { object -> TrackerRecord? in
+//            guard let date = object.date, let id = object.id else { return nil }
+//            return TrackerRecord(id: id, date: date)
+//        }
+//        return records
+//    }
+    
+    func fetchRecords() throws -> Set<TrackerRecord> {
+        let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        do {
+            let trackerRecordCoreDataArray = try context.fetch(fetchRequest)
+            let trackerRecords = trackerRecordCoreDataArray.map { trackerRecordCoreData in
+                return TrackerRecord(
+                    id: trackerRecordCoreData.id ?? UUID(),
+                    date: trackerRecordCoreData.date ?? Date()
+                )
+            }
+            return Set(trackerRecords)
+        } catch {
+            throw DataError.decodingError
         }
     }
 }

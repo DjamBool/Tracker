@@ -35,6 +35,10 @@
 		304EDC2A2C17102700500AC8 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC292C17102700500AC8 /* Filters.swift */; };
 		304EDC2D2C17215E00500AC8 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC2C2C17215E00500AC8 /* FiltersViewController.swift */; };
 		304EDC2F2C17227400500AC8 /* FiltersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC2E2C17227400500AC8 /* FiltersTableViewCell.swift */; };
+		304EDC352C21D4E400500AC8 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC342C21D4E400500AC8 /* File.swift */; };
+		304EDC372C21D4FB00500AC8 /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC362C21D4FB00500AC8 /* File2.swift */; };
+		304EDC392C22EBF200500AC8 /* NewTrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC382C22EBF200500AC8 /* NewTrackersViewController.swift */; };
+		304EDC3B2C2C475500500AC8 /* TackersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC3A2C2C475500500AC8 /* TackersVC.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
 		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
@@ -112,6 +116,10 @@
 		304EDC292C17102700500AC8 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
 		304EDC2C2C17215E00500AC8 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		304EDC2E2C17227400500AC8 /* FiltersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersTableViewCell.swift; sourceTree = "<group>"; };
+		304EDC342C21D4E400500AC8 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		304EDC362C21D4FB00500AC8 /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
+		304EDC382C22EBF200500AC8 /* NewTrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackersViewController.swift; sourceTree = "<group>"; };
+		304EDC3A2C2C475500500AC8 /* TackersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TackersVC.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
@@ -279,6 +287,8 @@
 			isa = PBXGroup;
 			children = (
 				30CC24922B14CD00009791FC /* AppDelegate.swift */,
+				304EDC342C21D4E400500AC8 /* File.swift */,
+				304EDC362C21D4FB00500AC8 /* File2.swift */,
 				30CC24942B14CD00009791FC /* SceneDelegate.swift */,
 				30CC24A62B15E351009791FC /* MainTabBarController.swift */,
 				304EDC2B2C17212800500AC8 /* Filters */,
@@ -330,6 +340,8 @@
 			isa = PBXGroup;
 			children = (
 				30CC24A82B15E4F4009791FC /* TrackersViewController.swift */,
+				304EDC382C22EBF200500AC8 /* NewTrackersViewController.swift */,
+				304EDC3A2C2C475500500AC8 /* TackersVC.swift */,
 				30CC25462B224907009791FC /* HeaderView.swift */,
 				30B87C5F2BA30924008BC5A7 /* TrackerFeaturesHeaderView.swift */,
 				30CC25222B20B0BC009791FC /* TrackersCollectionViewCell.swift */,
@@ -486,6 +498,7 @@
 				30B87C602BA30924008BC5A7 /* TrackerFeaturesHeaderView.swift in Sources */,
 				3029B1032B27003200AE1EA9 /* WeekDay.swift in Sources */,
 				30338CD32B8753DE006FEED5 /* ScheduleCellDelegate.swift in Sources */,
+				304EDC392C22EBF200500AC8 /* NewTrackersViewController.swift in Sources */,
 				30CC251B2B19FEA3009791FC /* TrackerCategory.swift in Sources */,
 				30F3CB1F2BEA266E0055129A /* UIColorMarshalling.swift in Sources */,
 				30338CD52B8E11C1006FEED5 /* WhatWillWeTrackView.swift in Sources */,
@@ -495,6 +508,7 @@
 				3029B1092B283ACF00AE1EA9 /* TrackerCreationCell.swift in Sources */,
 				30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */,
 				302205CC2BFF300A0006444D /* CategoriesViewController.swift in Sources */,
+				304EDC3B2C2C475500500AC8 /* TackersVC.swift in Sources */,
 				30CC24AE2B17B906009791FC /* PaddingLabel.swift in Sources */,
 				304EDC2D2C17215E00500AC8 /* FiltersViewController.swift in Sources */,
 				30CC24A72B15E351009791FC /* MainTabBarController.swift in Sources */,
@@ -502,6 +516,7 @@
 				304EDBF12C0A0A0000500AC8 /* DetectLaunch.swift in Sources */,
 				3029B1072B2700DA00AE1EA9 /* ScheduleTableViewCell.swift in Sources */,
 				30F3CB172BE8CC4D0055129A /* TrackerStore.swift in Sources */,
+				304EDC372C21D4FB00500AC8 /* File2.swift in Sources */,
 				304EDC2A2C17102700500AC8 /* Filters.swift in Sources */,
 				30338CCF2B875141006FEED5 /* ScheduleViewControllerDelegate.swift in Sources */,
 				30338CD12B875198006FEED5 /* TrackersDelegate.swift in Sources */,
@@ -530,6 +545,7 @@
 				30CC24932B14CD00009791FC /* AppDelegate.swift in Sources */,
 				302205BF2BFCCD740006444D /* CustomTableViewCell.swift in Sources */,
 				30CC24952B14CD00009791FC /* SceneDelegate.swift in Sources */,
+				304EDC352C21D4E400500AC8 /* File.swift in Sources */,
 				306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */,
 				30B87C5E2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift in Sources */,
 			);

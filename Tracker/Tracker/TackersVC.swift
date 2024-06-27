@@ -1,7 +1,7 @@
 
 import UIKit
 
-class TrackersViewController: UIViewController {
+class TackersVC: UIViewController {
     
     var tracker: Tracker? = nil
     
@@ -72,7 +72,6 @@ class TrackersViewController: UIViewController {
         textField.placeholder = "Поиск"
         textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
-      //  textField.addTarget(self, action: #selector(searchTracker), for: .allEvents)
         textField.delegate = self
         return textField
     }()
@@ -116,18 +115,23 @@ class TrackersViewController: UIViewController {
         return button
     }()
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        showNothingWasFoundView()
-//       // collectionView.reloadData()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+        //        reloadVisibleCategories(with: trackerCategoryStore.trackerCategories)
+    }
     
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //  setWeekDay()
+        //        makeAddTrackerButton()
+        //        setupRightBarButtonItem()
         configureNavigationBar()
         layoutSubviews()
+        
+        
         
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -136,8 +140,14 @@ class TrackersViewController: UIViewController {
         tapGesture.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGesture)
         
-        setWeekDay()
+        
+        //        trackerCategoryStore.delegate = self
+        //        trackerRecordStore.delegate = self
+        //        trackerStore.delegate = self
+        
+        // completedTrackers = trackerRecordStore.trackerRecords
         syncData()
+        //showNothingWasFoundView()
     }
     
     private func configureNavigationBar() {
@@ -152,6 +162,14 @@ class TrackersViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
     
+    //    private func makeAddTrackerButton() {
+    //
+    //    }
+    
+    //    private func setupRightBarButtonItem() {
+    //
+    //    }
+    
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
@@ -163,10 +181,11 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
-        let components = Calendar.current.dateComponents([.weekday], from: sender.date)
-        if let day = components.weekday {
-            currentDate = day
-        }
+        //        let components = Calendar.current.dateComponents([.weekday], from: sender.date)
+        //        if let day = components.weekday {
+        //            currentDate = day
+        //            reloadVisibleCategories(with: trackerCategoryStore.trackerCategories)
+        //        }
         todaysDate = sender.date
         filteredTrackers()
         useFilter()
@@ -182,81 +201,85 @@ class TrackersViewController: UIViewController {
         self.present(navController, animated: true)
     }
     
-   private func searchTracker() {
-        var newCategories = [TrackerCategory]()
-        visibleCategories = trackerCategoryStore.trackerCategories
-
-        for category in visibleCategories {
-            var newTrackers = [Tracker]()
-            for tracker in category.visibleTrackers(filterString: searchText) {
-                let schedule = tracker.schedule
-                let scheduleIntegers = schedule.map { $0.numberValue }
-                if let day = currentDate, scheduleIntegers.contains(day) && (
-                    searchText.isEmpty ||
-                    tracker.title.lowercased().contains(searchText.lowercased())
-                ) {
-                    newTrackers.append(tracker)
-                }
-            }
-
-            if newTrackers.count > 0 {
-                let newCategory = TrackerCategory(
-                    title: category.title,
-                    trackers: newTrackers
-                )
-                newCategories.append(newCategory)
-            }
-        }
-        visibleCategories = newCategories
-        collectionView.reloadData()
-    }
-    // {
-//        guard let searchText = searchTextField.text, !searchText.isEmpty else { return }
-//        var newCategories = [TrackerCategory]()
-//        var categories: [TrackerCategory] = visibleCategories
-//        for category in categories {
-//            var newTrackers = [Tracker]()
-//            for tracker in category.visibleTrackers(filterString: searchText) {
-//                let schedule = tracker.schedule
-//                let scheduleIntegers = schedule.map { $0.numberValue }
-//                if let day = currentDate, scheduleIntegers.contains(day) &&
-//                    (
-//                        searchText.isEmpty ||
-//                        tracker.title.lowercased().contains(searchText.lowercased())
-//                    )
-//                {
-//                    newTrackers.append(tracker)
-//                }
-//                if newTrackers.count > 0 {
-//                    let newCategory = TrackerCategory(
-//                        title: category.title,
-//                        trackers: newTrackers
-//                    )
-//                    newCategories.append(newCategory)
-//                }
-//            }
-//            
-//        }
-//        visibleCategories = newCategories
-//        //fetchCategoryAndUpdateUI()
-//        collectionView.reloadData()
-    //}
+    //    private func setWeekDay() {
+    //        let components = Calendar.current.dateComponents([.weekday], from: Date())
+    //        currentDate = components.weekday
+    //        print("\(String(describing: currentDate))")
+    //    }
     
-    private func setWeekDay() {
-        let components = Calendar.current.dateComponents([.weekday], from: Date())
-        currentDate = components.weekday
-        print("\(String(describing: currentDate))")
-    }
+    //    private func reloadVisibleCategories(with categories: [TrackerCategory]) {
+    //        var newCategories = [TrackerCategory]()
+    //        var pinnedTrackers: [Tracker] = []
+    //
+    //        for category in categories {
+    //            var filteredtrackers = [Tracker]()
+    //            var newTrackers = [Tracker]()
+    //            for tracker in category.visibleTrackers(filterString: searchText, pin: nil) {
+    //                let schedule = tracker.schedule
+    //                let scheduleIntegers = schedule.map { $0.numberValue }
+    //                if let day = currentDate, scheduleIntegers.contains(day) &&
+    //                    (
+    //                    searchText.isEmpty ||
+    //                    tracker.title.lowercased().contains(searchText.lowercased())
+    //                )
+    //                {
+    //                    newTrackers.append(tracker)
+    //
+    //
+    //                    if selectedFilter == .completedTrackers {
+    //                       // filterNotFounded(filter: .completedTrackers)
+    //                        if completedTrackers.contains(where: { record in
+    //                            record.id == tracker.id &&
+    //                            record.date == datePicker.date
+    //
+    //                        }) {
+    //                            continue
+    //                        }
+    //                    }
+    //                    if selectedFilter == .uncompletedTrackers {
+    //                        //filterNotFounded(filter: .completedTrackers)
+    //                       // filterNotCompletedTrackers(newCategories)
+    //                        if !completedTrackers.contains(where: { record in
+    //                            record.id == tracker.id &&
+    //                            record.date == datePicker.date
+    //                        }) {
+    //                            continue
+    //                        }
+    //                       // newTrackers.append(tracker)
+    //                    }
+    ////                    if tracker.isPinned == true {
+    ////                        pinnedTrackers.append(tracker)
+    ////                    } else {
+    ////                        newTrackers.append(tracker)
+    ////                    }
+    //                }
+    //            }
+    //
+    //            if newTrackers.count > 0 {
+    //                let newCategory = TrackerCategory(
+    //                    title: category.title,
+    //                    trackers: newTrackers
+    //                )
+    //                newCategories.append(newCategory)
+    //            }
+    //        }
+    //        visibleCategories = newCategories
+    //        self.pinnedTrackers = pinnedTrackers
+    //        collectionView.reloadData()
+    //        showNothingWasFoundView()
+    //        //updateNothingWasFoundView()
+    //    }
     
     private func showNothingWasFoundView() {
         if visibleCategories.isEmpty {
             nothingWasFoundView.isHidden = false
-            
+           
         } else {
             nothingWasFoundView.isHidden = true
             collectionView.reloadData()
         }
     }
+    
     
     private func filterNotFounded(filter: Filters) {
         var isNotFounded = false
@@ -307,7 +330,7 @@ class TrackersViewController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension TrackersViewController: UICollectionViewDataSource {
+extension TackersVC: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return visibleCategories.count
     }
@@ -331,6 +354,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         
+        //Контекстное меню
         cell.delegate = self
         
         let isCompletedToday = isTrackerCompletedToday (id: tracker.id)
@@ -348,7 +372,7 @@ extension TrackersViewController: UICollectionViewDataSource {
                            isCompleted: isCompletedToday,
                            completedDays: completedDays,
                            indexPath: indexPath)//,
-        // isPined: tracker.isPinned)
+                          // isPined: tracker.isPinned)
         return cell
     }
     
@@ -380,7 +404,7 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension TrackersViewController: UICollectionViewDelegateFlowLayout {
+extension TackersVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -410,7 +434,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - TrackersDelegate
 
-extension TrackersViewController: TrackersDelegate {
+extension TackersVC: TrackersDelegate {
     func addedNew(tracker: Tracker, categoryTitle: String) {
         var updatedCategory: TrackerCategory?
         let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
@@ -437,8 +461,9 @@ extension TrackersViewController: TrackersDelegate {
                 trackers: [tracker]
             ))
         }
-        fetchCategoryAndUpdateUI()
+        collectionView.reloadData()
         dismiss(animated: true)
+        //   reloadVisibleCategories(with: trackerCategoryStore.trackerCategories)
     }
 }
 
@@ -446,7 +471,14 @@ extension TrackersViewController: TrackersDelegate {
 
 // Контекстное меню!
 
-extension TrackersViewController: TrackerCollectionViewCellDelegate {
+extension TackersVC: TrackerCollectionViewCellDelegate {
+    func pinTracker(at indexPath: IndexPath) {
+        print(#function)
+    }
+    
+    func deleteTracker(at indexPath: IndexPath) {
+        print(#function)
+    }
     
     func completeTracker(id: UUID, at indexPath: IndexPath) {
         if todaysDate <= Date() {
@@ -466,45 +498,24 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         }
     }
     
-    func pinTracker(at indexPath: IndexPath) {
-        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        pinTracker(tracker)
-        fetchCategoryAndUpdateUI()
-    }
-    
-    func editTracker(at indexPath: IndexPath) {
-        let vc = TrackerCreationScreenViewController()
-        //vc.delegate = self
-        let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
-        //vc.categoryName = self.visibleCategories[indexPath.section].title
-        // vc.setTrackerData(tracker: tracker)
-        vc.editTracker = tracker
-        vc.category = tracker.category
-        self.present(vc, animated: true)
-    }
-    
-    func deleteTracker(at indexPath: IndexPath) {
-        let alert = UIAlertController(title: "", message: "Уверены, что хотите удалить трекер?", preferredStyle: .alert)
-        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [self] _ in
-            let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-            trackerStore.deleteTracker(tracker: tracker)
-            
-            fetchCategoryAndUpdateUI()
-        }
-        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in }
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        self.present(alert, animated: true, completion: nil)
-        
-    }
-    
+//    func pinTracker(at indexPath: IndexPath) {
+//        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+//        let currentCategory = visibleCategories[indexPath.section].title
+//
+//        if currentCategory == "Закрепленные" {
+//            unpinTracker(at: indexPath)
+//        } else {
+//            pinTracker(tracker, from: currentCategory)
+//        }
+//
+//        fetchCategoryAndUpdateUI()
+//    }
+//
     func pinTracker(id: UUID, at indexPath: IndexPath) {
         do {
-            try self.trackerStore.pinTracker(id: id, at: indexPath)
+          try self.trackerStore.pinTracker(id: id, at: indexPath)
             guard let tracker = tracker else { return }
-            try self.trackerStore.changeTrackerPinStatus(tracker)
-            
-            
+           try self.trackerStore.changeTrackerPinStatus(tracker)
             collectionView.reloadData()
         } catch {
             print("Failed to pin tracker: \(error)")
@@ -513,28 +524,211 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         fetchCategoryAndUpdateUI()
         print(#function)
     }
+    
+    func unpinTracker(at indexPath: IndexPath) {
+        let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
+        try? trackerCategoryStore.deleteTrackerFromCategory(tracker: tracker, from: "Закрепленные")
+        if let originalCategory = originalCategories[tracker.id] {
+            try? trackerCategoryStore.addNewTrackerToCategory(tracker, to: originalCategory)
+            originalCategories.removeValue(forKey: tracker.id)
+        }
+      
+        fetchCategoryAndUpdateUI()
+    }
+    
+        func editTracker(at indexPath: IndexPath) {
+            let vc = TrackerCreationScreenViewController()
+            //vc.delegate = self
+            let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+            //vc.categoryName = self.visibleCategories[indexPath.section].title
+           // vc.setTrackerData(tracker: tracker)
+            vc.editTracker = tracker
+            vc.category = tracker.category
+            self.present(vc, animated: true)
+        }
+//    func editTracker(id: UUID, at indexPath: IndexPath) {
+//        print(#function)
+//        do {
+//            let tracker = try trackerStore.fetchTrackerByID(id: id, at: indexPath)
+//            // let category = categories[indexPath.section]
+//            let editTrackerViewController = TrackerCreationScreenViewController()
+//            editTrackerViewController.editTracker = tracker
+//            editTrackerViewController.category = tracker.category
+//            self.present(editTrackerViewController, animated: true)
+//        } catch {
+//            print("Failed to pin editTracker")
+//        }
+    //}
+    func deleteTracker(id: UUID, at indexPath: IndexPath) {
+        let actionSheet: UIAlertController = {
+                    let alert = UIAlertController()
+                    alert.title = "Уверены, что хотите удалить трекер?"
+                    return alert
+                }()
+        
+                let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+                    //                    self?.deleteTracker(<#T##tracker: Tracker##Tracker#>)
+                    do {
+                        try self?.trackerStore.deleteTracker(id: id, at: indexPath)
+                        self?.trackerRecordStore.update()
+                        //self?.reloadData()
+                        self?.collectionView.reloadData()
+                    } catch {
+                        print("Failed to delete tracker: \(error)")
+                    }
+                    print(#function)
+        
+                }
+                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+                actionSheet.addAction(deleteAction)
+                actionSheet.addAction(cancelAction)
+        
+                present(actionSheet, animated: true)
+    }
+    
+//    func deleteTracker(id: UUID, at indexPath: IndexPath) {
+//        let actionSheet: UIAlertController = {
+//            let alert = UIAlertController()
+//            alert.title = NSLocalizedString("deleteTrackerAlert.title", comment: "")
+//            return alert
+//        }()
+//
+//        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+//            //                    self?.deleteTracker(<#T##tracker: Tracker##Tracker#>)
+//            do {
+ //               try self?.trackerStore.deleteTracker(id: id, at: indexPath)
+//                //self?.reloadData()
+//                self?.collectionView.reloadData()
+//            } catch {
+//                print("Failed to delete tracker: \(error)")
+//            }
+//            print(#function)
+//
+//        }
+//        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+//
+//        actionSheet.addAction(deleteAction)
+//        actionSheet.addAction(cancelAction)
+//
+//        present(actionSheet, animated: true)
+//    }
+    
+    
+//    func record(_ sender: Bool, _ cell: TrackersCollectionViewCell) {
+//        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+//        let id = visibleCategories[indexPath.section].trackers[indexPath.row].id
+//        let newRecord = TrackerRecord(id: id, date: todaysDate)
+//
+//        switch sender {
+//        case true:
+//            completedTrackers.insert(newRecord)
+//        case false:
+//            completedTrackers.remove(newRecord)
+//        }
+//
+//        collectionView.reloadItems(at: [indexPath])
+//    }
+    
+//    func isTrackerPinned(at indexPath: IndexPath) -> Bool {
+//        return visibleCategories[indexPath.section].title == "Закрепленные"
+//    }
+    
+    //
+   
+    //
+    //    func editTracker(id: UUID, at indexPath: IndexPath) {
+    //        print(#function)
+    //        do {
+    //            let tracker = try trackerStore.fetchTrackerByID(id: id, at: indexPath)
+    //           // let category = categories[indexPath.section]
+    //            let editTrackerViewController = TrackerCreationScreenViewController()
+    //              editTrackerViewController.editTracker = tracker
+    //            editTrackerViewController.category = tracker.category
+    //            self.present(editTrackerViewController, animated: true)
+    //        } catch {
+    //            print("Failed to pin editTracker")
+    //        }
+    //    }
+    //
+    //    func deleteTracker(id: UUID, at indexPath: IndexPath) {
+    //        print("Failed to pin deleteTracker")
+    //
+    //        let actionSheet: UIAlertController = {
+    //                    let alert = UIAlertController()
+    //                    alert.title = NSLocalizedString("deleteTrackerAlert.title", comment: "")
+    //                    return alert
+    //                }()
+    //
+    //                let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+    ////                    self?.deleteTracker(<#T##tracker: Tracker##Tracker#>)
+    //                    do {
+    //                        try self?.trackerStore.deleteTracker(id: id, at: indexPath)
+    //                        //self?.reloadData()
+    //                        self?.collectionView.reloadData()
+    //                    } catch {
+    //                        print("Failed to delete tracker: \(error)")
+    //                    }
+    //                    print(#function)
+    //
+    //                }
+    //                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+    //
+    //                actionSheet.addAction(deleteAction)
+    //                actionSheet.addAction(cancelAction)
+    //
+    //                present(actionSheet, animated: true)
+    //    }
+    //
+    //   func completeTracker(id: UUID, at indexPath: IndexPath) {
+    //        if datePicker.date <= Date() {
+    //            let record = TrackerRecord(id: id, date: datePicker.date)
+    //            completedTrackers.append(record)
+    //            try? trackerRecordStore.addNewTracker(record)
+    //            collectionView.reloadItems(at: [indexPath])
+    //        }
+    //        trackerRecordStore.update()
+    //    }
+    //
+    //    func uncompleteTracker(id: UUID, at indexPath: IndexPath) {
+    //        completedTrackers.removeAll { trackerRecord in
+    //            isSameTracker(trackerRecord: trackerRecord, id: id)
+    //        }
+    //        //if let record = trackerRecordStore.fetchRecord(by: id, and: datePicker.date) {
+    //        try? trackerRecordStore.deleteTrackerRecord(with: id, date: getSelectedDate())
+    //        collectionView.reloadItems(at: [indexPath])
+    //        }
+    //
+    //    func getSelectedDate() -> Date {
+    //        let calendar = Calendar.current
+    //        let dateComponents = calendar.dateComponents([.year, .month, .day], from: datePicker.date)
+    //        guard let selectedDate = calendar.date(from: dateComponents) else { return Date() }
+    //        return selectedDate
+    //    }
+    //
 }
+
 
 // MARK: - UITextFieldDelegate
 
-extension TrackersViewController: UITextFieldDelegate {
+extension TackersVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         searchText = searchTextField.text ?? ""
-      visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-        searchTracker()
+      //  reloadVisibleCategories(with: trackerCategoryStore.predicateFetch(trackerTitle: searchText))
+        collectionView.reloadData()
         return true
     }
 }
 
-extension TrackersViewController: TrackerCategoryStoreDelegate {
+extension TackersVC: TrackerCategoryStoreDelegate {
     func store(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
         visibleCategories = trackerCategoryStore.trackerCategories
         collectionView.reloadData()
     }
 }
 
-extension TrackersViewController: FiltersViewControllerDelegate {
+extension TackersVC: FiltersViewControllerDelegate {
     func filterSelected(filter: Filters) {
         selectedFilter = filter
         useFilter()
@@ -542,27 +736,29 @@ extension TrackersViewController: FiltersViewControllerDelegate {
 }
 
 // MARK: - TrackerStoreDelegate
-extension TrackersViewController: TrackerStoreDelegate {
+extension TackersVC: TrackerStoreDelegate {
     func store(_ store: TrackerStore, didUpdate update: TrackerStoreUpdate) {
+        //reloadVisibleCategories(with: trackerCategoryStore.trackerCategories)
         collectionView.reloadData()
     }
 }
 
 // MARK: - TrackerRecordStoreDelegate
-extension TrackersViewController: TrackerRecordStoreDelegate {
+extension TackersVC: TrackerRecordStoreDelegate {
     func store(_ store: TrackerRecordStore, didUpdate update: TrackerRecordStoreUpdate) {
+      //  completedTrackers = trackerRecordStore.trackerRecords
         collectionView.reloadData()
     }
 }
 
-extension TrackersViewController: StatisticViewControllerDelegate {
+extension TackersVC: StatisticViewControllerDelegate {
     func updateStatistics() {
         return
     }
 }
 // MARK: - TrackerCreationScreenViewControllerDelegate
 
-extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
+extension TackersVC: TrackerCreationScreenViewControllerDelegate {
     func createButtonidTap(tracker: Tracker, category: String) {
         var updatedCategory: TrackerCategory?
         let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
@@ -590,13 +786,14 @@ extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
             ))
         }
         collectionView.reloadData()
+      //  reloadVisibleCategories(with: trackerCategoryStore.trackerCategories)
     }
 }
 
-extension TrackersViewController {
+extension TackersVC {
     
     private func isTrackerScheduledForToday(tracker: Tracker) -> Bool {
-        // проверка, запланирован ли трекер на сегодня
+        // Логика для проверки, запланирован ли трекер на сегодня
         let calendar = Calendar.current
         let today = calendar.component(.weekday, from: todaysDate) - 1
         let day = WeekDay.allCases[today].rawValue
@@ -609,14 +806,22 @@ extension TrackersViewController {
         }
     }
     
+    //    private func showPlaceholder() {
+    //        placeholderImageView.isHidden = false
+    //        placeholderLabel.isHidden = false
+    //        collectionView.isHidden = true
+    //    }
+    //
+    //    private func hidePlaceholder() {
+    //        placeholderImageView.isHidden = true
+    //        placeholderLabel.isHidden = true
+    //        collectionView.isHidden = false
+    //    }
+    
     private func filteredTrackers() {
         let calendar = Calendar.current
-        var selectedWeekDay = calendar.component(.weekday, from: todaysDate) - 2
-        if selectedWeekDay < 0 {
-            selectedWeekDay = 0
-        }
+        let selectedWeekDay = calendar.component(.weekday, from: todaysDate) - 1
         let day = WeekDay.allCases[selectedWeekDay].rawValue
-       
         let selectedDayString = WeekDay(rawValue: day)
         
         visibleCategories = categories.compactMap { category in
@@ -654,6 +859,14 @@ extension TrackersViewController {
             }.filter { !$0.trackers.isEmpty }
             collectionView.reloadData()
             
+            
+            //        if visibleCategories.isEmpty {
+            //            showPlaceholder()
+            //        } else {
+            //            hidePlaceholder()
+            //        }
+            
+            
         case .trackersForToday:
             visibleCategories = categories.map { category in
                 let trackersForToday = category.trackers.filter { tracker in
@@ -664,7 +877,7 @@ extension TrackersViewController {
             collectionView.reloadData()
         }
         
-        showNothingWasFoundView()
+       //!!!!!!!!!!!!!!!!!!!!!!!!!!!! showNothingWasFoundView()
     }
     
     private func syncData() {
@@ -677,7 +890,7 @@ extension TrackersViewController {
             visibleCategories = categories
             collectionView.reloadData()
         }
-          
+      //  showNothingWasFoundView()
     }
     
     private func fetchCategory() {
@@ -744,18 +957,13 @@ extension TrackersViewController {
             print("Failed to ensure pinned category exists: \(error)")
         }
     }
-    
-    func pinTracker(_ tracker: Tracker) {
-        do {
-            
-            try self.trackerStore.changeTrackerPinStatus(tracker)
-            collectionView.reloadData()
-        } catch {
-            print("Failed to pin tracker: \(error)")
-        }
+    private func pinTracker(_ tracker: Tracker, from category: String) {
+        ensurePinnedCategoryExists()
+        try? trackerCategoryStore.deleteTrackerFromCategory(tracker: tracker, from: category)
+        originalCategories[tracker.id] = category
+        try? trackerCategoryStore.addNewTrackerToCategory(tracker, to: "Закрепленные")
         
         fetchCategoryAndUpdateUI()
-        print(#function)
     }
     
     private func fetchCategoryAndUpdateUI() {
@@ -773,12 +981,13 @@ extension TrackersViewController {
         } catch {
             print("Ошибка при удалении трекера: \(error)")
         }
-        
+
         do {
             try trackerRecordStore.deleteAllTrackerRecords(with: tracker.id)
         } catch {
             print("Ошибка при удалении записей: \(error)")
         }
+       
     }
 }
 

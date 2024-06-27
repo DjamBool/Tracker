@@ -70,6 +70,16 @@ final class TrackerCategoryStore: NSObject {
         return trackerCategories
     }
     
+    private func saveContext() throws {
+        guard context.hasChanges else { return }
+        do {
+            try context.save()
+        } catch {
+            context.rollback()
+            throw error
+        }
+    }
+    
     func category(_ categoryTitle: String) -> TrackerCategoryCoreData? {
         return fetchedResultsController.fetchedObjects?.first {
             $0.title == categoryTitle
@@ -107,6 +117,20 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
+    func deleteTrackerFromCategory(tracker: Tracker, from categoryTitle: String) throws {
+        guard let category = category(categoryTitle) else { return }
+        var currentTrackers = category.trackers?.allObjects as? [TrackerCoreData] ?? []
+        if let index = currentTrackers.firstIndex(where: { $0.id == tracker.id }) {
+            currentTrackers.remove(at: index)
+            category.trackers = NSSet(array: currentTrackers)
+            do {
+                try context.save()
+            } catch {
+                throw DataError.decodingError
+            }
+        }
+    }
+    
     private func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
         guard let category = trackerCategoryCoreData.title else {
             throw DataError.decodingError
@@ -120,7 +144,8 @@ final class TrackerCategoryStore: NSObject {
                 let id = trackerCoreData.id,
                 let title = trackerCoreData.title,
                 let color = trackerCoreDataColor,
-                let emoji = trackerCoreData.emoji
+                let emoji = trackerCoreData.emoji,
+                    let schedule = trackerCoreData.schedule
             else { return nil }
             
             let isPinned = trackerCoreData.isPinned
@@ -130,7 +155,7 @@ final class TrackerCategoryStore: NSObject {
                 title: title,
                 color: color,
                 emoji: emoji,
-                schedule: trackerCoreData.schedule?.compactMap { WeekDay(rawValue: $0) },
+                schedule: schedule.compactMap { WeekDay(rawValue: $0) }, //trackerCoreData.schedule.compactMap { WeekDay(rawValue: $0) },
                 isPinned: isPinned
             )
         } ?? []
@@ -139,6 +164,21 @@ final class TrackerCategoryStore: NSObject {
             title: category,
             trackers: trackers
         )
+    }
+    
+    func addNewCategory( _ categoryName: TrackerCategory) throws {
+        guard let trackerCategoryCoreData = NSEntityDescription.entity(forEntityName: "TrackerCategoryCoreData", in: context) else { return }
+
+        if try context.fetch(TrackerCategoryCoreData.fetchRequest()).contains(where: { $0.title == categoryName.title }) {
+            print("Category already exists: \(categoryName.title)")
+            return
+        }
+        
+        let newCategory = TrackerCategoryCoreData(entity: trackerCategoryCoreData, insertInto: context)
+        newCategory.title = categoryName.title
+        newCategory.trackers = []
+        
+       try saveContext()
     }
     
     func addNewTrackerCategory(_ trackerCategory: TrackerCategory) throws {
@@ -154,7 +194,7 @@ final class TrackerCategoryStore: NSObject {
             trackerCoreData.title = tracker.title
             trackerCoreData.color = trackerColor
             trackerCoreData.emoji = tracker.emoji
-            trackerCoreData.schedule = tracker.schedule?.compactMap { $0.rawValue }
+            trackerCoreData.schedule = tracker.schedule.compactMap { $0.rawValue }
             
             trackerCategoryCoreData.addToTrackers(trackerCoreData)
         }
@@ -173,10 +213,25 @@ final class TrackerCategoryStore: NSObject {
         trackerCoreData.title = tracker.title
         trackerCoreData.color = trackerColor
         trackerCoreData.emoji = tracker.emoji
-        trackerCoreData.schedule = tracker.schedule?.compactMap { $0.rawValue }
+        trackerCoreData.schedule = tracker.schedule.compactMap { $0.rawValue }
         
         category?.addToTrackers(trackerCoreData)
         try context.save()
+    }
+    
+    func addNewTrackerToCategory(_ tracker: Tracker, to trackerCategory: String) throws {
+        let newTrackerCoreData = try trackerStore.fetchTrackerCoreData()
+        guard let currentCategory = category(trackerCategory) else { return }
+        var currentTrackers = currentCategory.trackers?.allObjects as? [TrackerCoreData] ?? []
+        if let index = newTrackerCoreData.firstIndex(where: {$0.id == tracker.id}) {
+            currentTrackers.append(newTrackerCoreData[index])
+        }
+        currentCategory.trackers = NSSet(array: currentTrackers)
+        do {
+            try context.save()
+        } catch {
+            throw DataError.decodingError
+        }
     }
     
     func predicateFetch(trackerTitle: String) -> [TrackerCategory] {
@@ -196,6 +251,26 @@ final class TrackerCategoryStore: NSObject {
             
             return categories
         }
+    }
+    
+    func fetchCategories() throws -> [TrackerCategoryCoreData] {
+        do {
+            let categories = try context.fetch(NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData"))
+            return categories
+        } catch {
+            throw DataError.decodingError
+        }
+    }
+    
+    func updateTrackerCategory(_ category: TrackerCategoryCoreData) -> TrackerCategory? {
+        guard let newTitle = category.title else { return nil }
+        guard let trackers = category.trackers else { return nil }
+        return TrackerCategory(title: newTitle, trackers: trackers.compactMap { coreDataTracker -> Tracker? in
+            if let coreDataTracker = coreDataTracker as? TrackerCoreData {
+                return trackerStore.convertTrackers(from: coreDataTracker)
+            }
+            return nil
+        })
     }
 }
 

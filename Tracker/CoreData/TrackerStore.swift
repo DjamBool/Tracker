@@ -121,7 +121,7 @@ final class TrackerStore: NSObject {
         trackerCoreData.title = tracker.title
         trackerCoreData.color = trackerColor
         trackerCoreData.emoji = tracker.emoji
-        trackerCoreData.schedule = tracker.schedule?.compactMap { $0.rawValue }
+        trackerCoreData.schedule = tracker.schedule.compactMap { $0.rawValue }
     }
     
     func updateTracker(
@@ -176,6 +176,18 @@ final class TrackerStore: NSObject {
        }
    }
     
+    func deleteTracker(tracker: Tracker) {
+        do {
+            let targetTrackers = try fetchTrackerCoreData()
+            if let index = targetTrackers.firstIndex(where: {$0.id == tracker.id}) {
+                context.delete(targetTrackers[index])
+                try context.save()
+            }
+        } catch {
+            print("Ошибка при получении трекеров: \(error)")
+        }
+    }
+    
     func changeTrackerPinStatus(_ tracker: Tracker) throws {
         let trackerIndex = fetchedResultsController.fetchedObjects?.firstIndex { $0.id == tracker.id }
 
@@ -193,6 +205,34 @@ final class TrackerStore: NSObject {
             return try convert(from: result)
         } else {
             throw DataError.dataError
+        }
+    }
+    func convertTrackers(from trackerCoreData: TrackerCoreData) -> Tracker? {
+        let trackerColor = uiColorMarshalling.color(from: trackerCoreData.color ?? "")
+        guard
+            let id = trackerCoreData.id,
+            let title = trackerCoreData.title,
+            let color = trackerColor,
+            let emoji = trackerCoreData.emoji,
+                let schedule = trackerCoreData.schedule
+        else { return nil }
+        let isPinned = trackerCoreData.isPinned
+        return Tracker(
+            id: id,
+            title: title,
+            color:color,
+            emoji: emoji,
+            schedule: schedule.compactMap { WeekDay(rawValue: $0) },
+            isPinned: isPinned)
+    }
+    
+    func fetchTrackerCoreData() throws -> [TrackerCoreData] {
+        do {
+            let fetchRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+            let trackerCoreDataArray = try context.fetch(fetchRequest)
+            return trackerCoreDataArray
+        } catch {
+            throw DataError.decodingError
         }
     }
 }

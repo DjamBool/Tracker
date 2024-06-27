@@ -11,13 +11,12 @@ struct TrackerCategory {
     let title: String
     var trackers: [Tracker]
     
-    func visibleTrackers(filterString: String, pin: Bool?) -> [Tracker] {
+    func visibleTrackers(filterString: String) -> [Tracker] {
         if filterString.isEmpty {
-            return pin == nil ? trackers : trackers.filter { $0.isPinned == pin }
+            return  trackers
         } else {
-            return pin == nil ? trackers.filter { $0.title.lowercased().contains(filterString.lowercased()) } :
-            trackers.filter { $0.title.lowercased().contains(filterString.lowercased()) }
-                .filter { $0.isPinned == pin }
+            return trackers.filter { $0.title.lowercased().contains(filterString.lowercased()) } 
+                
         }
     }
 }
