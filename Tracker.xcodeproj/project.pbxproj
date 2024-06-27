@@ -39,6 +39,7 @@
 		304EDC372C21D4FB00500AC8 /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC362C21D4FB00500AC8 /* File2.swift */; };
 		304EDC392C22EBF200500AC8 /* NewTrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC382C22EBF200500AC8 /* NewTrackersViewController.swift */; };
 		304EDC3B2C2C475500500AC8 /* TackersVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC3A2C2C475500500AC8 /* TackersVC.swift */; };
+		304EDC3D2C2D682300500AC8 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC3C2C2D682300500AC8 /* StatisticsView.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
 		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
@@ -120,6 +121,7 @@
 		304EDC362C21D4FB00500AC8 /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
 		304EDC382C22EBF200500AC8 /* NewTrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackersViewController.swift; sourceTree = "<group>"; };
 		304EDC3A2C2C475500500AC8 /* TackersVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TackersVC.swift; sourceTree = "<group>"; };
+		304EDC3C2C2D682300500AC8 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
@@ -357,6 +359,7 @@
 			children = (
 				30CC24AA2B15E511009791FC /* StatisticViewController.swift */,
 				304EDC272C11CBA600500AC8 /* StatisticsNotFoundView.swift */,
+				304EDC3C2C2D682300500AC8 /* StatisticsView.swift */,
 			);
 			path = Statistic;
 			sourceTree = "<group>";
@@ -508,6 +511,7 @@
 				3029B1092B283ACF00AE1EA9 /* TrackerCreationCell.swift in Sources */,
 				30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */,
 				302205CC2BFF300A0006444D /* CategoriesViewController.swift in Sources */,
+				304EDC3D2C2D682300500AC8 /* StatisticsView.swift in Sources */,
 				304EDC3B2C2C475500500AC8 /* TackersVC.swift in Sources */,
 				30CC24AE2B17B906009791FC /* PaddingLabel.swift in Sources */,
 				304EDC2D2C17215E00500AC8 /* FiltersViewController.swift in Sources */,
