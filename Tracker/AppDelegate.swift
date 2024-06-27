@@ -10,6 +10,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(defaults: [
             DetectLaunch.keyforLaunch: true
             ])
+        AnalyticsService.activate()
         return true
     }
     

@@ -21,7 +21,7 @@ class TrackersViewController: UIViewController {
     private let colors = Colors()
     private var dataStore = DataStore.shared
     
-    weak var statisticDelegate: StatisticViewControllerDelegate?
+    //weak var statisticDelegate: StatisticViewControllerDelegate?
     weak var trackerCreationScreenViewControllerDelegate: TrackerCreationScreenViewControllerDelegate?
     
     private var selectedFilter: Filters = .allTrackers
@@ -30,7 +30,7 @@ class TrackersViewController: UIViewController {
     private var trackers = [Tracker]()
     private var originalCategories: [UUID: String] = [:]
     
-    //analyticsService
+    private let analyticsService = AnalyticsService()
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -138,6 +138,17 @@ class TrackersViewController: UIViewController {
         
         setWeekDay()
         syncData()
+        analyticsService.report(event: .open, params: ["Screen" : "Main"])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        analyticsService.report(event: .open, params: ["Screen": "Main"])
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        analyticsService.report(event: .close, params: ["Screen" : "Main"])
     }
     
     private func configureNavigationBar() {
@@ -160,6 +171,7 @@ class TrackersViewController: UIViewController {
         let trackerСreatingViewController = TrackerCreatingViewController()
         trackerСreatingViewController.delegate = self
         present(trackerСreatingViewController, animated: true)
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.add_track.rawValue])
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
@@ -174,7 +186,7 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func filterButtonTapped(sender: AnyObject) {
-        
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.filter.rawValue])
         let viewController = FiltersViewController()
         viewController.selectedFilter = selectedFilter
         viewController.delegate = self
@@ -449,6 +461,7 @@ extension TrackersViewController: TrackersDelegate {
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
     
     func completeTracker(id: UUID, at indexPath: IndexPath) {
+        analyticsService.report(event: .click, params: ["Screen": "Main", "Item": Items.track.rawValue])
         if todaysDate <= Date() {
             let trackerRecord = TrackerRecord(id: id, date: datePicker.date)
             completedTrackers.insert(trackerRecord)
@@ -473,6 +486,8 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func editTracker(at indexPath: IndexPath) {
+        self.analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.edit.rawValue])
+
         let vc = TrackerCreationScreenViewController()
         //vc.delegate = self
         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
@@ -484,6 +499,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func deleteTracker(at indexPath: IndexPath) {
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.delete.rawValue])
         let alert = UIAlertController(title: "", message: "Уверены, что хотите удалить трекер?", preferredStyle: .alert)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [self] _ in
             let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
@@ -555,11 +571,11 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
     }
 }
 
-extension TrackersViewController: StatisticViewControllerDelegate {
-    func updateStatistics() {
-        return
-    }
-}
+//extension TrackersViewController: StatisticViewControllerDelegate {
+//    func updateStatistics() {
+//        return
+//    }
+//}
 // MARK: - TrackerCreationScreenViewControllerDelegate
 
 extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
