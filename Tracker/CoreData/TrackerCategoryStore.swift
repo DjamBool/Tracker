@@ -155,7 +155,7 @@ final class TrackerCategoryStore: NSObject {
                 title: title,
                 color: color,
                 emoji: emoji,
-                schedule: schedule.compactMap { WeekDay(rawValue: $0) }, //trackerCoreData.schedule.compactMap { WeekDay(rawValue: $0) },
+                schedule: schedule.compactMap { WeekDay(rawValue: $0) }, 
                 isPinned: isPinned
             )
         } ?? []

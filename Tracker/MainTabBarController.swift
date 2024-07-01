@@ -2,7 +2,7 @@
 import UIKit
 
 class MainTabBarController: UITabBarController {
-   
+    
     private let colors = Colors()
     
     private let trackersVC = TrackersViewController()
@@ -15,7 +15,7 @@ class MainTabBarController: UITabBarController {
         "statisticsTabBarItemTitle",
         comment: "")
     
-   
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,17 +26,14 @@ class MainTabBarController: UITabBarController {
     func makeTabBar() {
         viewControllers = [
             createController(title: trackersTabBarItemTitle,
-            imageName: "trackers",
-            vc: trackersVC),
+                             imageName: "trackers",
+                             vc: trackersVC),
             createController(title:
-            statisticsTabBarItemTitle,
-            imageName: "stats",
-            vc: statsVC)
+                                statisticsTabBarItemTitle,
+                             imageName: "stats",
+                             vc: statsVC)
         ]
         
-      //  tabBar.barTintColor = .white
-       // tabBar.layer.borderWidth = 1
-       // tabBar.layer.borderColor = UIColor.systemGray5.cgColor
         let separator = UIView(frame: CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 1))
         separator.backgroundColor = colors.viewColor
         tabBar.addSubview(separator)

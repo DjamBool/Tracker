@@ -25,7 +25,7 @@ final class StatisticsNotFoundView: UIView {
         super.init(frame: frame)
         setupViews()
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,6 +45,6 @@ final class StatisticsNotFoundView: UIView {
             label.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
             label.heightAnchor.constraint(equalToConstant: 18)
             
-            ])
+        ])
     }
 }

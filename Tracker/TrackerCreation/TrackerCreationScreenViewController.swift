@@ -39,7 +39,9 @@ class TrackerCreationScreenViewController: UIViewController {
     private var selectedColorCell: IndexPath? = nil
     
     var editTrackerTitle = "Редактирование привычки"
+    
     var editTracker: Tracker?
+    
     var editTrackerDate: Date?
     private let uiColorMarshalling = UIColorMarshalling()
     
@@ -48,7 +50,7 @@ class TrackerCreationScreenViewController: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-
+    
     private lazy var contentView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -156,14 +158,16 @@ class TrackerCreationScreenViewController: UIViewController {
         label.isHidden = true
         return label
     }()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        title = editTracker == nil ? "Новая привычка" : "Редактирование привычки"
+    title = editTracker == nil ? "Новая привычка" : "Редактирование привычки"
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = viewColors.viewBackgroundColor
-     
+        
         scheduleViewControllerdelegate = self
         
         textFieldForTrackerName.delegate = self
@@ -254,20 +258,6 @@ class TrackerCreationScreenViewController: UIViewController {
     }
     
     @objc private func createButtonTapped() {
-        //        guard let newTrackerName = textFieldForTrackerName.text,
-        //              !newTrackerName.isEmpty,
-        //              let color = selectedColor,
-        //              let emoji = selectedEmoji else {
-        //            return
-        //        }
-        //        let newTracker = Tracker(id: UUID(),
-        //                                 title: newTrackerName,
-        //                                 color: color,
-        //                                 emoji: emoji,
-        //                                 schedule: self.selectedDays,
-        //                                 isPinned: false)
-        //        trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
-        //        dismiss(animated: true)
         var newTracker: Tracker?
         
         if editTracker == nil {

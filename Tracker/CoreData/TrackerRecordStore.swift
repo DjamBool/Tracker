@@ -138,21 +138,6 @@ final class TrackerRecordStore: NSObject {
         }
     }
     
-//    private func fetchRecords(_ tracker: Tracker) throws -> [TrackerRecord] {
-//        let request = TrackerRecordCoreData.fetchRequest()
-//        request.returnsObjectsAsFaults = false
-//        request.predicate = NSPredicate(
-//            format: "%K = %@",
-//            #keyPath(TrackerRecordCoreData.id), tracker.id as CVarArg
-//        )
-//        let objects = try context.fetch(request)
-//        let records = objects.compactMap { object -> TrackerRecord? in
-//            guard let date = object.date, let id = object.id else { return nil }
-//            return TrackerRecord(id: id, date: date)
-//        }
-//        return records
-//    }
-    
     func fetchRecords() throws -> Set<TrackerRecord> {
         let fetchRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         do {

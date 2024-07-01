@@ -2,7 +2,7 @@
 import UIKit
 
 class StatisticsView: UIView {
-
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false

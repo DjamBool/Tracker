@@ -29,7 +29,6 @@ final class NewCategoryViewController: UIViewController {
         textField.layer.cornerRadius = 16
         textField.layer.masksToBounds = true
         textField.font = UIFont.systemFont(ofSize: 17)
-        //textField.placeholder = "Введите название категории"
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .done
         textField.enablesReturnKeyAutomatically = true

@@ -1,9 +1,3 @@
-//
-//  WeekDay.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 11.12.2023.
-//
 
 import Foundation
 

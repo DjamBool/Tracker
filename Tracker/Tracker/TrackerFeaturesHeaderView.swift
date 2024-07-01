@@ -1,9 +1,3 @@
-//
-//  TrackerFeaturesHeaderView.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 14.03.2024.
-//
 
 import UIKit
 

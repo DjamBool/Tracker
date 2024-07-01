@@ -1,9 +1,3 @@
-//
-//  NewIrregularEventViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 06.03.2024.
-//
 
 import UIKit
 
@@ -155,7 +149,7 @@ class NewIrregularEventViewController: UIViewController {
                                emoji: emoji,
                                schedule: dateForEvent, 
                                isPinned: false)
-            
+        
         delegate?.addedNew(tracker: newEvent, categoryTitle: "Irregular")
         dismiss(animated: true)
     }

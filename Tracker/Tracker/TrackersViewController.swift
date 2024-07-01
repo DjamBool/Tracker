@@ -21,7 +21,6 @@ class TrackersViewController: UIViewController {
     private let colors = Colors()
     private var dataStore = DataStore.shared
     
-    //weak var statisticDelegate: StatisticViewControllerDelegate?
     weak var trackerCreationScreenViewControllerDelegate: TrackerCreationScreenViewControllerDelegate?
     
     private var selectedFilter: Filters = .allTrackers
@@ -72,7 +71,6 @@ class TrackersViewController: UIViewController {
         textField.placeholder = "Поиск"
         textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
-      //  textField.addTarget(self, action: #selector(searchTracker), for: .allEvents)
         textField.delegate = self
         return textField
     }()
@@ -116,12 +114,6 @@ class TrackersViewController: UIViewController {
         return button
     }()
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        showNothingWasFoundView()
-//       // collectionView.reloadData()
-//    }
-    
     // MARK: - viewDidLoad()
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +130,6 @@ class TrackersViewController: UIViewController {
         
         setWeekDay()
         syncData()
-        analyticsService.report(event: .open, params: ["Screen" : "Main"])
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -168,10 +159,10 @@ class TrackersViewController: UIViewController {
     }
     
     @objc private func addtapped() {
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.add_track.rawValue])
         let trackerСreatingViewController = TrackerCreatingViewController()
         trackerСreatingViewController.delegate = self
         present(trackerСreatingViewController, animated: true)
-        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.add_track.rawValue])
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
@@ -194,10 +185,10 @@ class TrackersViewController: UIViewController {
         self.present(navController, animated: true)
     }
     
-   private func searchTracker() {
+    private func searchTracker() {
         var newCategories = [TrackerCategory]()
         visibleCategories = trackerCategoryStore.trackerCategories
-
+        
         for category in visibleCategories {
             var newTrackers = [Tracker]()
             for tracker in category.visibleTrackers(filterString: searchText) {
@@ -210,7 +201,7 @@ class TrackersViewController: UIViewController {
                     newTrackers.append(tracker)
                 }
             }
-
+            
             if newTrackers.count > 0 {
                 let newCategory = TrackerCategory(
                     title: category.title,
@@ -222,37 +213,6 @@ class TrackersViewController: UIViewController {
         visibleCategories = newCategories
         collectionView.reloadData()
     }
-    // {
-//        guard let searchText = searchTextField.text, !searchText.isEmpty else { return }
-//        var newCategories = [TrackerCategory]()
-//        var categories: [TrackerCategory] = visibleCategories
-//        for category in categories {
-//            var newTrackers = [Tracker]()
-//            for tracker in category.visibleTrackers(filterString: searchText) {
-//                let schedule = tracker.schedule
-//                let scheduleIntegers = schedule.map { $0.numberValue }
-//                if let day = currentDate, scheduleIntegers.contains(day) &&
-//                    (
-//                        searchText.isEmpty ||
-//                        tracker.title.lowercased().contains(searchText.lowercased())
-//                    )
-//                {
-//                    newTrackers.append(tracker)
-//                }
-//                if newTrackers.count > 0 {
-//                    let newCategory = TrackerCategory(
-//                        title: category.title,
-//                        trackers: newTrackers
-//                    )
-//                    newCategories.append(newCategory)
-//                }
-//            }
-//            
-//        }
-//        visibleCategories = newCategories
-//        //fetchCategoryAndUpdateUI()
-//        collectionView.reloadData()
-    //}
     
     private func setWeekDay() {
         let components = Calendar.current.dateComponents([.weekday], from: Date())
@@ -347,20 +307,11 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let isCompletedToday = isTrackerCompletedToday (id: tracker.id)
         let completedDays = completedTrackers.filter { $0.id == tracker.id }.count
-        // let isEnabled = datePicker.date < Date() || Date() == datePicker.date
-        //        cell.configureCell(tracker.id,
-        //                           title: tracker.title,
-        //                           color: tracker.color,
-        //                           emoji: tracker.emoji,
-        //                           isCompleted: isCompletedToday,
-        //                           isEnabled: isEnabled,
-        //                           completedDays: completedDays,
-        //                           isPinned: tracker.isPinned ?? false )
+        
         cell.configureCell(with: tracker,
                            isCompleted: isCompletedToday,
                            completedDays: completedDays,
-                           indexPath: indexPath)//,
-        // isPined: tracker.isPinned)
+                           indexPath: indexPath)
         return cell
     }
     
@@ -456,8 +407,6 @@ extension TrackersViewController: TrackersDelegate {
 
 // MARK: -TrackerCollectionViewCellDelegate
 
-// Контекстное меню!
-
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
     
     func completeTracker(id: UUID, at indexPath: IndexPath) {
@@ -474,7 +423,6 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         if let trackerRecordToDelete = completedTrackers.first(where: { $0.id == id }) {
             completedTrackers.remove(trackerRecordToDelete)
             deleteRecord(record: trackerRecordToDelete)
-            
             collectionView.reloadItems(at: [indexPath])
         }
     }
@@ -486,16 +434,13 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func editTracker(at indexPath: IndexPath) {
-        self.analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.edit.rawValue])
-
+        analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.edit.rawValue])
         let vc = TrackerCreationScreenViewController()
-        //vc.delegate = self
         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
-        //vc.categoryName = self.visibleCategories[indexPath.section].title
-        // vc.setTrackerData(tracker: tracker)
         vc.editTracker = tracker
         vc.category = tracker.category
-        self.present(vc, animated: true)
+        let navController = UINavigationController(rootViewController: vc)
+        self.present(navController, animated: true)
     }
     
     func deleteTracker(at indexPath: IndexPath) {
@@ -537,7 +482,7 @@ extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         searchText = searchTextField.text ?? ""
-      visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
+        visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
         searchTracker()
         return true
     }
@@ -571,11 +516,6 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
     }
 }
 
-//extension TrackersViewController: StatisticViewControllerDelegate {
-//    func updateStatistics() {
-//        return
-//    }
-//}
 // MARK: - TrackerCreationScreenViewControllerDelegate
 
 extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
@@ -632,7 +572,7 @@ extension TrackersViewController {
             selectedWeekDay = 0
         }
         let day = WeekDay.allCases[selectedWeekDay].rawValue
-       
+        
         let selectedDayString = WeekDay(rawValue: day)
         
         visibleCategories = categories.compactMap { category in
@@ -693,7 +633,7 @@ extension TrackersViewController {
             visibleCategories = categories
             collectionView.reloadData()
         }
-          
+        
     }
     
     private func fetchCategory() {
@@ -780,21 +720,5 @@ extension TrackersViewController {
         collectionView.reloadData()
     }
     
-    func deleteTracker(_ tracker: Tracker) {
-        try? self.trackerStore.deleteTracker(tracker)
-        trackerRecordStore.update()
-        updateStatistics()
-        do {
-            try trackerStore.deleteTracker(tracker)
-        } catch {
-            print("Ошибка при удалении трекера: \(error)")
-        }
-        
-        do {
-            try trackerRecordStore.deleteAllTrackerRecords(with: tracker.id)
-        } catch {
-            print("Ошибка при удалении записей: \(error)")
-        }
-    }
 }
 

@@ -1,9 +1,4 @@
-//
-//  DetectLaunch.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 31.05.2024.
-//
+
 
 import Foundation
 struct DetectLaunch {

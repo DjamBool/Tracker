@@ -11,11 +11,9 @@ class OnboardingViewController: UIPageViewController {
     private lazy var pages: [OnboardingPageViewController] =
     [OnboardingPageViewController(
         imageName: firstOnBoardingImg,
-        //labelText: "Отслеживайте только то, что хотите"),
         labelText: NSLocalizedString("firstOnboardingPageText", comment: "")),
      OnboardingPageViewController(
         imageName: secondtOnBoardingImg,
-        //labelText: "Даже если это\nне литры воды и йога")]
         labelText: NSLocalizedString("secondOnboardingPageText", comment: ""))]
     
     private lazy var pageControl: UIPageControl = {
@@ -36,7 +34,6 @@ class OnboardingViewController: UIPageViewController {
         button.backgroundColor = .black
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
-//button.setTitle("Вот это технологии!", for: .normal)
         button.setTitle(NSLocalizedString("onboardingDoneButton", comment: ""),
                         for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -105,7 +102,6 @@ class OnboardingViewController: UIPageViewController {
     }
     
     @objc private func doneButtonDidTap() {
-        //onboardingHandler?()
         let viewController = MainTabBarController()
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
         window.rootViewController = viewController

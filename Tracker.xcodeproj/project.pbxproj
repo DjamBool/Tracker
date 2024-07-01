@@ -38,8 +38,9 @@
 		304EDC3D2C2D682300500AC8 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 304EDC3C2C2D682300500AC8 /* StatisticsView.swift */; };
 		306C1B022BF78D3000F4717A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B012BF78D3000F4717A /* OnboardingViewController.swift */; };
 		306C1B052BF7966400F4717A /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */; };
-		3070865C2C2DA77800AD8B0A /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3070865B2C2DA77800AD8B0A /* AnalyticsService.swift */; };
 		3090DB3B2BE17132004C9BB0 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3090DB392BE17132004C9BB0 /* Tracker.xcdatamodeld */; };
+		3092D7C42C2E8BD7005591BC /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3092D7C32C2E8BD7005591BC /* AnalyticsService.swift */; };
+		3092D7C52C2E8F3E005591BC /* Pods_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6A89BFEE1E1EA8FCC4D25E /* Pods_Tracker.framework */; };
 		30B727102BF4B2080047EB56 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B7270F2BF4B2080047EB56 /* DataStore.swift */; };
 		30B87C5C2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B87C5B2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift */; };
 		30B87C5E2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B87C5D2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift */; };
@@ -68,7 +69,6 @@
 		30F3CB1B2BE8CC740055129A /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1A2BE8CC740055129A /* TrackerRecordStore.swift */; };
 		30F3CB1F2BEA266E0055129A /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB1E2BEA266E0055129A /* UIColorMarshalling.swift */; };
 		30F3CB212BEA280E0055129A /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F3CB202BEA280E0055129A /* DataError.swift */; };
-		811B4F20E022D5B28C87297D /* Pods_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C6A89BFEE1E1EA8FCC4D25E /* Pods_Tracker.framework */; };
 		C2DF77F53544A55D72DA988F /* Pods_TrackerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78470082F275267EA3976013 /* Pods_TrackerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -119,8 +119,8 @@
 		304EDC3C2C2D682300500AC8 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
 		306C1B012BF78D3000F4717A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		306C1B042BF7966400F4717A /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
-		3070865B2C2DA77800AD8B0A /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		3090DB3A2BE17132004C9BB0 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		3092D7C32C2E8BD7005591BC /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		30B7270F2BF4B2080047EB56 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
 		30B87C5B2BA087EF008BC5A7 /* ListsOfEmojisAndColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListsOfEmojisAndColors.swift; sourceTree = "<group>"; };
 		30B87C5D2BA1EC49008BC5A7 /* TrackerFeaturesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerFeaturesCell.swift; sourceTree = "<group>"; };
@@ -174,7 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				811B4F20E022D5B28C87297D /* Pods_Tracker.framework in Frameworks */,
+				3092D7C52C2E8F3E005591BC /* Pods_Tracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +297,7 @@
 				30CC24922B14CD00009791FC /* AppDelegate.swift */,
 				30CC24942B14CD00009791FC /* SceneDelegate.swift */,
 				30CC24A62B15E351009791FC /* MainTabBarController.swift */,
-				3070865B2C2DA77800AD8B0A /* AnalyticsService.swift */,
+				3092D7C32C2E8BD7005591BC /* AnalyticsService.swift */,
 				304EDC2B2C17212800500AC8 /* Filters */,
 				304EDBF22C0DEE5100500AC8 /* Resources */,
 				306C1B032BF7963000F4717A /* OnBoarding */,
@@ -605,7 +605,7 @@
 				304EDC2D2C17215E00500AC8 /* FiltersViewController.swift in Sources */,
 				30CC24A72B15E351009791FC /* MainTabBarController.swift in Sources */,
 				30CC24A92B15E4F4009791FC /* TrackersViewController.swift in Sources */,
-				3070865C2C2DA77800AD8B0A /* AnalyticsService.swift in Sources */,
+				3092D7C42C2E8BD7005591BC /* AnalyticsService.swift in Sources */,
 				304EDBF12C0A0A0000500AC8 /* DetectLaunch.swift in Sources */,
 				3029B1072B2700DA00AE1EA9 /* ScheduleTableViewCell.swift in Sources */,
 				30F3CB172BE8CC4D0055129A /* TrackerStore.swift in Sources */,
@@ -764,7 +764,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -779,7 +779,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -828,7 +828,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -837,7 +837,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

@@ -6,22 +6,11 @@ protocol FiltersViewControllerDelegate: AnyObject {
 }
 
 class FiltersViewController: UIViewController {
-
+    
     var selectedFilter: Filters?
     private lazy var filters: [Filters] = Filters.allCases
     weak var delegate: FiltersViewControllerDelegate?
-
-    // MARK: - UI
-//    private lazy var navBarLabel: UILabel = {
-//        let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
-//        label.text = "Фильтры"
-//        label.textColor = .ypBlack
-//        label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-//        label.textAlignment = .center
-//        return label
-//    }()
-
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +28,6 @@ class FiltersViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // title = navBarLabel.text
         title = "Фильтры"
         tableView.dataSource = self
         tableView.delegate = self
@@ -48,22 +36,17 @@ class FiltersViewController: UIViewController {
     
     func setupViews() {
         view.backgroundColor = .ypWhite
-      //  view.addSubview(navBarLabel)
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
             
-//            navBarLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            navBarLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-//            navBarLabel.heightAnchor.constraint(equalToConstant: 22),
-//            
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(equalToConstant: 300),
         ])
     }
-
+    
 }
 
 extension FiltersViewController: UITableViewDataSource {
@@ -98,9 +81,7 @@ extension FiltersViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       // let filter = filters[indexPath.row]
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        //delegate?.filterSelected(filter: filter)
         delegate?.filterSelected(filter: filters[indexPath.row])
         dismiss(animated: true)
     }
