@@ -1,9 +1,3 @@
-//
-//  EventCreationCell.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 06.03.2024.
-//
 
 import UIKit
 

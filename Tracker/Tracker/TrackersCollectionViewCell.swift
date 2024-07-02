@@ -1,22 +1,18 @@
-//
-//  TrackerCollectionViewCell.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 06.12.2023.
-//
 
 import UIKit
 
 final class TrackersCollectionViewCell: UICollectionViewCell {
     weak var delegate: TrackerCollectionViewCellDelegate?
     
-    private var trackersModel = [Tracker]()
-    private var isCompleted: Bool = false
+    private var isCompleted: Bool?
     private var trackerId: UUID?
     private var indexPath: IndexPath?
+    private var isPinned: Bool = false
     
     private let plusImage = UIImage(systemName: "plus")
     private let doneImage = UIImage(named: "Done")
+    
+    private let analyticsService = AnalyticsService()
     
     private var trackerBackgroundView: UIView = {
         let view = UIView()
@@ -29,7 +25,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     private var trackerNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .white
+        label.textColor = .ypWhite
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = 0
         return label
@@ -39,7 +35,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         var label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        label.backgroundColor = .white.withAlphaComponent(0.3)
+        label.backgroundColor = .ypWhite.withAlphaComponent(0.3)
         label.layer.masksToBounds = true
         label.layer.cornerRadius = 12
         return label
@@ -58,69 +54,83 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(plusImage, for: .normal)
-        button.imageView?.tintColor = .white
+        button.imageView?.tintColor = .ypWhite
         button.layer.cornerRadius = 17
         button.addTarget(self, action: #selector(trackerButtonTapped), for: .touchUpInside)
         button.layer.masksToBounds = true
         return button
     }()
     
+    private lazy var pinImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(systemName: "pin.fill")
+        image.image = image.image?.withAlignmentRectInsets(UIEdgeInsets(
+            top: -6,
+            left: -6,
+            bottom: -6,
+            right: -6))
+        image.tintColor = .white
+        return image
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubviews()
         layout()
-        
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    func setupCell(with tracker: Tracker,
-                   isCompleted: Bool,
-                   completedDays: Int,
-                   indexPath: IndexPath) {
+    func configureCell(with tracker: Tracker,
+                       isCompleted: Bool,
+                       completedDays: Int,
+                       indexPath: IndexPath)
+    {
         self.trackerId = tracker.id
         self.isCompleted = isCompleted
         self.indexPath = indexPath
+        self.isPinned = tracker.isPinned
         
         trackerBackgroundView.backgroundColor = tracker.color
         trackerNameLabel.text = tracker.title
         emojiLabel.text = tracker.emoji
         trackerButton.backgroundColor = tracker.color
+        pinImageView.isHidden = !isPinned
         
         let counterText = convertCompletedDays(completedDays: completedDays)
         daysCounterLabel.text = counterText
         
         let image = isCompleted ? doneImage : plusImage
         trackerButton.setImage(image, for: .normal)
+        
+        showPin()
     }
     
+    
     @objc private func trackerButtonTapped() {
-        guard let trackerId = trackerId, let indexPath = indexPath else {
+        guard let trackerId = trackerId,
+              let isCompleted = isCompleted,
+              let indexPath = indexPath
+        else {
             assertionFailure("No trackerId")
             return
         }
+        
         if isCompleted {
-            delegate?.uncompleteTracker(id: trackerId, indexPath: indexPath)
+            delegate?.uncompleteTracker(id: trackerId, at: indexPath)
         } else {
-            delegate?.competeTracker(id: trackerId, indexPath: indexPath)
+            delegate?.completeTracker(id: trackerId, at: indexPath)
         }
     }
     
     private func convertCompletedDays(completedDays: Int) -> String {
-        let remainder10 = completedDays % 10
-        let remainder100 = completedDays % 100
-        
-        if remainder10 == 1 && remainder100 != 11 {
-            return "\(completedDays) день"
-        } else if remainder10 >= 2 &&
-                    remainder10 <= 4 &&
-                    (remainder100 < 10 || remainder100 >= 20) {
-            return "\(completedDays) дня"
-        } else {
-            return "\(completedDays) дней"
-        }
+        let formattedString = String.localizedStringWithFormat(
+            NSLocalizedString("StringKey", comment: ""),
+            completedDays)
+        return String.localizedStringWithFormat(formattedString, completedDays)
     }
     
     private func addSubviews() {
@@ -128,8 +138,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(daysCounterLabel)
         contentView.addSubview(trackerButton)
         
-        trackerBackgroundView.addSubview(emojiLabel)
-        trackerBackgroundView.addSubview(trackerNameLabel)
+        
+        [emojiLabel, trackerNameLabel, pinImageView].forEach { (trackerBackgroundView.addSubview($0)) }
+        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        trackerBackgroundView.addInteraction(interaction)
     }
     
     private func layout() {
@@ -157,8 +170,56 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             trackerButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
             trackerButton.topAnchor.constraint(equalTo: trackerBackgroundView.bottomAnchor, constant: 8),
             trackerButton.widthAnchor.constraint(equalToConstant: 34),
-            trackerButton.heightAnchor.constraint(equalToConstant: 34)
+            trackerButton.heightAnchor.constraint(equalToConstant: 34),
+            
+            pinImageView.widthAnchor.constraint(equalToConstant: 24),
+            pinImageView.heightAnchor.constraint(equalToConstant: 24),
+            pinImageView.topAnchor.constraint(equalTo: trackerBackgroundView.topAnchor, constant: 12),
+            pinImageView.trailingAnchor.constraint(equalTo: trackerBackgroundView.trailingAnchor, constant: -4)
             
         ])
+    }
+    
+    private func showPin() {
+        if self.isPinned {
+            pinImageView.isHidden = false
+        } else {
+            pinImageView.isHidden = true
+        }
+    }
+}
+
+
+extension TrackersCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        
+        guard let indexPath = indexPath else { return nil }
+        
+        let configContextMenu = UIContextMenuConfiguration(actionProvider: { _ in
+            let pinTitle = self.isPinned ? "Открепить" : "Закрепить"
+            
+            let pinAction = UIAction(title: pinTitle) { _ in
+                self.delegate?.pinTracker(at: indexPath)
+            }
+            
+            let editAction = UIAction(title: NSLocalizedString("editAction.title", comment: "")) { [weak self] _ in
+                guard let indexPath = self?.indexPath else {
+                    return
+                }
+                self?.delegate?.editTracker(at: indexPath)
+            }
+            
+            let deleteAction = UIAction(title: "Delete", attributes: .destructive) { [weak self] _ in
+                guard let indexPath = self?.indexPath else {
+                    return
+                }
+                self?.delegate?.deleteTracker(at: indexPath)
+            }
+            
+            let actions = [pinAction, editAction, deleteAction]
+            return UIMenu(title: "", children: actions)
+        })
+        
+        return configContextMenu
     }
 }

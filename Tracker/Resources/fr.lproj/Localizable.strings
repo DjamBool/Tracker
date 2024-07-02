@@ -1,0 +1,19 @@
+// MARK: - OnboardingViewController
+
+"firstOnboardingPageText" = "Suivez uniquement ce que vous voulez";
+"secondOnboardingPageText" = "Même si ce n'est pas des litres d'eau et du yoga";
+"onboardingDoneButton" = "Ce sont des technologies!";
+
+// MARK: - TabBarController
+
+"navBarTitleLabelText" = "Traqueurs";
+"trackersTabBarItemTitle" =  "Traqueurs";
+"statisticsTabBarItemTitle" = "Statistiques";
+
+// MARK: - Filters
+"filterButtonTitleText" = "Filtres";
+"deleteTrackerAlert.title" = "Are you sure you want to delete the tracker?";
+"pinAction.title" = "Pin";
+"unpinAction.title" = "Unpin";
+"editAction.title" = "Edit";
+"deleteAction.title" = "Delete";

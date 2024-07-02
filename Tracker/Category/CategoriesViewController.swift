@@ -3,6 +3,8 @@ import UIKit
 
 final class CategoriesViewController: UIViewController {
     
+    let viewColors = Colors()
+    
     private var viewModel: CategoriesViewModel
     private var selectedCategoryIndex: Int?
     init(
@@ -30,10 +32,10 @@ final class CategoriesViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 16
-        button.backgroundColor = .black
+        button.backgroundColor = .ypBlack
         button.setTitle("Добавить категорию", for: .normal)
         button.addTarget(self, action: #selector(addcategory), for: .touchUpInside)
-        button.titleLabel?.textColor = .white
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return button
@@ -53,7 +55,7 @@ final class CategoriesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = viewColors.viewBackgroundColor
         layout()
         title = "Категория"
         tableView.dataSource = self

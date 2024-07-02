@@ -11,32 +11,35 @@ class OnboardingViewController: UIPageViewController {
     private lazy var pages: [OnboardingPageViewController] =
     [OnboardingPageViewController(
         imageName: firstOnBoardingImg,
-        labelText: "Отслеживайте только то, что хотите"),
+        labelText: NSLocalizedString("firstOnboardingPageText", comment: "")),
      OnboardingPageViewController(
         imageName: secondtOnBoardingImg,
-        labelText: "Даже если это\nне литры воды и йога")]
+        labelText: NSLocalizedString("secondOnboardingPageText", comment: ""))]
     
     private lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.numberOfPages = pages.count
         control.currentPage = 0
         control.translatesAutoresizingMaskIntoConstraints = false
-        control.currentPageIndicatorTintColor = .ypBlack
-        control.pageIndicatorTintColor = .ypBlack.withAlphaComponent(0.3)
-        control.addTarget(self, action: #selector(pageControlDidChange), for: .valueChanged)
+        control.currentPageIndicatorTintColor = .black
+        control.pageIndicatorTintColor = .black.withAlphaComponent(0.3)
+        control.addTarget(self, action: #selector(pageControlDidChange),
+                          for: .valueChanged)
         return control
     }()
     
     private lazy var doneButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = .black
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(NSLocalizedString("onboardingDoneButton", comment: ""),
+                        for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        button.addTarget(self, action: #selector(doneButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(doneButtonDidTap), 
+                         for: .touchUpInside)
         return button
     }()
     
@@ -99,9 +102,12 @@ class OnboardingViewController: UIPageViewController {
     }
     
     @objc private func doneButtonDidTap() {
-        onboardingHandler?()
+        let viewController = MainTabBarController()
+        guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
+        window.rootViewController = viewController
     }
 }
+
 extension OnboardingViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewControllerIndex = pages.firstIndex(of: viewController as! OnboardingPageViewController) else {
@@ -111,7 +117,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         let previousIndex = viewControllerIndex - 1
         
         guard previousIndex >= 0 else {
-            return pages.last
+            return nil
         }
         
         return pages[previousIndex]
@@ -123,7 +129,7 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
         }
         let nextIndex = viewControllerIndex + 1
         guard nextIndex < pages.count else {
-            return pages.first
+            return nil
         }
         return pages[nextIndex]
     }
