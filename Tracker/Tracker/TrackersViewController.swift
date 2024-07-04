@@ -175,7 +175,7 @@ class TrackersViewController: UIViewController {
         todaysDate = sender.date
         filteredTrackers()
         useFilter()
-        showNothingWasFoundView()
+        showWhatWillWeTrackView()
     }
     
     @objc func filterButtonTapped(sender: AnyObject) {
@@ -232,16 +232,25 @@ class TrackersViewController: UIViewController {
         }
     }
     
-    private func filterNotFounded(filter: Filters) {
-        var isNotFounded = false
-        if selectedFilter == filter {
-            isNotFounded = true
-        }
-        
-        if isNotFounded {
-            nothingWasFoundView.isHidden = false
+    private func showWhatWillWeTrackView() {
+        if visibleCategories.isEmpty {
+            whatWillWeTrackView.isHidden = false
+        } else {
+            whatWillWeTrackView.isHidden = true
+            collectionView.reloadData()
         }
     }
+    
+    private func showPlaceholder() {
+        whatWillWeTrackView.isHidden = false
+        collectionView.isHidden = true
+    }
+    
+    private func hidePlaceholder() {
+        whatWillWeTrackView.isHidden = true
+        collectionView.isHidden = false
+}
+
     
     private func layoutSubviews() {
         view.backgroundColor = colors.viewBackgroundColor
@@ -633,7 +642,11 @@ extension TrackersViewController {
             collectionView.reloadData()
         }
         
-        showNothingWasFoundView()
+        if visibleCategories.isEmpty {
+            showPlaceholder()
+        } else {
+            hidePlaceholder()
+        }
     }
     
     private func syncData() {
