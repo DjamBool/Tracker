@@ -108,7 +108,7 @@ final class TrackerStore: NSObject {
         }
     }
     
-    private func addNewTracker(_ tracker: Tracker) throws {
+     func addNewTracker(_ tracker: Tracker) throws {
           let trackerCoreData = TrackerCoreData(context: context)
           updateExistingTracker(trackerCoreData, with: tracker)
           try saveContext()
@@ -141,7 +141,8 @@ final class TrackerStore: NSObject {
             if (tracker?.category?.title != categoryTitle) {
                 tracker?.category = TrackerCategoryStore().category(categoryTitle)
             }
-            try saveContext()
+            //try saveContext()
+            try context.save()
         }
     
     func deleteTracker(_ trackerToDelete: Tracker) throws {
@@ -299,4 +300,25 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
                 assertionFailure("unknown case")
         }
     }
+    
+//    func updateTracker(_ tracker: Tracker) -> TrackerCoreData? {
+//        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+//        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+//        
+//        do {
+//            let results = try context.fetch(fetchRequest)
+//            if let trackerEntity = results.first {
+//                trackerEntity.title = tracker.title
+//                trackerEntity.color = uiColorMarshalling.hexString(from: tracker.color)
+//                trackerEntity.emoji = tracker.emoji
+//                trackerEntity.schedule = tracker.schedule.compactMap { $0.rawValue }
+//                
+//                try context.save()
+//                return trackerEntity
+//            }
+//        } catch {
+//            print("Error updating tracker: \(error)")
+//        }
+//        return nil
+//    }
 }

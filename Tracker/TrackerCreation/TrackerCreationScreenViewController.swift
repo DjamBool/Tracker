@@ -257,35 +257,81 @@ class TrackerCreationScreenViewController: UIViewController {
         dismiss(animated: true)
     }
     
+//    @objc private func createButtonTapped() {
+//        var newTracker: Tracker?
+//        
+//        if editTracker == nil {
+//            guard let newTrackerName = textFieldForTrackerName.text,
+//                  !newTrackerName.isEmpty,
+//                  let color = selectedColor,
+//                  let emoji = selectedEmoji else {
+//                return
+//            }
+//            
+//            newTracker = Tracker(id: UUID(),
+//                                 title: newTrackerName,
+//                                 color: color,
+//                                 emoji: emoji,
+//                                 schedule: self.selectedDays,
+//                                 isPinned: false)
+//            
+//            guard let newTracker = newTracker else { return }
+//            
+//            trackerDelegate?.addedNew(tracker: newTracker, 
+//                                      categoryTitle: category?.title ?? "Важное")
+//        } else {
+//            guard let editTracker = editTracker else { return }
+//            let color = uiColorMarshalling.hexString(from: selectedColor ?? .ypBlack)
+//           // trackerDelegate?.didEditTracker(editTracker)
+//            try? trackerStore.updateTracker(
+//                newTitle: textFieldForTrackerName.text ?? "",
+//                newEmoji: selectedEmoji ?? "",
+//                newColor: color,
+//                newSchedule: selectedDays,
+//                categoryTitle: category?.title ?? "Category",
+//                editableTracker: editTracker)
+//         
+//        }
+//        dismiss(animated: true)
+//    }
+    
     @objc private func createButtonTapped() {
         var newTracker: Tracker?
-        
+
         if editTracker == nil {
-            guard let newTrackerName = textFieldForTrackerName.text,
-                  !newTrackerName.isEmpty,
-                  let color = selectedColor,
-                  let emoji = selectedEmoji else {
+            guard let text = textFieldForTrackerName.text, !text.isEmpty,
+                  let color = selectedColor else {
                 return
             }
-            newTracker = Tracker(id: UUID(),
-                                 title: newTrackerName,
-                                 color: color,
-                                 emoji: emoji,
-                                 schedule: self.selectedDays,
-                                 isPinned: false)
+
+            newTracker = Tracker(
+                id: UUID(),
+                title: text,
+                color: color,
+                emoji: selectedEmoji ?? "",
+                schedule: self.selectedDays,
+                isPinned: false
+            )
+
             guard let newTracker = newTracker else { return }
-            trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Важное")
+
+            trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Категория")
         } else {
             guard let editTracker = editTracker else { return }
-            let color = uiColorMarshalling.hexString(from: selectedColor ?? .ypBlack)
-            try? trackerStore.updateTracker(newTitle: textFieldForTrackerName.text ?? "",
-                                            newEmoji: selectedEmoji ?? "",
-                                            newColor: color,
-                                            newSchedule: selectedDays,
-                                            categoryTitle: category?.title ?? "Category",
-                                            editableTracker: editTracker)
+            let color = uiColorMarshalling.hexString(from: selectedColor ?? .black)
+            
+            try? trackerStore.updateTracker(
+                newTitle: textFieldForTrackerName.text ?? "",
+                newEmoji: selectedEmoji ?? "",
+                newColor: color,
+                newSchedule: selectedDays,
+                categoryTitle: category?.title ?? "Без категории",
+                editableTracker: editTracker
+            )
+            trackerDelegate?.didEditTracker(editTracker)
         }
-        dismiss(animated: true)
+
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
     private func checkСontent() {

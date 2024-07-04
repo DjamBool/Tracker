@@ -55,7 +55,8 @@ class TrackersViewController: UIViewController {
         datePicker.setValue(UIColor.ypWhite, forKey: "textColor")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
-        datePicker.locale = Locale(identifier: "ru_Ru")
+        datePicker.locale = .current
+        
         datePicker.tintColor = .colorSelection3
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 100)])
@@ -135,6 +136,7 @@ class TrackersViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         analyticsService.report(event: .open, params: ["Screen": "Main"])
+        filteredTrackers()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -166,10 +168,10 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
-        let components = Calendar.current.dateComponents([.weekday], from: sender.date)
-        if let day = components.weekday {
-            currentDate = day
-        }
+      //  let components = Calendar.current.dateComponents([.weekday], from: sender.date)
+//        if let day = components.weekday {
+//            currentDate = day
+//        }
         todaysDate = sender.date
         filteredTrackers()
         useFilter()
@@ -374,6 +376,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - TrackersDelegate
 
 extension TrackersViewController: TrackersDelegate {
+    
     func addedNew(tracker: Tracker, categoryTitle: String) {
         var updatedCategory: TrackerCategory?
         let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
@@ -400,6 +403,14 @@ extension TrackersViewController: TrackersDelegate {
                 trackers: [tracker]
             ))
         }
+        fetchCategoryAndUpdateUI()
+        filteredTrackers()
+        dismiss(animated: true)
+    }
+    
+    func didEditTracker(_ tracker: Tracker) {
+        
+        try? trackerStore.addNewTracker(tracker)
         fetchCategoryAndUpdateUI()
         dismiss(animated: true)
     }
@@ -436,6 +447,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     func editTracker(at indexPath: IndexPath) {
         analyticsService.report(event: .click, params: ["Screen" : "Main", "Item" : Items.edit.rawValue])
         let vc = TrackerCreationScreenViewController()
+        vc.trackerDelegate = self
         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
         vc.editTracker = tracker
         vc.category = tracker.category
@@ -519,34 +531,35 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
 // MARK: - TrackerCreationScreenViewControllerDelegate
 
 extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
-    func createButtonidTap(tracker: Tracker, category: String) {
-        var updatedCategory: TrackerCategory?
-        let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
-        
-        for item in 0..<categories.count {
-            if categories[item].title == category {
-                updatedCategory = categories[item]
-            }
-        }
-        
-        if updatedCategory != nil {
-            try? trackerCategoryStore.addTrackerToCategory(tracker, to: updatedCategory ?? TrackerCategory(
-                title: category,
-                trackers: [tracker]
-            ))
-        } else {
-            let trackerCategory = TrackerCategory(
-                title: category,
-                trackers: [tracker]
-            )
-            updatedCategory = trackerCategory
-            try? trackerCategoryStore.addNewTrackerCategory(updatedCategory ?? TrackerCategory(
-                title: category,
-                trackers: [tracker]
-            ))
-        }
-        collectionView.reloadData()
-    }
+    func createButtonidTap(tracker: Tracker, category: String){} // {
+//        var updatedCategory: TrackerCategory?
+//        let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
+//        
+//        for item in 0..<categories.count {
+//            if categories[item].title == category {
+//                updatedCategory = categories[item]
+//            }
+//        }
+//        
+//        if updatedCategory != nil {
+//            try? trackerCategoryStore.addTrackerToCategory(tracker, to: updatedCategory ?? TrackerCategory(
+//                title: category,
+//                trackers: [tracker]
+//            ))
+//        } else {
+//            let trackerCategory = TrackerCategory(
+//                title: category,
+//                trackers: [tracker]
+//            )
+//            updatedCategory = trackerCategory
+//            try? trackerCategoryStore.addNewTrackerCategory(updatedCategory ?? TrackerCategory(
+//                title: category,
+//                trackers: [tracker]
+//            ))
+//        }
+//        fetchCategoryAndUpdateUI()
+//        collectionView.reloadData()
+//    }
 }
 
 extension TrackersViewController {
@@ -556,7 +569,7 @@ extension TrackersViewController {
         let calendar = Calendar.current
         let today = calendar.component(.weekday, from: todaysDate) - 1
         let day = WeekDay.allCases[today].rawValue
-        return tracker.schedule.contains(WeekDay(rawValue: day) ?? .monday)
+        return tracker.schedule.contains(WeekDay(rawValue: day) ?? .sunday)
     }
     
     private func isTrackerCompletedOnDate(tracker: Tracker, date: Date) -> Bool {
@@ -569,7 +582,7 @@ extension TrackersViewController {
         let calendar = Calendar.current
         var selectedWeekDay = calendar.component(.weekday, from: todaysDate) - 2
         if selectedWeekDay < 0 {
-            selectedWeekDay = 0
+            selectedWeekDay = 6
         }
         let day = WeekDay.allCases[selectedWeekDay].rawValue
         
