@@ -55,7 +55,7 @@ class TrackersViewController: UIViewController {
         datePicker.setValue(UIColor.ypWhite, forKey: "textColor")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
-        datePicker.locale = .current
+        datePicker.locale = Locale(identifier: "ru_Ru")
         
         datePicker.tintColor = .colorSelection3
         NSLayoutConstraint.activate([
@@ -72,6 +72,7 @@ class TrackersViewController: UIViewController {
         textField.placeholder = "Поиск"
         textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
+       // textField.addTarget(self, action: #selector(searchTracker), for: .allEvents)
         textField.delegate = self
         return textField
     }()
@@ -502,12 +503,24 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
         searchText = searchTextField.text ?? ""
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
         searchTracker()
         return true
     }
 }
+
+//extension TrackersViewController: UISearchTextFieldDelegate {
+//    private func textFieldShouldReturn(_ textField: UISearchTextField) -> Bool {
+//    
+//            textField.resignFirstResponder()
+//            searchText = searchTextField.text ?? ""
+//            visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
+//            searchTracker()
+//            return true
+//        }
+//}
 
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func store(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
