@@ -11,7 +11,7 @@ protocol NewCategoryViewControllerDelegate: AnyObject {
 // MARK: - NewCategoryViewController
 
 final class NewCategoryViewController: UIViewController {
-    let viewColors = Colors()
+   private  let viewColors = Colors()
     weak var delegate: NewCategoryViewControllerDelegate?
     private let trackerCategoryStore = TrackerCategoryStore.shared
     
@@ -53,8 +53,6 @@ final class NewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       // view.backgroundColor = .white
         setupNavBar()
         setupView()
         setupConstraints()

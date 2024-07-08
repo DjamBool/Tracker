@@ -13,12 +13,6 @@ struct AnalyticsService {
             print("REPORT ERROR: %@", error.localizedDescription)
         })
     }
-    
-//    func reportEvent(event: String, parameters: [String: String]) {
-//        YMMYandexMetrica.reportEvent(event, parameters: parameters, onFailure: { error in
-//            print("REPORT ERROR: %@", error.localizedDescription)
-//        })
-//    }
 }
 
 enum Events: String, CaseIterable {

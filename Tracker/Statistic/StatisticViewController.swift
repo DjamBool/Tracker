@@ -65,13 +65,8 @@ final class StatisticViewController: UIViewController {
     }
     
     private func updateUI() {
-        if completedTrackers.isEmpty {
-            emptyView.isHidden = false
-            statisticsView.isHidden = true
-        } else {
-            emptyView.isHidden = true
-            statisticsView.isHidden = false
-        }
+        emptyView.isHidden = !completedTrackers.isEmpty
+        statisticsView.isHidden = completedTrackers.isEmpty
     }
 }
 

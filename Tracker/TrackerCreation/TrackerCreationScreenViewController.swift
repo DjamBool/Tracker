@@ -237,7 +237,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     private func setupEditTracker() {
         if let editTracker = editTracker {
-            selectedDays = editTracker.schedule 
+            selectedDays = editTracker.schedule
             textFieldForTrackerName.text = editTracker.title
             selectedEmoji =  editTracker.emoji
             selectedColor = editTracker.color
@@ -448,7 +448,7 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1 
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

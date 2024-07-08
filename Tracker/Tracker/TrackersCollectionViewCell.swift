@@ -181,11 +181,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     private func showPin() {
-        if self.isPinned {
-            pinImageView.isHidden = false
-        } else {
-            pinImageView.isHidden = true
-        }
+        pinImageView.isHidden = !self.isPinned
     }
 }
 
@@ -198,8 +194,8 @@ extension TrackersCollectionViewCell: UIContextMenuInteractionDelegate {
         let configContextMenu = UIContextMenuConfiguration(actionProvider: { _ in
             let pinTitle = self.isPinned ? "Открепить" : "Закрепить"
             
-            let pinAction = UIAction(title: pinTitle) { _ in
-                self.delegate?.pinTracker(at: indexPath)
+            let pinAction = UIAction(title: pinTitle) { [weak self ] _ in
+                self?.delegate?.pinTracker(at: indexPath)
             }
             
             let editAction = UIAction(title: NSLocalizedString("editAction.title", comment: "")) { [weak self] _ in

@@ -536,7 +536,7 @@ extension TrackersViewController: UITextFieldDelegate {
         searchText = searchTextField.text ?? ""
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
         reloadVisibleCategories()
-        
+        //filteredTrackers()
         return true
     }
 }
