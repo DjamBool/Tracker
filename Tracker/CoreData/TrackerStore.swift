@@ -141,7 +141,6 @@ final class TrackerStore: NSObject {
             if (tracker?.category?.title != categoryTitle) {
                 tracker?.category = TrackerCategoryStore().category(with: categoryTitle)
             }
-            //try saveContext()
             try context.save()
         }
     

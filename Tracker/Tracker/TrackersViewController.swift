@@ -70,7 +70,6 @@ class TrackersViewController: UIViewController {
         textField.placeholder = "Поиск"
         textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
-       // textField.addTarget(self, action: #selector(reloadVisibleCategories), for: .allEvents)
         textField.delegate = self
         return textField
     }()
@@ -278,8 +277,8 @@ class TrackersViewController: UIViewController {
     private func hidePlaceholder() {
         whatWillWeTrackView.isHidden = true
         collectionView.isHidden = false
-}
-
+    }
+    
     
     private func layoutSubviews() {
         view.backgroundColor = colors.viewBackgroundColor
@@ -452,7 +451,7 @@ extension TrackersViewController: TrackersDelegate {
         filteredTrackers()
         dismiss(animated: true)
     }
-  }
+}
 
 // MARK: -TrackerCollectionViewCellDelegate
 
@@ -480,6 +479,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
         pinTracker(tracker)
         fetchCategoryAndUpdateUI()
+        filteredTrackers()
     }
     
     func editTracker(at indexPath: IndexPath) {
@@ -634,7 +634,7 @@ extension TrackersViewController {
             visibleCategories = categories.map { category in
                 let trackersForToday = category.trackers.filter { tracker in
                     return isTrackerScheduledForToday(tracker: tracker)
-                  
+                    
                 }
                 return TrackerCategory(title: category.title, trackers: trackersForToday)
             }.filter { !$0.trackers.isEmpty }
@@ -728,7 +728,6 @@ extension TrackersViewController {
     
     func pinTracker(_ tracker: Tracker) {
         do {
-            
             try self.trackerStore.changeTrackerPinStatus(tracker)
             collectionView.reloadData()
         } catch {
@@ -744,6 +743,5 @@ extension TrackersViewController {
         visibleCategories = categories
         collectionView.reloadData()
     }
-    
 }
 

@@ -161,7 +161,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    title = editTracker == nil ? "Новая привычка" : "Редактирование привычки"
+        title = editTracker == nil ? "Новая привычка" : "Редактирование привычки"
     }
     
     override func viewDidLoad() {
@@ -237,7 +237,7 @@ class TrackerCreationScreenViewController: UIViewController {
     
     private func setupEditTracker() {
         if let editTracker = editTracker {
-            selectedDays = editTracker.schedule ?? []
+            selectedDays = editTracker.schedule 
             textFieldForTrackerName.text = editTracker.title
             selectedEmoji =  editTracker.emoji
             selectedColor = editTracker.color
@@ -257,53 +257,15 @@ class TrackerCreationScreenViewController: UIViewController {
         dismiss(animated: true)
     }
     
-//    @objc private func createButtonTapped() {
-//        var newTracker: Tracker?
-//        
-//        if editTracker == nil {
-//            guard let newTrackerName = textFieldForTrackerName.text,
-//                  !newTrackerName.isEmpty,
-//                  let color = selectedColor,
-//                  let emoji = selectedEmoji else {
-//                return
-//            }
-//            
-//            newTracker = Tracker(id: UUID(),
-//                                 title: newTrackerName,
-//                                 color: color,
-//                                 emoji: emoji,
-//                                 schedule: self.selectedDays,
-//                                 isPinned: false)
-//            
-//            guard let newTracker = newTracker else { return }
-//            
-//            trackerDelegate?.addedNew(tracker: newTracker, 
-//                                      categoryTitle: category?.title ?? "Важное")
-//        } else {
-//            guard let editTracker = editTracker else { return }
-//            let color = uiColorMarshalling.hexString(from: selectedColor ?? .ypBlack)
-//           // trackerDelegate?.didEditTracker(editTracker)
-//            try? trackerStore.updateTracker(
-//                newTitle: textFieldForTrackerName.text ?? "",
-//                newEmoji: selectedEmoji ?? "",
-//                newColor: color,
-//                newSchedule: selectedDays,
-//                categoryTitle: category?.title ?? "Category",
-//                editableTracker: editTracker)
-//         
-//        }
-//        dismiss(animated: true)
-//    }
-    
     @objc private func createButtonTapped() {
         var newTracker: Tracker?
-
+        
         if editTracker == nil {
             guard let text = textFieldForTrackerName.text, !text.isEmpty,
                   let color = selectedColor else {
                 return
             }
-
+            
             newTracker = Tracker(
                 id: UUID(),
                 title: text,
@@ -312,9 +274,9 @@ class TrackerCreationScreenViewController: UIViewController {
                 schedule: self.selectedDays,
                 isPinned: false
             )
-
+            
             guard let newTracker = newTracker else { return }
-
+            
             trackerDelegate?.addedNew(tracker: newTracker, categoryTitle: category?.title ?? "Категория")
         } else {
             guard let editTracker = editTracker else { return }
@@ -330,7 +292,7 @@ class TrackerCreationScreenViewController: UIViewController {
             )
             trackerDelegate?.didEditTracker(editTracker)
         }
-
+        
         self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
     }
     
@@ -486,7 +448,7 @@ extension TrackerCreationScreenViewController: UICollectionViewDelegateFlowLayou
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1 //0
+        return 1 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
