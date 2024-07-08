@@ -194,7 +194,7 @@ class TrackersViewController: UIViewController {
             for tracker in category.visibleTrackers(filterString: searchText) {
                 let schedule = tracker.schedule
                 let scheduleIntegers = schedule.map { $0.numberValue }
-                if let day = currentDate, scheduleIntegers.contains(day) && (
+                if let day = currentDate, scheduleIntegers.contains(day - 1) && (
                     searchText.isEmpty ||
                     tracker.title.lowercased().contains(searchText.lowercased())
                 ) {
@@ -211,6 +211,12 @@ class TrackersViewController: UIViewController {
             }
         }
         visibleCategories = newCategories
+       
+        if visibleCategories.isEmpty {
+            showPlaceholder()
+        } else {
+            hidePlaceholder()
+        }
         collectionView.reloadData()
     }
     
@@ -535,8 +541,7 @@ extension TrackersViewController: UITextFieldDelegate {
         
         searchText = searchTextField.text ?? ""
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-        reloadVisibleCategories()
-        //filteredTrackers()
+        searchTracker()
         return true
     }
 }
