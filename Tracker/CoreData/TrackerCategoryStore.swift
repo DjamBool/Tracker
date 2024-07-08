@@ -80,7 +80,7 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
-    func category(_ categoryTitle: String) -> TrackerCategoryCoreData? {
+    func category(with categoryTitle: String) -> TrackerCategoryCoreData? {
         return fetchedResultsController.fetchedObjects?.first {
             $0.title == categoryTitle
         }
@@ -118,7 +118,7 @@ final class TrackerCategoryStore: NSObject {
     }
     
     func deleteTrackerFromCategory(tracker: Tracker, from categoryTitle: String) throws {
-        guard let category = category(categoryTitle) else { return }
+        guard let category = category(with: categoryTitle) else { return }
         var currentTrackers = category.trackers?.allObjects as? [TrackerCoreData] ?? []
         if let index = currentTrackers.firstIndex(where: { $0.id == tracker.id }) {
             currentTrackers.remove(at: index)
@@ -221,7 +221,7 @@ final class TrackerCategoryStore: NSObject {
     
     func addNewTrackerToCategory(_ tracker: Tracker, to trackerCategory: String) throws {
         let newTrackerCoreData = try trackerStore.fetchTrackerCoreData()
-        guard let currentCategory = category(trackerCategory) else { return }
+        guard let currentCategory = category(with: trackerCategory) else { return }
         var currentTrackers = currentCategory.trackers?.allObjects as? [TrackerCoreData] ?? []
         if let index = newTrackerCoreData.firstIndex(where: {$0.id == tracker.id}) {
             currentTrackers.append(newTrackerCoreData[index])

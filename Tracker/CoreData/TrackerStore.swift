@@ -139,7 +139,7 @@ final class TrackerStore: NSObject {
             tracker?.color = newColor
             tracker?.schedule = newSchedule.compactMap { $0.rawValue }
             if (tracker?.category?.title != categoryTitle) {
-                tracker?.category = TrackerCategoryStore().category(categoryTitle)
+                tracker?.category = TrackerCategoryStore().category(with: categoryTitle)
             }
             //try saveContext()
             try context.save()
@@ -301,24 +301,24 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
         }
     }
     
-//    func updateTracker(_ tracker: Tracker) -> TrackerCoreData? {
-//        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
-//        
-//        do {
-//            let results = try context.fetch(fetchRequest)
-//            if let trackerEntity = results.first {
-//                trackerEntity.title = tracker.title
-//                trackerEntity.color = uiColorMarshalling.hexString(from: tracker.color)
-//                trackerEntity.emoji = tracker.emoji
-//                trackerEntity.schedule = tracker.schedule.compactMap { $0.rawValue }
-//                
-//                try context.save()
-//                return trackerEntity
-//            }
-//        } catch {
-//            print("Error updating tracker: \(error)")
-//        }
-//        return nil
-//    }
+    func updateTracker(_ tracker: Tracker) -> TrackerCoreData? {
+        let fetchRequest: NSFetchRequest<TrackerCoreData> = TrackerCoreData.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %@", tracker.id as CVarArg)
+        
+        do {
+            let results = try context.fetch(fetchRequest)
+            if let trackerEntity = results.first {
+                trackerEntity.title = tracker.title
+                trackerEntity.color = uiColorMarshalling.hexString(from: tracker.color)
+                trackerEntity.emoji = tracker.emoji
+                trackerEntity.schedule = tracker.schedule.compactMap { $0.rawValue }
+                
+                try context.save()
+                return trackerEntity
+            }
+        } catch {
+            print("Error updating tracker: \(error)")
+        }
+        return nil
+    }
 }

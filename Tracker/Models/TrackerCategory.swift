@@ -7,10 +7,10 @@ struct TrackerCategory {
     
     func visibleTrackers(filterString: String) -> [Tracker] {
         if filterString.isEmpty {
-            return  trackers
+            return trackers
         } else {
-            return trackers.filter { $0.title.lowercased().contains(filterString.lowercased()) } 
-                
+            return trackers.filter {
+                $0.title.lowercased().contains(filterString.lowercased()) }
         }
     }
 }

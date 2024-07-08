@@ -21,7 +21,7 @@ class TrackersViewController: UIViewController {
     private let colors = Colors()
     private var dataStore = DataStore.shared
     
-    weak var trackerCreationScreenViewControllerDelegate: TrackerCreationScreenViewControllerDelegate?
+  //  weak var trackerCreationScreenViewControllerDelegate: TrackerCreationScreenViewControllerDelegate?
     
     private var selectedFilter: Filters = .allTrackers
     private var selectedWeekDay: WeekDay = .monday
@@ -72,7 +72,7 @@ class TrackersViewController: UIViewController {
         textField.placeholder = "Поиск"
         textField.backgroundColor = colors.viewColor
         textField.font = UIFont.systemFont(ofSize: 17)
-       // textField.addTarget(self, action: #selector(searchTracker), for: .allEvents)
+       // textField.addTarget(self, action: #selector(reloadVisibleCategories), for: .allEvents)
         textField.delegate = self
         return textField
     }()
@@ -169,10 +169,10 @@ class TrackersViewController: UIViewController {
     }
     
     @objc func dateChanged(sender: UIDatePicker) {
-      //  let components = Calendar.current.dateComponents([.weekday], from: sender.date)
-//        if let day = components.weekday {
-//            currentDate = day
-//        }
+        let components = Calendar.current.dateComponents([.weekday], from: sender.date)
+        if let day = components.weekday {
+            currentDate = day
+        }
         todaysDate = sender.date
         filteredTrackers()
         useFilter()
@@ -214,6 +214,36 @@ class TrackersViewController: UIViewController {
             }
         }
         visibleCategories = newCategories
+        collectionView.reloadData()
+    }
+    
+    private func reloadVisibleCategories() {
+        var newCategories = [TrackerCategory]()
+        visibleCategories = trackerCategoryStore.trackerCategories
+        
+        for category in visibleCategories {
+            var newTrackers = [Tracker]()
+            for tracker in category.visibleTrackers(filterString: searchText) {
+                if searchText.isEmpty ||
+                    tracker.title.lowercased().contains(searchText.lowercased()) {
+                    newTrackers.append(tracker)
+                }
+            }
+            
+            if newTrackers.count > 0 {
+                let newCategory = TrackerCategory(
+                    title: category.title,
+                    trackers: newTrackers
+                )
+                newCategories.append(newCategory)
+            }
+        }
+        visibleCategories = newCategories
+        if visibleCategories.isEmpty {
+            showPlaceholder()
+        } else {
+            hidePlaceholder()
+        }
         collectionView.reloadData()
     }
     
@@ -419,12 +449,12 @@ extension TrackersViewController: TrackersDelegate {
     }
     
     func didEditTracker(_ tracker: Tracker) {
-        
         try? trackerStore.addNewTracker(tracker)
         fetchCategoryAndUpdateUI()
+        filteredTrackers()
         dismiss(animated: true)
     }
-}
+  }
 
 // MARK: -TrackerCollectionViewCellDelegate
 
@@ -459,6 +489,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         let vc = TrackerCreationScreenViewController()
         vc.trackerDelegate = self
         let tracker = self.visibleCategories[indexPath.section].trackers[indexPath.row]
+        
         vc.editTracker = tracker
         vc.category = tracker.category
         let navController = UINavigationController(rootViewController: vc)
@@ -506,21 +537,18 @@ extension TrackersViewController: UITextFieldDelegate {
         
         searchText = searchTextField.text ?? ""
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-        searchTracker()
+        //showNothingWasFoundView()
+       //searchTracker()
+       // filteredTrackers()
+       // fetchCategoryAndUpdateUI()
+        
+        reloadVisibleCategories()
+       
+        
         return true
     }
 }
 
-//extension TrackersViewController: UISearchTextFieldDelegate {
-//    private func textFieldShouldReturn(_ textField: UISearchTextField) -> Bool {
-//    
-//            textField.resignFirstResponder()
-//            searchText = searchTextField.text ?? ""
-//            visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-//            searchTracker()
-//            return true
-//        }
-//}
 
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func store(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
@@ -649,6 +677,7 @@ extension TrackersViewController {
             visibleCategories = categories.map { category in
                 let trackersForToday = category.trackers.filter { tracker in
                     return isTrackerScheduledForToday(tracker: tracker)
+                  
                 }
                 return TrackerCategory(title: category.title, trackers: trackersForToday)
             }.filter { !$0.trackers.isEmpty }
