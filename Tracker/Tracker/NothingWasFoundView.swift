@@ -1,13 +1,8 @@
-//
-//  NothingWasFoundView.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 27.02.2024.
-//
 
 import UIKit
 
 final class NothingWasFoundView: UIView {
+    
     private lazy var image: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +30,7 @@ final class NothingWasFoundView: UIView {
     }
     
     private func setupViews() {
+                
         [image, label].forEach { self.addSubview($0)
         }
         NSLayoutConstraint.activate([

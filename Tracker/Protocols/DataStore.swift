@@ -1,9 +1,4 @@
-//
-//  DataStore.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 15.05.2024.
-//
+
 
 import Foundation
 import CoreData

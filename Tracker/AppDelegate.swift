@@ -1,5 +1,6 @@
 
 import UIKit
+import YandexMobileMetrica
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -7,6 +8,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        AnalyticsService.activate()
+        UserDefaults.standard.register(defaults: [
+            DetectLaunch.keyforLaunch: true
+            ])
         return true
     }
     
@@ -16,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {
-        
     }
 }
 

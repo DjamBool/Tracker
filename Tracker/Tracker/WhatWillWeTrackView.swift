@@ -1,13 +1,8 @@
-//
-//  WhatWillWeTrackView.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 27.02.2024.
-//
 
 import UIKit
 
 final class WhatWillWeTrackView: UIView {
+        
     private var starImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false

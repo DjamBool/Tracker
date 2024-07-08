@@ -1,9 +1,3 @@
-//
-//  Tracker.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 01.12.2023.
-//
 
 import Foundation
 import UIKit
@@ -13,6 +7,9 @@ struct Tracker {
     let title: String
     let color: UIColor
     let emoji: String
-    let schedule: [WeekDay]?
-
+    let schedule: [WeekDay]
+    let isPinned: Bool
+    var category: TrackerCategory? {
+        return TrackerCategoryStore().category(forTracker: self)
+    }
 }

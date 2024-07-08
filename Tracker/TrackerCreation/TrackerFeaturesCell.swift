@@ -1,20 +1,7 @@
-//
-//  TrackerFeaturesCell.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 13.03.2024.
-//
 
 import UIKit
 
 final class TrackerFeaturesCell: UICollectionViewCell {
-//    lazy var view: UIView = {
-//        let view = UIView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.layer.masksToBounds = true
-//        view.layer.cornerRadius = 8
-//        return view
-//    }()
     
     lazy var label: UILabel = {
         let label = UILabel()
@@ -42,12 +29,6 @@ final class TrackerFeaturesCell: UICollectionViewCell {
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 6),
             label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6)
-//            label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 28),
-//            label.topAnchor.constraint(equalTo: topAnchor),
-//            label.bottomAnchor.constraint(equalTo: bottomAnchor)
-            
-//            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-//            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
     

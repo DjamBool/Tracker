@@ -1,9 +1,3 @@
-//
-//  NewIrregularEventViewController.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 06.03.2024.
-//
 
 import UIKit
 
@@ -80,7 +74,7 @@ class NewIrregularEventViewController: UIViewController {
         button.setTitleColor(.ypRed, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
-        button.backgroundColor = .white
+        button.backgroundColor = .ypWhite
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         button.layer.cornerRadius = 16
         button.layer.borderWidth = 1.0
@@ -92,7 +86,7 @@ class NewIrregularEventViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Создать", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16,
                                                     weight: .medium)
         button.addTarget(self, action: #selector(createTapped), for: .touchUpInside)
@@ -126,7 +120,7 @@ class NewIrregularEventViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .ypWhite
         title = "Новое нерегулярное событие"
         tableView.delegate = self
         tableView.dataSource = self
@@ -153,12 +147,15 @@ class NewIrregularEventViewController: UIViewController {
                                title: newTrackerName,
                                color: color,
                                emoji: emoji,
-                               schedule: dateForEvent)
+                               schedule: dateForEvent, 
+                               isPinned: false)
+        
         delegate?.addedNew(tracker: newEvent, categoryTitle: "Irregular")
         dismiss(animated: true)
     }
     
     func setupViews() {
+        
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         

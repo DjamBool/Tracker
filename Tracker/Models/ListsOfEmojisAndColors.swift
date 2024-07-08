@@ -1,9 +1,4 @@
-//
-//  Lists OfEmojisAndColors.swift
-//  Tracker
-//
-//  Created by Игорь Мунгалов on 12.03.2024.
-//
+
 
 import UIKit
 
