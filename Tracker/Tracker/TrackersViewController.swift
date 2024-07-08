@@ -21,8 +21,6 @@ class TrackersViewController: UIViewController {
     private let colors = Colors()
     private var dataStore = DataStore.shared
     
-  //  weak var trackerCreationScreenViewControllerDelegate: TrackerCreationScreenViewControllerDelegate?
-    
     private var selectedFilter: Filters = .allTrackers
     private var selectedWeekDay: WeekDay = .monday
     private var pinnedTrackers: [Tracker] = []
@@ -537,18 +535,11 @@ extension TrackersViewController: UITextFieldDelegate {
         
         searchText = searchTextField.text ?? ""
         visibleCategories = trackerCategoryStore.predicateFetch(trackerTitle: searchText)
-        //showNothingWasFoundView()
-       //searchTracker()
-       // filteredTrackers()
-       // fetchCategoryAndUpdateUI()
-        
         reloadVisibleCategories()
-       
         
         return true
     }
 }
-
 
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func store(_ store: TrackerCategoryStore, didUpdate update: TrackerCategoryStoreUpdate) {
@@ -578,46 +569,12 @@ extension TrackersViewController: TrackerRecordStoreDelegate {
     }
 }
 
-// MARK: - TrackerCreationScreenViewControllerDelegate
-
-extension TrackersViewController: TrackerCreationScreenViewControllerDelegate {
-    func createButtonidTap(tracker: Tracker, category: String){} // {
-//        var updatedCategory: TrackerCategory?
-//        let categories: [TrackerCategory] = trackerCategoryStore.trackerCategories
-//        
-//        for item in 0..<categories.count {
-//            if categories[item].title == category {
-//                updatedCategory = categories[item]
-//            }
-//        }
-//        
-//        if updatedCategory != nil {
-//            try? trackerCategoryStore.addTrackerToCategory(tracker, to: updatedCategory ?? TrackerCategory(
-//                title: category,
-//                trackers: [tracker]
-//            ))
-//        } else {
-//            let trackerCategory = TrackerCategory(
-//                title: category,
-//                trackers: [tracker]
-//            )
-//            updatedCategory = trackerCategory
-//            try? trackerCategoryStore.addNewTrackerCategory(updatedCategory ?? TrackerCategory(
-//                title: category,
-//                trackers: [tracker]
-//            ))
-//        }
-//        fetchCategoryAndUpdateUI()
-//        collectionView.reloadData()
-//    }
-}
-
 extension TrackersViewController {
     
     private func isTrackerScheduledForToday(tracker: Tracker) -> Bool {
         // проверка, запланирован ли трекер на сегодня
         let calendar = Calendar.current
-        let today = calendar.component(.weekday, from: todaysDate) - 1
+        let today = calendar.component(.weekday, from: todaysDate) - 2
         let day = WeekDay.allCases[today].rawValue
         return tracker.schedule.contains(WeekDay(rawValue: day) ?? .sunday)
     }
